@@ -1,0 +1,9 @@
+body {
+    padding: 0;
+    margin: auto 0;
+    overflow-y: hidden;
+}
+
+#display > * {
+    border: 1px dashed black;
+}
