@@ -1,57 +1,28 @@
 const app = new PIXI.Application(window.innerWidth, window.innerHeight, {
-    backgroundColor: 0x93ed57,
+    backgroundColor: 0x000000,
+    antialias: true
 });
 
-window.addEventListener("resize", function () {
-    app.renderer.resize(window.innerWidth, window.innerHeight);
-});
+// Variables must be above ALL function calls
+var title = new Title();
 
-document.body.appendChild(app.view);
+// MUST CALL!
+setup();
 
-let titleTexture = PIXI.Texture.fromImage('title.png');
-titleTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+function setup() {
+    document.body.appendChild(app.view);
 
-let dir = 1;
-let title;
+    // Add and change the object here
+    app.stage.addChild(title.getSprite());
 
-function createTitle() {
-    title = new PIXI.Sprite(titleTexture);
-    title.interactive = true;
-    title.buttonMode = true;
-    title.anchor.set(0.5);
-    title.scale.set(1.4);
-    title.vx = 0;
-    title.vy = 0;
-
-    title.on('pointerdown', onDragStart)
-        .on('pointerup', onDragEnd)
-        .on('pointerupoutside', onDragEnd)
-        .on('pointermove', onDragMove);
-
-    title.x = app.screen.width / 2;
-    title.y = app.screen.height / 2 - title.height;
-
-    app.stage.addChild(title);
+    loop();
 }
 
-function onDragStart(event) {
-    this.data = event.data;
-    this.alpha = 0.5;
-    this.dragging = true;
-}
+function loop() {
+    requestAnimationFrame(loop);
 
-function onDragEnd() {
-    this.alpha = 1;
-    this.dragging = false;
-    this.data = null;
-}
+    // call the updating functions here
+    title.update();
 
-function onDragMove() {
-    if (this.dragging) {
-        var newPosition = this.data.getLocalPosition(this.parent);
-        this.x = newPosition.x;
-        this.y = newPosition.y;
-    }
+    app.renderer.render(app.stage);
 }
-
-createTitle();
