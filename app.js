@@ -4,7 +4,7 @@ const app = new PIXI.Application(window.innerWidth, window.innerHeight, {
 });
 
 // Variables must be above ALL function calls
-var title = new Title();
+var bunny = new Bunny();
 
 // MUST CALL!
 setup();
@@ -13,7 +13,7 @@ function setup() {
     document.body.appendChild(app.view);
 
     // Add and change the object here
-    app.stage.addChild(title.getSprite());
+    app.stage.addChild(bunny.getSprite());
 
     loop();
 }
@@ -22,7 +22,7 @@ function loop() {
     requestAnimationFrame(loop);
 
     // call the updating functions here
-    title.update();
+    bunny.update();
 
     app.renderer.render(app.stage);
 }
