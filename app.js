@@ -4,7 +4,7 @@ const app = new PIXI.Application(window.innerWidth, window.innerHeight, {
 });
 
 var map = new PIXI.Container();
-const mapVel = 2;
+const mapVel = 3;
 var texture = new PIXI.Texture.fromImage('./assets/grass.png');
 var background = new PIXI.Sprite(texture);
 
