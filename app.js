@@ -6,9 +6,9 @@ var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS,
 });
 
 function preload() {
-    game.load.image('background', '../assets/1920x1080_Grid.png');
-    game.load.spritesheet('player_walk', './../assets/Dog Walk Sprite Sheet547x481.png', 547, 481, 10);
-    game.load.spritesheet('player_idle', './../assets/Dog Idle Sprite Sheet547x481.png', 547, 481, 10);
+    game.load.image('background', './assets/1920x1080_Grid.png');
+    game.load.spritesheet('player_walk', './assets/Dog Walk Sprite Sheet547x481.png', 547, 481, 10);
+    game.load.spritesheet('player_idle', './assets/Dog Idle Sprite Sheet547x481.png', 547, 481, 10);
 }
 
 var player;
