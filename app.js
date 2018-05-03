@@ -6,14 +6,18 @@ var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS,
 });
 
 function preload() {
-    game.load.image('background', './assets/1920x1080_Grid.png');
+    //Sprite loading
     game.load.spritesheet('player_walk', './assets/Dog Walk Sprite Sheet547x481.png', 547, 481, 10);
     game.load.spritesheet('player_idle', './assets/Dog Idle Sprite Sheet547x481.png', 547, 481, 10);
+
+    //Map loading
     game.load.tilemap('map', './waterFight2_Grass.csv', null, Phaser.Tilemap.CSV);
     game.load.tilemap('map2', './waterFight2_Water and Stone.csv', null, Phaser.Tilemap.CSV);
     game.load.tilemap('map3', './waterFight2_Path.csv', null, Phaser.Tilemap.CSV);
     game.load.tilemap('map4', './waterFight2_Items.csv', null, Phaser.Tilemap.CSV);
     game.load.tilemap('map5', './waterFight2_Cave thing.csv', null, Phaser.Tilemap.CSV);
+
+    //Tileset loading
     game.load.image('1', './assets/1.png');
     game.load.image('atlas', './assets/base_out_atlas.png');
 }
@@ -24,8 +28,7 @@ var cursors;
 function create() {
     game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
     game.scale.forceLandscape = true;
-
-    // var map = game.add.tileSprite(0, 0, 1920, 1920, 'background');
+    game.physics.startSystem(Phaser.Physics.P2JS);
 
     //to set map scale user [layer name].setScale(x, x);
 
@@ -54,10 +57,18 @@ function create() {
     var layer4 = map4.createLayer(0);
     layer4.resizeWorld();
 
+    // tile indices between 0 and 500 collide--
+    map2.setCollisionBetween(0, 500);
+    game.physics.p2.convertTilemap(map2, layer2);
+    map5.setCollisionBetween(0, 1000);
+    game.physics.p2.convertTilemap(map5, layer5);
+
     game.world.setBounds(0, 0, 1952, 1952);
-    game.physics.startSystem(Phaser.Physics.P2JS);
 
     player = new Dog(game, game.world.centerX, game.world.centerY);
+    game.physics.p2.enable(player);
+    
+    game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
     cursors = game.input.keyboard.createCursorKeys();
     game.camera.follow(player, Phaser.Camera.FOLLOW_TOPDOWN_TIGHT, 0.08, 0.08);
