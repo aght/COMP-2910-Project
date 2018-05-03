@@ -9,6 +9,13 @@ function preload() {
     game.load.image('background', './assets/1920x1080_Grid.png');
     game.load.spritesheet('player_walk', './assets/Dog Walk Sprite Sheet547x481.png', 547, 481, 10);
     game.load.spritesheet('player_idle', './assets/Dog Idle Sprite Sheet547x481.png', 547, 481, 10);
+    game.load.tilemap('map', './waterFight2_Grass.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('map2', './waterFight2_Water and Stone.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('map3', './waterFight2_Path.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('map4', './waterFight2_Items.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('map5', './waterFight2_Cave thing.csv', null, Phaser.Tilemap.CSV);
+    game.load.image('1', './assets/1.png');
+    game.load.image('atlas', './assets/base_out_atlas.png');
 }
 
 var player;
@@ -18,8 +25,36 @@ function create() {
     game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
     game.scale.forceLandscape = true;
 
-    game.add.tileSprite(0, 0, 1920, 1920, 'background');
-    game.world.setBounds(0, 0, 1920, 1920);
+    // var map = game.add.tileSprite(0, 0, 1920, 1920, 'background');
+
+    //to set map scale user [layer name].setScale(x, x);
+
+    var map = game.add.tilemap('map', 16, 16);
+    map.addTilesetImage('1');
+    var layer1 = map.createLayer(0);
+    layer1.resizeWorld();
+
+    var map2 = game.add.tilemap('map2', 16, 16);
+    map2.addTilesetImage('1');
+    var layer2 = map2.createLayer(0);
+    layer2.resizeWorld();
+
+    var map3 = game.add.tilemap('map3', 16, 16);
+    map3.addTilesetImage('1');
+    var layer3 = map3.createLayer(0);
+    layer3.resizeWorld();
+
+    var map5 = game.add.tilemap('map5', 16, 16);
+    map5.addTilesetImage('atlas');
+    var layer5 = map5.createLayer(0);
+    layer5.resizeWorld();
+    
+    var map4 = game.add.tilemap('map4', 16, 16);
+    map4.addTilesetImage('atlas');
+    var layer4 = map4.createLayer(0);
+    layer4.resizeWorld();
+
+    game.world.setBounds(0, 0, 1952, 1952);
     game.physics.startSystem(Phaser.Physics.P2JS);
 
     player = new Dog(game, game.world.centerX, game.world.centerY);
