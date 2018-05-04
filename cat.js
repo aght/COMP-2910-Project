@@ -2,20 +2,21 @@ class Cat extends Phaser.Sprite {
     constructor(game, x, y) {
         super(game, x, y, 'cat_front');
 
-        this.walkSpeed = 10;
+        this.walkSpeed = 12;
+        this.predator;
+        this.scaleFactor = 2;
 
-        this.loadBackTexture();
-        this.playWalkBackAnimation();
-
+        this.speed = 300;
+        this.force = 50;
         this.scale.x = 2;
         this.scale.y = 2;
-;
+        this.anchor.setTo(0.5, 0.5);
+
         game.add.existing(this);
     }
 
     update() {
-        this.body.angle = 0;
-        this.body.x += 1;
+        this.body.collideWorldBounds = true;
     }
 
     playWalkFrontAnimation() {
@@ -23,8 +24,13 @@ class Cat extends Phaser.Sprite {
         this.animations.play('cat_front_walk', this.walkSpeed, true);
     }
 
-    playWalkSideAnimation() {
+    playWalkSideAnimation(side) {
         this.loadSideTexture();
+        if (side == 'left') {
+            this.scale.x = this.scaleFactor;
+        } else if (side == 'right'){
+            this.scale.x = -this.scaleFactor;
+        }
         this.animations.play('cat_side_walk', this.walkSpeed, true);
     }
 

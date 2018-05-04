@@ -15,17 +15,16 @@ function preload() {
 
     //Map loading
     game.load.tilemap('Fence', './assets/maps/water-fight_Fence.csv', null, Phaser.Tilemap.CSV);
-    game.load.tilemap('Tree top', './assets/maps/water-fight_Tree top.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('Tree Top', './assets/maps/water-fight_Tree top.csv', null, Phaser.Tilemap.CSV);
     game.load.tilemap('Island', './assets/maps/water-fight_Island.csv', null, Phaser.Tilemap.CSV);
     game.load.tilemap('Treasure Chest', './assets/maps/water-fight_Treasure Chest.csv', null, Phaser.Tilemap.CSV);
-
-    game.load.tilemap('Tree trunk', './assets/maps/water-fight_Tree trunk.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('Tree Trunk', './assets/maps/water-fight_Tree trunk.csv', null, Phaser.Tilemap.CSV);
     game.load.tilemap('Path', './assets/maps/water-fight_Path.csv', null, Phaser.Tilemap.CSV);
     game.load.tilemap('Stone and Water', './assets/maps/water-fight_Stone and Water.csv', null, Phaser.Tilemap.CSV);
     game.load.tilemap('Grass', './assets/maps/water-fight_Grass.csv', null, Phaser.Tilemap.CSV);
 
     //Tileset loading
-    game.load.image('1', './assets/tilesets/1.png'); 
+    game.load.image('1', './assets/tilesets/1.png');
     game.load.image('base_out_atlas', './assets/tilesets/base_out_atlas.png');
     game.load.image('fence', './assets/tilesets/fence.png')
 }
@@ -33,97 +32,54 @@ function preload() {
 var player;
 var cursors;
 var cat;
+var multimap;
 
 function create() {
     game.renderer.renderSession.roundPixels = true;
-    Phaser.Canvas.setImageRenderingCrisp(game.canvas);
     game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
     game.scale.forceLandscape = true;
 
-    game.physics.startSystem(Phaser.Physics.P2JS);
+    game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    // to set map scale user [layer name].setScale(x, x);
+    multimap = new Multimap(game);
+    multimap.addTilemap('Grass', 16, 16, '1', true);
+    multimap.addTilemap('Stone and Water', 16, 16, '1', true);
+    multimap.addTilemap('Path', 16, 16, '1', true);
+    multimap.addTilemap('Tree Trunk', 16, 16, 'base_out_atlas', true);
+    multimap.addTilemap('Treasure Chest', 16, 16, 'base_out_atlas', true);
+    multimap.addTilemap('Island', 16, 16, '1', true);
+    multimap.addTilemap('Tree Top', 16, 16, 'base_out_atlas', true);
+    multimap.addTilemap('Fence', 16, 16, 'fence', true);
 
-    var map = game.add.tilemap('Grass', 16, 16);
-    map.addTilesetImage('1');
-    var layer1 = map.createLayer(0);
-    layer1.resizeWorld();
-
-    var map2 = game.add.tilemap('Stone and Water', 16, 16);
-    map2.addTilesetImage('1');
-    var layer2 = map2.createLayer(0);
-    layer2.resizeWorld();
-
-    var map3 = game.add.tilemap('Path', 16, 16);
-    map3.addTilesetImage('1');
-    var layer3 = map3.createLayer(0);
-    layer3.resizeWorld();
-
-    var map4 = game.add.tilemap('Tree trunk', 16, 16);
-    map4.addTilesetImage('base_out_atlas');
-    var layer4 = map4.createLayer(0);
-    layer4.resizeWorld();
-
-    var map5 = game.add.tilemap('Treasure Chest', 16, 16);
-    map5.addTilesetImage('base_out_atlas');
-    var layer5 = map5.createLayer(0);
-    layer5.resizeWorld();
-
-    var map6 = game.add.tilemap('Island', 16, 16);
-    map6.addTilesetImage('1');
-    var layer6 = map6.createLayer(0);
-    layer6.resizeWorld();
-
-    var map7 = game.add.tilemap('Tree top', 16, 16);
-    map7.addTilesetImage('base_out_atlas');
-    var layer7 = map7.createLayer(0);
-    layer7.resizeWorld();
-
-    var map8 = game.add.tilemap('Fence', 16, 16);
-    map8.addTilesetImage('fence');
-    var layer8 = map8.createLayer(0);
-    layer8.resizeWorld();
-
-    //use this to remove lag!!
-    layer1.renderSettings.enableScrollDelta = true;
-    layer2.renderSettings.enableScrollDelta = true;
-    layer3.renderSettings.enableScrollDelta = true;
-    layer4.renderSettings.enableScrollDelta = true;
-    layer5.renderSettings.enableScrollDelta = true;
-    layer6.renderSettings.enableScrollDelta = true;
-    layer7.renderSettings.enableScrollDelta = true;
-
-    player = new Dog(game, game.world.centerX, game.world.centerY);
-    game.physics.p2.enable(player);
-
-    // tile indices between 0 and 500 collide--
-    // map2.setCollisionBetween(0, 500);
-    // game.physics.p2.convertTilemap(map2, layer2);
-    // map5.setCollisionBetween(0, 1000);
-    // game.physics.p2.convertTilemap(map5, layer5);
-
-    map2.setCollisionBetween(0, 500);
-    game.physics.p2.convertTilemap(map2, layer2);
-    map8.setCollisionBetween(0, 100);
-    game.physics.p2.convertTilemap(map8, layer8);
-    // map4.setCollisionBetween(100, 1000);
-    // game.physics.p2.convertTilemap(map4, layer4);
+    // multimap.scaleAll(1.2);
+    multimap.setCollisionBetween('Stone and Water', 360, 509);
+    multimap.setCollisionBetween('Fence', 0, 59);
+    multimap.setCollisionBetweenSets('Tree Trunk', true, {start: 2484, stop: 2491},
+        {start: 2548, stop: 2555}, {start: 2612, stop: 2613}, {start: 2618, stop: 2619},
+        {start: 2676, stop: 2677}, {start: 2682, stop: 2683});
+    multimap.setCollisionBetweenSets('Treasure Chest', true, {start: 2220, stop: 2221}, 
+        {start: 2284, stop: 2285});
 
     game.world.setBounds(0, 0, 16 * 244, 16 * 244);
 
-    // cat = new Cat(game, game.world.centerX - 100, game.world.centerY);
-    // game.physics.p2.enable(cat);
+    cat = new Cat(game, game.world.centerX - 100, game.world.centerY);
+    cat.predator = player;
+    game.physics.enable(cat);
 
-    game.physics.p2.setBoundsToWorld(true, true, true, true, false);
+    player = new Dog(game, game.world.centerX, game.world.centerY);
+    game.physics.enable(player);
 
     cursors = game.input.keyboard.createCursorKeys();
     game.camera.follow(player, Phaser.Camera.FOLLOW_TOPDOWN_TIGHT, 0.08, 0.08);
 }
 
 function update() {
-    player.body.angle = 0;
-    player.body.setZeroVelocity();
-    player.isWalking = false;
+    for (let layer of multimap.getCollisionLayers()) {
+        game.physics.arcade.collide(player, layer);
+        game.physics.arcade.collide(cat, layer);
+    }
+
+    player.body.velocity.set(0, 0);
 
     if (cursors.up.isDown) {
         player.moveUp();
@@ -152,9 +108,20 @@ function update() {
     if (player.isWalking === false && !player.isIdle) {
         player.playIdleAnimation();
     }
+
+    if (player.isIdle && cat.position.distance(player.position) <= 150) {
+        cat.animations.stop(null, true);
+    }
+
+    if (cat.position.distance(player.position) > 150) {
+        let behaviors = new Behaviors();
+        behaviors.seek(cat, player);
+    } else {
+        cat.body.velocity.set(0, 0);
+    }
 }
 
 function render() {
     game.debug.spriteInfo(player, 32, 32);
-    game.debug.spriteBounds(player);
+    // game.debug.spriteBounds(player);
 }

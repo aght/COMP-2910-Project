@@ -7,43 +7,47 @@ class Dog extends Phaser.Sprite {
         this.walkSpeed = 20;
         this.idleSpeed = 7;
         this.movementSpeed = 300;
-        this.scaling = 0.3;
+        this.scaling = 0.2;
 
         this.animations.add('idle');
         this.animations.play('idle', this.idleSpeed, true);
 
-        this.scale.x = 0.3;
-        this.scale.y = 0.3;
+        this.scale.x = this.scaling;
+        this.scale.y = this.scaling;
+        this.anchor.setTo(0.5, 0.5);
 
         game.add.existing(this);
     }
 
-    update() {}
+    update() {
+        this.isWalking = false;
+        this.body.collideWorldBounds = true;
+    }
 
     moveLeft() {
-        this.body.moveLeft(this.movementSpeed);
+        this.body.velocity.x = -this.movementSpeed;
         this.scale.x = -this.scaling;
         this.isWalking = true;
         this.isIdle = false;
     }
 
     moveRight() {
-        this.body.moveRight(this.movementSpeed);
+        this.body.velocity.x = this.movementSpeed;
         this.scale.x = this.scaling;
         this.isWalking = true;
         this.isIdle = false;
     }
 
     moveUp() {
-        this.body.moveUp(this.movementSpeed);
+        this.body.velocity.y = -this.movementSpeed;
         this.isWalking = true;
         this.isIdle = false;
     }
 
     moveDown() {
+        this.body.velocity.y = this.movementSpeed;
         this.isWalking = true;
         this.isIdle = false;
-        this.body.moveDown(this.movementSpeed);
     }
 
     loadWalkTexture() {
