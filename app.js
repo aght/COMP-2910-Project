@@ -1,4 +1,4 @@
-var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'phaser-example', {
+var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'water-fight', {
     preload: preload,
     create: create,
     update: update,
@@ -57,6 +57,13 @@ function create() {
     var layer4 = map4.createLayer(0);
     layer4.resizeWorld();
 
+    //use this to remove lag!!
+    layer1.renderSettings.enableScrollDelta = true;
+    layer2.renderSettings.enableScrollDelta = true;
+    layer3.renderSettings.enableScrollDelta = true;
+    layer4.renderSettings.enableScrollDelta = true;
+    layer5.renderSettings.enableScrollDelta = true;
+
     // tile indices between 0 and 500 collide--
     map2.setCollisionBetween(0, 500);
     game.physics.p2.convertTilemap(map2, layer2);
@@ -105,6 +112,7 @@ function update() {
     if (player.isWalking === false && !player.isIdle) {
         player.playIdleAnimation();
     }
+    player.body.angle = 0;
 }
 
 function render() {
