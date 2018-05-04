@@ -11,15 +11,14 @@ class Dog extends Phaser.Sprite {
 
         this.animations.add('idle');
         this.animations.play('idle', this.idleSpeed, true);
+
         this.scale.x = 0.3;
         this.scale.y = 0.3;
 
         game.add.existing(this);
     }
 
-    update() {
-        this.body.angle = 0;
-    }
+    update() {}
 
     moveLeft() {
         this.body.moveLeft(this.movementSpeed);
