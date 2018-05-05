@@ -2,7 +2,8 @@ var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '
     preload: preload,
     create: create,
     update: update,
-    render: render
+    render: render,
+    resize: resize
 }, false, false);
 
 function preload() {
@@ -29,16 +30,15 @@ function preload() {
     game.load.image('fence', './assets/tilesets/fence.png')
 }
 
+var scale = 2;
 var player;
 var cursors;
 var cat;
 var multimap;
 
 function create() {
-    game.renderer.renderSession.roundPixels = true;
-    game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
-    game.scale.forceLandscape = true;
-
+    // game.renderer.renderSession.roundPixels = true;
+    fullScreen();
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     multimap = new Multimap(game);
@@ -51,7 +51,7 @@ function create() {
     multimap.addTilemap('Tree Top', 16, 16, 'base_out_atlas', true);
     multimap.addTilemap('Fence', 16, 16, 'fence', true);
 
-    // multimap.scaleAll(1.2);
+    multimap.scaleAll(2);
     multimap.setCollisionBetween('Stone and Water', 360, 509);
     multimap.setCollisionBetween('Fence', 0, 59);
     multimap.setCollisionBetweenSets('Tree Trunk', true, {start: 2484, stop: 2491},
@@ -60,7 +60,7 @@ function create() {
     multimap.setCollisionBetweenSets('Treasure Chest', true, {start: 2220, stop: 2221}, 
         {start: 2284, stop: 2285});
 
-    game.world.setBounds(0, 0, 16 * 244, 16 * 244);
+    game.world.setBounds(0, 0, 16 * 244 * scale, 16 * 244 * scale);
 
     cat = new Cat(game, game.world.centerX - 100, game.world.centerY);
     cat.predator = player;
@@ -125,3 +125,15 @@ function render() {
     game.debug.spriteInfo(player, 32, 32);
     // game.debug.spriteBounds(player);
 }
+
+function resize() {
+    game.stage.scale.refresh();
+}
+
+function fullScreen() {
+    game.scale.pageAlignHorizontally = true;
+    game.scale.pageAlignVertically = true;
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.forceLandscape = true;
+}
+

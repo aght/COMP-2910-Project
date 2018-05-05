@@ -42,6 +42,7 @@ class Multimap {
         let map = this.maps.get(mapKey);
         let layer = this.layers.get(mapKey);
         map.setCollisionBetween(start, stop, collides);
+        // layer.debug = true;
         this.collisionLayers.push(layer);
     }
 
