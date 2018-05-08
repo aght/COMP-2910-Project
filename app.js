@@ -1,11 +1,10 @@
 var game = new Phaser.Game({
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: 1200,
+    height: 1200,
     renderer: Phaser.AUTO,
     antialias: false,
     state: this,
     scaleMode: Phaser.ScaleManager.RESIZE,
-    resolution: window.devicePixelRatio || 1,
     preload: preload,
     create: create,
     update: update,
