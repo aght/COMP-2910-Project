@@ -1,11 +1,17 @@
-var game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.AUTO, 'test', {
+var game = new Phaser.Game({
+    width: window.innerWidth,
+    height: window.innerHeight,
+    renderer: Phaser.AUTO,
+    antialias: false,
+    state: this,
+    scaleMode: Phaser.ScaleManager.RESIZE,
+    resolution: window.devicePixelRatio || 1,
     preload: preload,
     create: create,
     update: update,
     render: render
-}, false, false);
+});
 
-var scaleRatio = window.devicePixelRatio / 3;
 
 function preload() {
     game.load.spritesheet('dog_walk', './assets/spritesheets/Dog Walk.png', 547, 481, 10);
@@ -63,7 +69,6 @@ function createMap() {
 
 function create() {
     game.plugins.add(Phaser.Plugin.AdvancedTiming);
-    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     game.scale.forceOrientation(true, false);
     // game.scale.pageAlignVertically = true;
     // game.scale.pageAlignHorizontally = true;
@@ -108,7 +113,6 @@ function create() {
     spriteGroup.add(cat);
 
     game.world.setBounds(0, 0, 16 * 200, 16 * 200);
-    // game.world.scale.setTo(scaleRatio);
     game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
     cursors = game.input.keyboard.createCursorKeys();
