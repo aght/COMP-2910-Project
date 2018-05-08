@@ -83,8 +83,8 @@ function create() {
             mouseSupport: true,
             stationaryBase: true,
             strokeStyle: 'rgba(137, 137, 137, 0.5)',
-            baseX: 100,
-            baseY: 600 - 100,
+            baseX: window.innerWidth,
+            baseY: window.innerHeight,
             limitStickTravel: true,
             stickRadius: 50
         });
