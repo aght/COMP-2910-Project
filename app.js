@@ -1,139 +1,207 @@
-var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'water-fight', {
+var game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.AUTO, 'test', {
     preload: preload,
     create: create,
     update: update,
-    render: render,
-    resize: resize
+    render: render
 }, false, false);
 
+var scaleRatio = window.devicePixelRatio / 3;
+
 function preload() {
-    //Sprite loading
-    game.load.spritesheet('player_walk', './assets/Dog Walk Sprite Sheet547x481.png', 547, 481, 10);
-    game.load.spritesheet('player_idle', './assets/Dog Idle Sprite Sheet547x481.png', 547, 481, 10);
-    game.load.spritesheet('cat_front', './assets/cat_front.png', 32, 32, 3);
-    game.load.spritesheet('cat_side', './assets/cat_side.png', 32, 32, 3);
-    game.load.spritesheet('cat_back', './assets/cat_back.png', 32, 32, 3);
+    game.load.spritesheet('dog_walk', './assets/spritesheets/Dog Walk.png', 547, 481, 10);
+    game.load.spritesheet('dog_idle', './assets/spritesheets/Dog Idle.png', 547, 481, 10);
+    game.load.spritesheet('cat_front', './assets/spritesheets/cat_front.png', 32, 32, 3);
+    game.load.spritesheet('cat_side', './assets/spritesheets/cat_side.png', 32, 32, 3);
 
-    //Map loading
-    game.load.tilemap('Fence', './assets/maps/water-fight_Fence.csv', null, Phaser.Tilemap.CSV);
-    game.load.tilemap('Tree Top', './assets/maps/water-fight_Tree top.csv', null, Phaser.Tilemap.CSV);
-    game.load.tilemap('Island', './assets/maps/water-fight_Island.csv', null, Phaser.Tilemap.CSV);
-    game.load.tilemap('Treasure Chest', './assets/maps/water-fight_Treasure Chest.csv', null, Phaser.Tilemap.CSV);
-    game.load.tilemap('Tree Trunk', './assets/maps/water-fight_Tree trunk.csv', null, Phaser.Tilemap.CSV);
-    game.load.tilemap('Path', './assets/maps/water-fight_Path.csv', null, Phaser.Tilemap.CSV);
-    game.load.tilemap('Stone and Water', './assets/maps/water-fight_Stone and Water.csv', null, Phaser.Tilemap.CSV);
-    game.load.tilemap('Grass', './assets/maps/water-fight_Grass.csv', null, Phaser.Tilemap.CSV);
+    game.load.physics('dog_physics_right', './assets/physics/dog_physics.json');
+    game.load.physics('dog_physics_left', './assets/physics/dog_physics.json');
 
-    //Tileset loading
+    game.load.tilemap('lake_bounds', './assets/tilemaps/lake_bounds.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('bounds', './assets/tilemaps/bounds.json', null, Phaser.Tilemap.TILED_JSON);
+
+    game.load.tilemap('Cliffs(C)', './assets/tilemaps/map_Cliffs(C) - 7.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('Cystal Hideen(NC)', './assets/tilemaps/map_Crystal Hidden(NC) - 8.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('Detail Over(NC)', './assets/tilemaps/map_Detail Over(NC) - 3.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('Detail Under(NC)', './assets/tilemaps/map_Detail Under(NC) - 3.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('Detail(NC)', './assets/tilemaps/map_Detail(NC) - 3.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('Dirt Areas(NC)', './assets/tilemaps/map_Dirt Areas(NC) - 1.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('Dirt Grass Cover (NC)', './assets/tilemaps/map_Dirt Grass Cover (NC) - 1.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('Grass(NC)', './assets/tilemaps/map_Grass(NC) - 1.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('Lake(C)', './assets/tilemaps/map_Lake(C) - 1.csv', null, Phaser.Tilemap.CSV);
+
     game.load.image('1', './assets/tilesets/1.png');
-    game.load.image('base_out_atlas', './assets/tilesets/base_out_atlas.png');
-    game.load.image('fence', './assets/tilesets/fence.png')
+    game.load.image('3', './assets/tilesets/3.png');
+    game.load.image('7', './assets/tilesets/7.png');
+    game.load.image('8', './assets/tilesets/8.png');
 }
 
-var scale = 2;
-var player;
-var cursors;
+var dog;
 var cat;
-var multimap;
+var spriteGroup;
+var runFaster = false;
+var map;
+var joystick;
+
+function createMap() {
+    map = new Multimap(game);
+    map.addTilemap('Grass(NC)', 16, 16, '1', true);
+    map.addTilemap('Dirt Areas(NC)', 16, 16, '1', true);
+    map.addTilemap('Dirt Grass Cover (NC)', 16, 16, '1', true);
+    map.addTilemap('Lake(C)', 16, 16, '1', true);
+    map.addTilemap('Cliffs(C)', 16, 16, '7', true);
+    map.addTilemap('Detail Under(NC)', 16, 16, '3', true);
+    map.addTilemap('Detail(NC)', 16, 16, '3', true);
+    map.addTilemap('Detail Over(NC)', 16, 16, '3', true);
+    map.addTilemap('Cystal Hideen(NC)', 16, 16, '8', true);
+
+    map.addCollisionMap('bounds');
+    map.addCollisionMapLayer('Lake Bounds', 'Cliff Bounds');
+
+    // map.setCollisionBetween('Lake(C)', 180, 470);
+    // map.setCollisionBetween('Cliffs(C)', 0, 416);
+}
 
 function create() {
-    // game.renderer.renderSession.roundPixels = true;
-    fullScreen();
-    game.physics.startSystem(Phaser.Physics.ARCADE);
+    game.plugins.add(Phaser.Plugin.AdvancedTiming);
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.forceOrientation(true, false);
+    // game.scale.pageAlignVertically = true;
+    // game.scale.pageAlignHorizontally = true;
+    game.scale.enterIncorrectOrientation.add(handleIncorrect);
 
-    multimap = new Multimap(game);
-    multimap.addTilemap('Grass', 16, 16, '1', true);
-    multimap.addTilemap('Stone and Water', 16, 16, '1', true);
-    multimap.addTilemap('Path', 16, 16, '1', true);
-    multimap.addTilemap('Tree Trunk', 16, 16, 'base_out_atlas', true);
-    multimap.addTilemap('Treasure Chest', 16, 16, 'base_out_atlas', true);
-    multimap.addTilemap('Island', 16, 16, '1', true);
-    multimap.addTilemap('Tree Top', 16, 16, 'base_out_atlas', true);
-    multimap.addTilemap('Fence', 16, 16, 'fence', true);
+    game.physics.startSystem(Phaser.Physics.P2JS);
+    // game.vjoy = game.plugins.add(Phaser.Plugin.VJoy);
+    // game.vjoy.inputEnable(0, 0, 400, 600);
 
-    multimap.scaleAll(2);
-    multimap.setCollisionBetween('Stone and Water', 360, 509);
-    multimap.setCollisionBetween('Fence', 0, 59);
-    multimap.setCollisionBetweenSets('Tree Trunk', true, {start: 2484, stop: 2491},
-        {start: 2548, stop: 2555}, {start: 2612, stop: 2613}, {start: 2618, stop: 2619},
-        {start: 2676, stop: 2677}, {start: 2682, stop: 2683});
-    multimap.setCollisionBetweenSets('Treasure Chest', true, {start: 2220, stop: 2221}, 
-        {start: 2284, stop: 2285});
+    // let mt = new MobileTester();
+    // if (mt.isMobile() || true) {
+    //     joystick = new VirtualJoystick({
+    //         mouseSupport: true,
+    //         stationaryBase: true,
+    //         strokeStyle: 'gray',
+    //         baseX: 100,
+    //         baseY: 600 - 100,
+    //         limitStickTravel: true,
+    //         stickRadius: 50
+    //     });
+    // }
 
-    game.world.setBounds(0, 0, 16 * 244 * scale, 16 * 244 * scale);
+    createMap();
 
-    cat = new Cat(game, game.world.centerX - 100, game.world.centerY);
-    cat.predator = player;
-    game.physics.enable(cat);
+    spriteGroup = game.add.group();
 
-    player = new Dog(game, game.world.centerX, game.world.centerY);
-    game.physics.enable(player);
+    dog = new Dog(game, game.world.centerX, game.world.centerY);
+    game.physics.p2.enable(dog, true);
+    dog.body.fixedRotation = true;
+
+    let pr = new PhysicsResize(game);
+    pr.resizePolygon('dog_physics_right', 'dog_physics_right_scaled', 'Right', dog.scaling);
+    pr.resizePolygon('dog_physics_left', 'dog_physics_left_scaled', 'Left', dog.scaling);
+    dog.body.clearShapes();
+    dog.body.loadPolygon('dog_physics_right_scaled', 'Right');
+
+    cat = new Cat(game, game.world.centerX - 200, game.world.centerY);
+    game.physics.p2.enable(cat, true);
+    cat.body.fixedRotation = true;
+
+    spriteGroup.add(dog);
+    spriteGroup.add(cat);
+
+    game.world.setBounds(0, 0, 16 * 200, 16 * 200);
+    // game.world.scale.setTo(scaleRatio);
+    game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
     cursors = game.input.keyboard.createCursorKeys();
-    game.camera.follow(player, Phaser.Camera.FOLLOW_TOPDOWN_TIGHT, 0.08, 0.08);
+    game.camera.follow(dog, Phaser.Camera.FOLLOW_LOCKON, 0.08, 0.08);
 }
 
 function update() {
-    for (let layer of multimap.getCollisionLayers()) {
-        game.physics.arcade.collide(player, layer);
-        game.physics.arcade.collide(cat, layer);
-    }
+    dog.body.setZeroVelocity();
+    // cat.body.setZeroVelocity();
 
-    player.body.velocity.set(0, 0);
+    cursorsUpdate();
+    // joystickUpdate();
 
-    if (cursors.up.isDown) {
-        player.moveUp();
-    } else if (cursors.down.isDown) {
-        player.moveDown();
-    }
+    let a = new Phaser.Point(dog.x, dog.y);
+    let b = new Phaser.Point(cat.x, cat.y);
 
-    if (cursors.left.isDown) {
-        player.moveLeft();
-    } else if (cursors.right.isDown) {
-        player.moveRight();
-    }
-
-    if (cursors.up.downDuration(1)) {
-        player.playWalkAnimation();
-    } else if (cursors.down.downDuration(1)) {
-        player.playWalkAnimation();
-    }
-
-    if (cursors.left.downDuration(1)) {
-        player.playWalkAnimation();
-    } else if (cursors.right.downDuration(1)) {
-        player.playWalkAnimation();
-    }
-
-    if (player.isWalking === false && !player.isIdle) {
-        player.playIdleAnimation();
-    }
-
-    if (player.isIdle && cat.position.distance(player.position) <= 150) {
-        cat.animations.stop(null, true);
-    }
-
-    if (cat.position.distance(player.position) > 150) {
-        let behaviors = new Behaviors();
-        behaviors.seek(cat, player);
+    if (a.distance(b) > 250) {
+        cat.seek(dog, 50, 299); 
     } else {
-        cat.body.velocity.set(0, 0);
+        cat.body.setZeroVelocity();
+        cat.velocity.x = 0;
+        cat.velocity.y = 0;
     }
+    // if (a.distance(b) < 100) {
+    //     cat.flee(dog, 100, 500);
+    //     runFaster = true;
+    // } else if (a.distance(b) < 200 && runFaster) {
+    //     cat.flee(dog, 100, 500);
+    // } else {
+    //     cat.wander(100, 100, dog, 100);
+    //     if (runFaster) {
+    //         cat.generateNewTarget();
+    //     }
+    //     runFaster = false;
+    // }
+
+    spriteGroup.sort('y', Phaser.Group.SORT_ASCENDING);
 }
 
 function render() {
-    game.debug.spriteInfo(player, 32, 32);
-    // game.debug.spriteBounds(player);
+    game.debug.spriteInfo(dog, 32, 32);
+    game.debug.gameInfo(32, 150);
 }
 
-function resize() {
-    game.stage.scale.refresh();
+function cursorsUpdate() {
+    if (cursors.up.isDown) {
+        dog.moveUp();
+    } else if (cursors.down.isDown) {
+        dog.moveDown();
+    } 
+    
+    if (cursors.left.isDown) {
+        dog.moveLeft();
+    } else if (cursors.right.isDown) {
+        dog.moveRight();
+    }
+
+    if (cursors.up.downDuration(1)) {
+        dog.playWalkAnimation();
+    } else if (cursors.down.downDuration(1)) {
+        dog.playWalkAnimation();
+    }
+
+    if (cursors.left.downDuration(1)) {
+        dog.playWalkAnimation();
+    } else if (cursors.right.downDuration(1)) {
+        dog.playWalkAnimation();
+    }
+
+    if (dog.isWalking === false && !dog.isIdle) {
+        dog.playIdleAnimation();
+    }
 }
 
-function fullScreen() {
-    game.scale.pageAlignHorizontally = true;
-    game.scale.pageAlignVertically = true;
-    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    game.scale.forceLandscape = true;
+function joystickUpdate() {
+    if (joystick.up()) {
+        dog.moveUp();
+    } else if (joystick.down()) {
+        dog.moveDown();
+    }
+
+    if (joystick.left()) {
+        dog.moveLeft();
+    } else if (joystick.right()) {
+        dog.moveRight();
+    }
 }
 
+function handleIncorrect() {
+    alert("wrong orientation");
+}
+
+window.addEventListener('resize', function (event) {
+    console.log("resized");
+    game.scale.refresh();
+});

@@ -1,6 +1,7 @@
 class Multimap {
     constructor(game) {
         this.game = game;
+        this.collisionMap;
         this.maps = new Map();
         this.layers = new Map();
         this.collisionLayers = [];
@@ -28,8 +29,12 @@ class Multimap {
         return this.layers.get(mapKey);
     }
 
-    scale(mapKey, factor) {
-        this.layers.get(mapKey).setScale(factor, factor);
+    getAllLayers() {
+        return this.layers;
+    }
+
+    scale(mapKey, factorX, factorY) {
+        this.layers.get(mapKey).setScale(factorX, factorY);
     }
 
     scaleAll(factor) {
@@ -42,11 +47,12 @@ class Multimap {
         let map = this.maps.get(mapKey);
         let layer = this.layers.get(mapKey);
         map.setCollisionBetween(start, stop, collides);
+        this.game.physics.p2.convertTilemap(map, layer);
         // layer.debug = true;
         this.collisionLayers.push(layer);
     }
 
-    setCollisionBetweenSets(mapKey, collides, ...sets) {
+    setCollisionBetweenSets(mapKey, sets, collides, ) {
         for (let set of sets) {
             this.setCollisionBetween(mapKey, set.start, set.stop, collides);
         }
@@ -54,5 +60,15 @@ class Multimap {
 
     getCollisionLayers() {
         return this.collisionLayers;
+    }
+
+    addCollisionMap(mapKey) {
+        this.collisionMap = game.add.tilemap(mapKey);
+    }
+
+    addCollisionMapLayer(...layerKeys) {
+        for (let key of layerKeys) {
+            game.physics.p2.convertCollisionObjects(this.collisionMap, key);
+        }
     }
 }

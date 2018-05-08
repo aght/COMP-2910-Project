@@ -1,22 +1,26 @@
-class Cat extends Phaser.Sprite {
-    constructor(game, x, y) {
-        super(game, x, y, 'cat_front');
+class Cat extends ControlledNPC {
+    constructor(game, x, y, group) {
+        super(game, x, y, 'cat_front', group);
 
+        this.isWalking = false;
+        this.isWalkingLeft = false;
+        this.isWalingRight = false;
         this.walkSpeed = 12;
-        this.predator;
-        this.scaleFactor = 2;
+        this.scaleFactor = 1.7;
 
-        this.speed = 300;
-        this.force = 50;
-        this.scale.x = 2;
-        this.scale.y = 2;
+        this.scale.x = this.scaleFactor;
+        this.scale.y = this.scaleFactor;
         this.anchor.setTo(0.5, 0.5);
-
-        game.add.existing(this);
     }
 
-    update() {
-        this.body.collideWorldBounds = true;
+    customUpdate() {
+        if (this.velocity.x < 0) {
+            // console.log("right");
+        } else if (this.velocity.x > 0) {
+            // console.log("left");
+        } else if (this.velocity.x === 0 && this.velocity.y === 0) {
+            // console.log("stationary");
+        }
     }
 
     playWalkFrontAnimation() {
@@ -27,16 +31,23 @@ class Cat extends Phaser.Sprite {
     playWalkSideAnimation(side) {
         this.loadSideTexture();
         if (side == 'left') {
+            cat.isWalkingLeft = true;
+            cat.isWalkingRight = false;
             this.scale.x = this.scaleFactor;
-        } else if (side == 'right'){
+        } else if (side == 'right') {
+            cat.isWalkingRight = true;
+            cat.isWalkingLeft = false;
             this.scale.x = -this.scaleFactor;
         }
+        cat.isWalking = true;
         this.animations.play('cat_side_walk', this.walkSpeed, true);
     }
 
-    playWalkBackAnimation() {
-        this.loadBackTexture();
-        this.animations.play('cat_back_walk', this.walkSpeed, true);
+    stopAnimations() {
+        this.animations.stop(null, true);
+        cat.isWalking = false;
+        cat.isWalkingLeft = false;
+        cat.isWalkingRight = false;
     }
 
     loadFrontTexture() {
@@ -47,10 +58,5 @@ class Cat extends Phaser.Sprite {
     loadSideTexture() {
         this.loadTexture('cat_side', 0);
         this.animations.add('cat_side_walk');
-    }
-
-    loadBackTexture() {
-        this.loadTexture('cat_back', 0);
-        this.animations.add('cat_back_walk');
     }
 }

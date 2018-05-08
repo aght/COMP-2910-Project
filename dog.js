@@ -1,12 +1,12 @@
 class Dog extends Phaser.Sprite {
-    constructor(game, x, y) {
-        super(game, x, y, 'player_idle');
+    constructor(game, x, y, group) {
+        super(game, x, y, 'dog_idle', group);
 
         this.isWalking = false;
         this.isIdle = true;
         this.walkSpeed = 20;
         this.idleSpeed = 7;
-        this.movementSpeed = 300;
+        this.movementSpeed = 250;
         this.scaling = 0.2;
 
         this.animations.add('idle');
@@ -21,42 +21,51 @@ class Dog extends Phaser.Sprite {
 
     update() {
         this.isWalking = false;
-        this.body.collideWorldBounds = true;
     }
 
     moveLeft() {
-        this.body.velocity.x = -this.movementSpeed;
+        if (this.scale.x !== -this.scaling) {
+            // console.log("left");
+            dog.body.clearShapes();
+            dog.body.loadPolygon('dog_physics_left_scaled', 'Left');
+        }
+        this.body.moveLeft(this.movementSpeed);
         this.scale.x = -this.scaling;
         this.isWalking = true;
         this.isIdle = false;
     }
 
     moveRight() {
-        this.body.velocity.x = this.movementSpeed;
+        this.body.moveRight(this.movementSpeed);
+        if (this.scale.x !== -this.scaling) {
+            // console.log("right");
+            dog.body.clearShapes();
+            dog.body.loadPolygon('dog_physics_right_scaled', 'Right');
+        }
         this.scale.x = this.scaling;
         this.isWalking = true;
         this.isIdle = false;
     }
 
     moveUp() {
-        this.body.velocity.y = -this.movementSpeed;
+        this.body.moveUp(this.movementSpeed);
         this.isWalking = true;
         this.isIdle = false;
     }
 
     moveDown() {
-        this.body.velocity.y = this.movementSpeed;
+        this.body.moveDown(this.movementSpeed);
         this.isWalking = true;
         this.isIdle = false;
     }
 
     loadWalkTexture() {
-        this.loadTexture('player_walk', 0);
+        this.loadTexture('dog_walk', 0);
         this.animations.add('walk');
     }
 
     loadIdleTexture() {
-        this.loadTexture('player_idle', 0);
+        this.loadTexture('dog_idle', 0);
         this.animations.add('idle');
     }
 
@@ -66,7 +75,7 @@ class Dog extends Phaser.Sprite {
     }
 
     playIdleAnimation() {
-        player.isIdle = true;
+        this.isIdle = true;
         this.loadIdleTexture();
         this.animations.play('idle', this.idleSpeed, true);
     }
