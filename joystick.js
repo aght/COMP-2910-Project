@@ -260,7 +260,7 @@ VirtualJoystick.prototype._onTouchStart = function (event) {
 	// forward the action
 	var x = touch.pageX;
 	var y = touch.pageY;
-	return this._onDown(x, y)
+	return this._onDown(x, y);
 }
 
 VirtualJoystick.prototype._onTouchEnd = function (event) {

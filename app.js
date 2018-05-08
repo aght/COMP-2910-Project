@@ -1,5 +1,5 @@
 var game = new Phaser.Game({
-    width: 1500,
+    width: 1600,
     height: 900,
     renderer: Phaser.AUTO,
     antialias: false,
@@ -10,7 +10,6 @@ var game = new Phaser.Game({
     update: update,
     render: render
 });
-
 
 function preload() {
     game.load.spritesheet('dog_walk', './assets/spritesheets/Dog Walk.png', 547, 481, 10);
@@ -74,21 +73,19 @@ function create() {
     game.scale.enterIncorrectOrientation.add(handleIncorrect);
 
     game.physics.startSystem(Phaser.Physics.P2JS);
-    // game.vjoy = game.plugins.add(Phaser.Plugin.VJoy);
-    // game.vjoy.inputEnable(0, 0, 400, 600);
 
-    // let mt = new MobileTester();
-    // if (mt.isMobile() || true) {
-    //     joystick = new VirtualJoystick({
-    //         mouseSupport: true,
-    //         stationaryBase: true,
-    //         strokeStyle: 'gray',
-    //         baseX: 100,
-    //         baseY: 600 - 100,
-    //         limitStickTravel: true,
-    //         stickRadius: 50
-    //     });
-    // }
+    let mt = new MobileTester();
+    if (mt.isMobile() || true) {
+        joystick = new VirtualJoystick({
+            mouseSupport: true,
+            stationaryBase: true,
+            strokeStyle: 'gray',
+            baseX: 100,
+            baseY: 600 - 100,
+            limitStickTravel: true,
+            stickRadius: 50
+        });
+    }
 
     createMap();
 
@@ -123,7 +120,7 @@ function update() {
     // cat.body.setZeroVelocity();
 
     cursorsUpdate();
-    // joystickUpdate();
+    joystickUpdate();
 
     let a = new Phaser.Point(dog.x, dog.y);
     let b = new Phaser.Point(cat.x, cat.y);
@@ -135,6 +132,7 @@ function update() {
         cat.velocity.x = 0;
         cat.velocity.y = 0;
     }
+    
     // if (a.distance(b) < 100) {
     //     cat.flee(dog, 100, 500);
     //     runFaster = true;
