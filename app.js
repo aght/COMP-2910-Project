@@ -1,10 +1,10 @@
 var game = new Phaser.Game({
-    width: 1200,
-    height: 1200,
+    width: 1500,
+    height: 900,
     renderer: Phaser.AUTO,
     antialias: false,
     state: this,
-    scaleMode: Phaser.ScaleManager.RESIZE,
+    scaleMode: Phaser.ScaleManager.SHOW_ALL,
     preload: preload,
     create: create,
     update: update,
@@ -69,9 +69,10 @@ function createMap() {
 function create() {
     game.plugins.add(Phaser.Plugin.AdvancedTiming);
     game.scale.forceOrientation(true, false);
-    // game.scale.pageAlignVertically = true;
-    // game.scale.pageAlignHorizontally = true;
+    game.scale.pageAlignVertically = true;
+    game.scale.pageAlignHorizontally = true;
     game.scale.enterIncorrectOrientation.add(handleIncorrect);
+    game.stage.backgroundColor = '#3f3f3f';
 
     game.physics.startSystem(Phaser.Physics.P2JS);
     // game.vjoy = game.plugins.add(Phaser.Plugin.VJoy);
