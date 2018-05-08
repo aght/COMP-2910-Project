@@ -72,7 +72,6 @@ function create() {
     game.scale.pageAlignVertically = true;
     game.scale.pageAlignHorizontally = true;
     game.scale.enterIncorrectOrientation.add(handleIncorrect);
-    game.stage.backgroundColor = '#3f3f3f';
 
     game.physics.startSystem(Phaser.Physics.P2JS);
     // game.vjoy = game.plugins.add(Phaser.Plugin.VJoy);
