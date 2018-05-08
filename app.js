@@ -1,6 +1,9 @@
+const APP_WIDTH = 1600;
+const APP_HEIGHT = 900;
+
 var game = new Phaser.Game({
-    width: 1600,
-    height: 900,
+    width: APP_WIDTH,
+    height: APP_HEIGHT,
     renderer: Phaser.AUTO,
     antialias: false,
     state: this,
@@ -79,7 +82,7 @@ function create() {
         joystick = new VirtualJoystick({
             mouseSupport: true,
             stationaryBase: true,
-            strokeStyle: 'gray',
+            strokeStyle: 'rgba(137, 137, 137, 0.5)',
             baseX: 100,
             baseY: 600 - 100,
             limitStickTravel: true,
@@ -132,7 +135,7 @@ function update() {
         cat.velocity.x = 0;
         cat.velocity.y = 0;
     }
-    
+
     // if (a.distance(b) < 100) {
     //     cat.flee(dog, 100, 500);
     //     runFaster = true;

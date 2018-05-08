@@ -315,11 +315,11 @@ VirtualJoystick.prototype._buildJoystickBase = function () {
 	canvas.height = 126;
 
 	var ctx = canvas.getContext('2d');
-	ctx.beginPath();
-	ctx.strokeStyle = this._strokeStyle;
-	ctx.lineWidth = 6;
-	ctx.arc(canvas.width / 2, canvas.width / 2, 40, 0, Math.PI * 2, true);
-	ctx.stroke();
+	// ctx.beginPath();
+	// ctx.strokeStyle = this._strokeStyle;
+	// ctx.lineWidth = 6;
+	// ctx.arc(canvas.width / 2, canvas.width / 2, 40, 0, Math.PI * 2, true);
+	// ctx.stroke();
 
 	ctx.beginPath();
 	ctx.strokeStyle = this._strokeStyle;
