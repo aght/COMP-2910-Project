@@ -94,7 +94,9 @@ function create() {
 
     createMap();
     
-    let b = game.add.button(1200 - 16 - 5, 5, 'button_ui', function () {
+    let buttonSize = 16;
+    let offset = 5;
+    let b = game.add.button(1200 - buttonSize - offset, offset, 'button_ui', function () {
         alert('clicked button');
     }, game, 113, 113, 113, 113);
     b.fixedToCamera = true;
