@@ -108,11 +108,11 @@ function create() {
         isMuted = !isMuted;
         if (!isMuted) {
             mute.setFrames(120, 120, 120, 120);
-            alert('not muted');
+            // alert('not muted');
             game.scale.stopFullScreen();
         } else {
             mute.setFrames(121, 121, 121, 121);
-            alert('muted');
+            // alert('muted');
             game.scale.startFullScreen(false);
         }
   
