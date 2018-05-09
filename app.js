@@ -98,7 +98,6 @@ function create() {
 
     let buttonSize = 35;
     let offset = 5;
-
     let pause = game.add.button(APP_WIDTH - buttonSize - offset, offset, 'button_ui', function () {
         alert('pause');
     }, game, 113, 113, 113, 113);
