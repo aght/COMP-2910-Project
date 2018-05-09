@@ -71,4 +71,9 @@ class ControlledNPC extends Phaser.Sprite {
         let y = r * Math.sin(a) + this.y;
         this.target = new Phaser.Point(x, y);
     }
+
+    teleportTo(sprite) {
+        this.body.x = sprite.body.x;
+        this.body.y = sprite.body.y;
+    }
 }

@@ -19,7 +19,7 @@ function preload() {
     game.load.spritesheet('dog_idle', './assets/spritesheets/Dog Idle.png', 547, 481, 10);
     game.load.spritesheet('cat_front', './assets/spritesheets/cat_front.png', 32, 32, 3);
     game.load.spritesheet('cat_side', './assets/spritesheets/cat_side.png', 32, 32, 3);
-    game.load.spritesheet('button_ui', './assets/spritesheets/button UI.png', 16, 16, 144);
+    game.load.spritesheet('button_ui', './assets/spritesheets/button UI.png', 30, 30, 144);
 
     game.load.physics('dog_physics_right', './assets/physics/dog_physics.json');
     game.load.physics('dog_physics_left', './assets/physics/dog_physics.json');
@@ -51,6 +51,8 @@ var map;
 var joystick;
 var fullScreenEnter;
 var mt = new MobileTester();
+
+let isMuted = false;
 
 function createMap() {
     map = new Multimap(game);
@@ -94,12 +96,26 @@ function create() {
 
     createMap();
     
-    let buttonSize = 16;
+    let buttonSize = 30;
     let offset = 5;
-    let b = game.add.button(APP_WIDTH - buttonSize - offset, offset, 'button_ui', function () {
-        alert('clicked button');
+
+    let pause = game.add.button(APP_WIDTH - buttonSize - offset, offset, 'button_ui', function () {
+        alert('pause');
     }, game, 113, 113, 113, 113);
-    b.fixedToCamera = true;
+    pause.fixedToCamera = true;
+
+    let mute = game.add.button(APP_WIDTH - (buttonSize * 2) - (offset * 2), offset, 'button_ui', function() {
+        isMuted = !isMuted;
+        if (!isMuted) {
+            mute.setFrames(120, 120, 120, 120);
+            alert('not muted');
+        } else {
+            mute.setFrames(121, 121, 121, 121);
+            alert('muted');
+        }
+  
+    }, 120, 120, 120, 120);
+    mute.fixedToCamera = true;
 
     spriteGroup = game.add.group();
 
@@ -139,8 +155,12 @@ function update() {
     let a = new Phaser.Point(dog.x, dog.y);
     let b = new Phaser.Point(cat.x, cat.y);
 
-    if (a.distance(b) > 250) {
+
+
+    if (a.distance(b) > 250 && a.distance(b) < 400) {
         cat.seek(dog, 50, 299);
+    } else if (a.distance(b) > 400) {
+        cat.teleportTo(dog);
     } else {
         cat.body.setZeroVelocity();
         cat.velocity.x = 0;
