@@ -19,6 +19,7 @@ function preload() {
     game.load.spritesheet('dog_idle', './assets/spritesheets/Dog Idle.png', 547, 481, 10);
     game.load.spritesheet('cat_front', './assets/spritesheets/cat_front.png', 32, 32, 3);
     game.load.spritesheet('cat_side', './assets/spritesheets/cat_side.png', 32, 32, 3);
+    game.load.spritesheet('button_ui', './assets/spritesheets/button UI.png', 16, 16, 144);
 
     game.load.physics('dog_physics_right', './assets/physics/dog_physics.json');
     game.load.physics('dog_physics_left', './assets/physics/dog_physics.json');
@@ -48,6 +49,8 @@ var spriteGroup;
 var runFaster = false;
 var map;
 var joystick;
+var fullScreenEnter;
+var mt = new MobileTester();
 
 function createMap() {
     map = new Multimap(game);
@@ -77,8 +80,7 @@ function create() {
 
     game.physics.startSystem(Phaser.Physics.P2JS);
 
-    let mt = new MobileTester();
-    if (mt.isMobile() || true) {
+    if (mt.isMobile()) {
         joystick = new VirtualJoystick({
             mouseSupport: true,
             stationaryBase: true,
@@ -91,6 +93,11 @@ function create() {
     }
 
     createMap();
+    
+    let b = game.add.button(1200 - 16 - 5, 5, 'button_ui', function () {
+        alert('clicked button');
+    }, game, 113, 113, 113, 113);
+    b.fixedToCamera = true;
 
     spriteGroup = game.add.group();
 
@@ -123,13 +130,15 @@ function update() {
     // cat.body.setZeroVelocity();
 
     cursorsUpdate();
-    joystickUpdate();
+    if (mt.isMobile()) {
+        joystickUpdate();
+    }
 
     let a = new Phaser.Point(dog.x, dog.y);
     let b = new Phaser.Point(cat.x, cat.y);
 
     if (a.distance(b) > 250) {
-        cat.seek(dog, 50, 299); 
+        cat.seek(dog, 50, 299);
     } else {
         cat.body.setZeroVelocity();
         cat.velocity.x = 0;
@@ -162,8 +171,8 @@ function cursorsUpdate() {
         dog.moveUp();
     } else if (cursors.down.isDown) {
         dog.moveDown();
-    } 
-    
+    }
+
     if (cursors.left.isDown) {
         dog.moveLeft();
     } else if (cursors.right.isDown) {
