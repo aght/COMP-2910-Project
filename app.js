@@ -95,11 +95,6 @@ function create() {
     }
 
     createMap();
-    
-    var style = { font: "bold 32px Arial", fill: "#fff"};
-    let text = game.add.text(0, 0, "phaser 2.4 text bounds", style);
-    text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-    text.setTextBounds(0, 100, 800, 100);
 
     let buttonSize = 35;
     let offset = 5;
