@@ -95,8 +95,8 @@ function create() {
     }
 
     createMap();
-    
-    let buttonSize = 3;
+
+    let buttonSize = 35;
     let offset = 5;
 
     let pause = game.add.button(APP_WIDTH - buttonSize - offset, offset, 'button_ui', function () {
@@ -108,10 +108,12 @@ function create() {
         isMuted = !isMuted;
         if (!isMuted) {
             mute.setFrames(120, 120, 120, 120);
-            alert('not muted');
+            game.scale.stopFullScreen();
+            // alert('not muted');
         } else {
             mute.setFrames(121, 121, 121, 121);
-            alert('muted');
+            game.scale.startFullScreen(false);
+            // alert('muted');
         }
   
     }, 120, 120, 120, 120);
