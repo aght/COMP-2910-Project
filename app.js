@@ -95,9 +95,10 @@ function create() {
     }
 
     createMap();
-
-    let buttonSize = 35;
+    
+    let buttonSize = 3;
     let offset = 5;
+
     let pause = game.add.button(APP_WIDTH - buttonSize - offset, offset, 'button_ui', function () {
         alert('pause');
     }, game, 113, 113, 113, 113);
@@ -107,12 +108,10 @@ function create() {
         isMuted = !isMuted;
         if (!isMuted) {
             mute.setFrames(120, 120, 120, 120);
-            // alert('not muted');
-            game.scale.stopFullScreen();
+            alert('not muted');
         } else {
             mute.setFrames(121, 121, 121, 121);
-            // alert('muted');
-            game.scale.startFullScreen(false);
+            alert('muted');
         }
   
     }, 120, 120, 120, 120);
@@ -185,8 +184,8 @@ function update() {
 }
 
 function render() {
-    // game.debug.spriteInfo(dog, 32, 32);
-    // game.debug.gameInfo(32, 150);
+    game.debug.spriteInfo(dog, 32, 32);
+    game.debug.gameInfo(32, 150);
 }
 
 function cursorsUpdate() {

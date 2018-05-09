@@ -1,9 +1,3 @@
-@font-face{
-    font-family: 'pixel-font';
-    font-style: normal;
-    src: url('./../assets/fonts/m5x7.ttf');
-}
-
 body {
     margin: 0;
     background-color: '#3f3f3f';
