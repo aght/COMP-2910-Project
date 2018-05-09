@@ -19,7 +19,7 @@ function preload() {
     game.load.spritesheet('dog_idle', './assets/spritesheets/Dog Idle.png', 547, 481, 10);
     game.load.spritesheet('cat_front', './assets/spritesheets/cat_front.png', 32, 32, 3);
     game.load.spritesheet('cat_side', './assets/spritesheets/cat_side.png', 32, 32, 3);
-    game.load.spritesheet('button_ui', './assets/spritesheets/button UI.png', 30, 30, 144);
+    game.load.spritesheet('button_ui', './assets/spritesheets/button UI.png', 35, 35, 144);
 
     game.load.physics('dog_physics_right', './assets/physics/dog_physics.json');
     game.load.physics('dog_physics_left', './assets/physics/dog_physics.json');
@@ -96,7 +96,7 @@ function create() {
 
     createMap();
     
-    let buttonSize = 30;
+    let buttonSize = 35;
     let offset = 5;
 
     let pause = game.add.button(APP_WIDTH - buttonSize - offset, offset, 'button_ui', function () {
