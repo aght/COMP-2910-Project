@@ -1,5 +1,5 @@
-const APP_WIDTH = 1600;
-const APP_HEIGHT = 900;
+const APP_WIDTH = 1200;
+const APP_HEIGHT = 600;
 
 var game = new Phaser.Game({
     width: APP_WIDTH,
