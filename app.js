@@ -7,7 +7,7 @@ var game = new Phaser.Game({
     renderer: Phaser.AUTO,
     antialias: false,
     state: this,
-    scaleMode: Phaser.ScaleManager.EXACT_FIT,
+    scaleMode: Phaser.ScaleManager.SHOW_ALL,
     preload: preload,
     create: create,
     update: update,
