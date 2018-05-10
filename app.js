@@ -22,6 +22,7 @@ function preload() {
     game.load.spritesheet('cat_front', './assets/spritesheets/cat_front.png', 32, 32, 3);
     game.load.spritesheet('cat_side', './assets/spritesheets/cat_side.png', 32, 32, 3);
     game.load.spritesheet('button_ui', './assets/spritesheets/button UI.png', 35, 35, 144);
+    game.load.spritesheet('emoticons', './assets/spritesheets/emoticons.png', 40, 40, 78);
 
     game.load.physics('dog_physics_right', './assets/physics/dog_physics.json');
     game.load.physics('dog_physics_left', './assets/physics/dog_physics.json');
@@ -47,14 +48,15 @@ function preload() {
 
 var dog;
 var cat;
+var catEmote;
+var catEmotePlaying = false;
 var spriteGroup;
 var runFaster = false;
 var map;
 var bg;
-var sounds;
 var mt = new MobileTester();
 
-let isMuted = false;
+let isMuted = true;
 
 function createMap() {
     map = new Multimap(game);
@@ -76,6 +78,9 @@ function createMap() {
 }
 
 function create() {
+    // debug only
+    game.sound.mute = isMuted;
+
     game.plugins.add(Phaser.Plugin.AdvancedTiming);
     game.scale.forceOrientation(true, false);
     game.scale.pageAlignVertically = true;
@@ -84,8 +89,8 @@ function create() {
 
     game.physics.startSystem(Phaser.Physics.P2JS);
 
-    bg = game.add.audio('bg');
-    bg.play();
+    // bg = game.add.audio('bg');
+    // bg.play();
 
     createMap();
 
@@ -97,18 +102,16 @@ function create() {
     }, game, 113, 113, 113, 113);
     pause.fixedToCamera = true;
 
-    let mute = game.add.button(APP_WIDTH - (buttonSize * 2) - (offset * 2), offset, 'button_ui', function() {
+    let mute = game.add.button(APP_WIDTH - (buttonSize * 2) - (offset * 2), offset, 'button_ui', function () {
         isMuted = !isMuted;
         if (!isMuted) {
             mute.setFrames(120, 120, 120, 120);
-            game.sound.mute = false;
-            // alert('not muted');
+            game.sound.mute = isMuted;
         } else {
             mute.setFrames(121, 121, 121, 121);
-            game.sound.mute = true;
-            // alert('muted');
+            game.sound.mute = isMuted;
         }
-  
+
     }, 120, 120, 120, 120);
     mute.fixedToCamera = true;
 
@@ -127,6 +130,42 @@ function create() {
     cat = new Cat(game, game.world.centerX - 200, game.world.centerY);
     game.physics.p2.enable(cat, true);
     cat.body.fixedRotation = true;
+    cat.inputEnabled = true;
+
+    cat.events.onInputDown.add(function () {
+        if (!catEmotePlaying) {
+            catEmote.visible = catEmotePlaying = true;
+            catEmote.loadTexture('emoticons', 0);
+            let emotes = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [12, 13, 14],
+                [15, 16, 17],
+                [24, 25, 26],
+                [27, 28, 29],
+                [36, 37, 38],
+                [63, 64, 65]
+            ];
+            let emoteIndex = game.rnd.integerInRange(0, emotes.length - 1);
+            catEmote.animations.add('emote', emotes[emoteIndex], true);
+            catEmote.animations.play('emote', 2, true);
+            setTimeout(function() {
+                catEmote.animations.add('end', [72, 73, 74, 75, 76, 77], true);
+                catEmote.animations.currentAnim.onComplete.add(function() {
+                    catEmote.animations.stop(null, true);
+                    catEmote.visible = catEmotePlaying = false;
+                }, this);
+                catEmote.animations.play('end', 20);
+            }, 3000);
+        }
+    }, this);
+
+    catEmote = game.add.sprite(cat.body.x, cat.body.y, '');
+    catEmote.anchor.setTo(0.5);
+    catEmote.y = cat.body.y - 32;
+    setTimeout(function () {
+        catEmote.frame = 73;
+    }, 1000);
 
     spriteGroup.add(dog);
     spriteGroup.add(cat);
@@ -140,6 +179,10 @@ function create() {
 
 function update() {
     dog.body.setZeroVelocity();
+    catEmote.y = cat.body.y - 32;
+    catEmote.x = cat.body.x;
+    // cat.body.setZeroVelocity();
+    // catEmote.body.setZeroVelocity();
 
     cursorsUpdate();
 
