@@ -7,7 +7,7 @@ var game = new Phaser.Game({
     renderer: Phaser.AUTO,
     antialias: false,
     state: this,
-    scaleMode: Phaser.ScaleManager.SHOW_ALL,
+    scaleMode: Phaser.ScaleManager.EXACT_FIT,
     preload: preload,
     create: create,
     update: update,
@@ -82,18 +82,6 @@ function create() {
 
     game.physics.startSystem(Phaser.Physics.P2JS);
 
-    if (mt.isMobile()) {
-        joystick = new VirtualJoystick({
-            mouseSupport: true,
-            stationaryBase: true,
-            strokeStyle: 'rgba(137, 137, 137, 0.5)',
-            baseX: window.innerWidth / 2,
-            baseY: window.innerHeight / 2,
-            limitStickTravel: true,
-            stickRadius: 50
-        });
-    }
-
     createMap();
 
     let buttonSize = 35;
@@ -108,11 +96,13 @@ function create() {
         isMuted = !isMuted;
         if (!isMuted) {
             mute.setFrames(120, 120, 120, 120);
-            game.scale.stopFullScreen();
+            // game.scale.stopFullScreen();
+            // game.scale.refresh();
             // alert('not muted');
         } else {
             mute.setFrames(121, 121, 121, 121);
-            game.scale.startFullScreen(false);
+            // game.scale.startFullScreen(true);
+            // game.scale.refresh();   
             // alert('muted');
         }
   
@@ -150,15 +140,9 @@ function update() {
     // cat.body.setZeroVelocity();
 
     cursorsUpdate();
-    if (mt.isMobile()) {
-        joystickUpdate();
-    }
 
     let a = new Phaser.Point(dog.x, dog.y);
     let b = new Phaser.Point(cat.x, cat.y);
-
-
-
     if (a.distance(b) > 250 && a.distance(b) < 400) {
         cat.seek(dog, 50, 299);
     } else if (a.distance(b) > 400) {
@@ -217,20 +201,6 @@ function cursorsUpdate() {
 
     if (dog.isWalking === false && !dog.isIdle) {
         dog.playIdleAnimation();
-    }
-}
-
-function joystickUpdate() {
-    if (joystick.up()) {
-        dog.moveUp();
-    } else if (joystick.down()) {
-        dog.moveDown();
-    }
-
-    if (joystick.left()) {
-        dog.moveLeft();
-    } else if (joystick.right()) {
-        dog.moveRight();
     }
 }
 
