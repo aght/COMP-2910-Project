@@ -13,9 +13,7 @@ class Multimap {
         let layer = map.createLayer(0);
         layer.resizeWorld();
 
-        if (scrollDelta === true || scrollDelta === false) {
-            layer.renderSettings.enableScrollDelta = scrollDelta;
-        }
+        layer.renderSettings.enableScrollDelta = scrollDelta || false;
 
         this.maps.set(mapKey, map);
         this.layers.set(mapKey, layer);
@@ -68,7 +66,7 @@ class Multimap {
 
     addCollisionMapLayer(...layerKeys) {
         for (let key of layerKeys) {
-            game.physics.p2.convertCollisionObjects(this.collisionMap, key);
+            game.physics.p2.convertCollisionObjects(this.collisionMap, key, true);
         }
     }
 }

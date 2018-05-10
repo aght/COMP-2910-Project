@@ -163,9 +163,6 @@ function create() {
     catEmote = game.add.sprite(cat.body.x, cat.body.y, '');
     catEmote.anchor.setTo(0.5);
     catEmote.y = cat.body.y - 32;
-    setTimeout(function () {
-        catEmote.frame = 73;
-    }, 1000);
 
     spriteGroup.add(dog);
     spriteGroup.add(cat);
@@ -181,8 +178,6 @@ function update() {
     dog.body.setZeroVelocity();
     catEmote.y = cat.body.y - 32;
     catEmote.x = cat.body.x;
-    // cat.body.setZeroVelocity();
-    // catEmote.body.setZeroVelocity();
 
     cursorsUpdate();
 
@@ -254,6 +249,5 @@ function handleIncorrect() {
 }
 
 window.addEventListener('resize', function (event) {
-    console.log("resized");
     game.scale.refresh();
 });
