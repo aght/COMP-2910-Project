@@ -15,6 +15,8 @@ var game = new Phaser.Game({
 });
 
 function preload() {
+    game.load.audio('bg', './assets/music/harbor.mp3');
+
     game.load.spritesheet('dog_walk', './assets/spritesheets/Dog Walk.png', 547, 481, 10);
     game.load.spritesheet('dog_idle', './assets/spritesheets/Dog Idle.png', 547, 481, 10);
     game.load.spritesheet('cat_front', './assets/spritesheets/cat_front.png', 32, 32, 3);
@@ -48,8 +50,8 @@ var cat;
 var spriteGroup;
 var runFaster = false;
 var map;
-var joystick;
-var fullScreenEnter;
+var bg;
+var sounds;
 var mt = new MobileTester();
 
 let isMuted = false;
@@ -82,6 +84,9 @@ function create() {
 
     game.physics.startSystem(Phaser.Physics.P2JS);
 
+    bg = game.add.audio('bg');
+    bg.play();
+
     createMap();
 
     let buttonSize = 35;
@@ -96,13 +101,11 @@ function create() {
         isMuted = !isMuted;
         if (!isMuted) {
             mute.setFrames(120, 120, 120, 120);
-            // game.scale.stopFullScreen();
-            // game.scale.refresh();
+            game.sound.mute = false;
             // alert('not muted');
         } else {
             mute.setFrames(121, 121, 121, 121);
-            // game.scale.startFullScreen(true);
-            // game.scale.refresh();   
+            game.sound.mute = true;
             // alert('muted');
         }
   
@@ -137,7 +140,6 @@ function create() {
 
 function update() {
     dog.body.setZeroVelocity();
-    // cat.body.setZeroVelocity();
 
     cursorsUpdate();
 
