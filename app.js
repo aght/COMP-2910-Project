@@ -184,7 +184,7 @@ function update() {
     let a = new Phaser.Point(dog.x, dog.y);
     let b = new Phaser.Point(cat.x, cat.y);
     if (a.distance(b) > 250 && a.distance(b) < 400) {
-        cat.seek(dog, 50, 299);
+        cat.seek(dog, 50, 250);
     } else if (a.distance(b) > 400) {
         cat.teleportTo(dog);
     } else {

@@ -15,11 +15,21 @@ class Cat extends ControlledNPC {
 
     customUpdate() {
         if (this.velocity.x < 0) {
-            // console.log("right");
+            if (!this.isWalking) {
+                this.loadSideTexture();
+                this.animations.play('cat_side_walk', this.walkSpeed, true);
+                this.isWalking = true;
+                this.scale.x = this.scaleFactor;
+            }
         } else if (this.velocity.x > 0) {
-            // console.log("left");
+            if (!this.isWalking) {
+                this.loadSideTexture();
+                this.animations.play('cat_side_walk', this.walkSpeed, true);
+                this.isWalking = true;
+                this.scale.x = -this.scaleFactor;
+            }
         } else if (this.velocity.x === 0 && this.velocity.y === 0) {
-            // console.log("stationary");
+            this.stopAnimations();
         }
     }
 
@@ -31,23 +41,23 @@ class Cat extends ControlledNPC {
     playWalkSideAnimation(side) {
         this.loadSideTexture();
         if (side == 'left') {
-            cat.isWalkingLeft = true;
-            cat.isWalkingRight = false;
+            this.isWalkingLeft = true;
+            this.isWalkingRight = false;
             this.scale.x = this.scaleFactor;
         } else if (side == 'right') {
-            cat.isWalkingRight = true;
-            cat.isWalkingLeft = false;
+            this.isWalkingRight = true;
+            this.isWalkingLeft = false;
             this.scale.x = -this.scaleFactor;
         }
-        cat.isWalking = true;
+        this.isWalking = true;
         this.animations.play('cat_side_walk', this.walkSpeed, true);
     }
 
     stopAnimations() {
         this.animations.stop(null, true);
-        cat.isWalking = false;
-        cat.isWalkingLeft = false;
-        cat.isWalkingRight = false;
+        this.isWalking = false;
+        this.isWalkingLeft = false;
+        this.isWalkingRight = false;
     }
 
     loadFrontTexture() {
