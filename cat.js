@@ -1,6 +1,6 @@
 class Cat extends ControlledNPC {
-    constructor(game, x, y, group) {
-        super(game, x, y, 'cat_front', group);
+    constructor(game, x, y) {
+        super(game, x, y, 'cat_front');
 
         this.isWalking = false;
         this.isWalkingLeft = false;
@@ -11,6 +11,10 @@ class Cat extends ControlledNPC {
         this.scale.x = this.scaleFactor;
         this.scale.y = this.scaleFactor;
         this.anchor.setTo(0.5, 0.5);
+
+        game.physics.p2.enable(this, true);
+        this.body.fixedRotation = true;
+        this.inputEnabled = true;
     }
 
     customUpdate() {

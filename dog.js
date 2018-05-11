@@ -1,6 +1,6 @@
 class Dog extends Phaser.Sprite {
-    constructor(game, x, y, group) {
-        super(game, x, y, 'dog_idle', group);
+    constructor(game, x, y) {
+        super(game, x, y, 'dog_idle');
 
         this.isWalking = false;
         this.isIdle = true;
@@ -16,6 +16,9 @@ class Dog extends Phaser.Sprite {
         this.scale.y = this.scaling;
         this.anchor.setTo(0.5, 0.5);
 
+        game.physics.p2.enable(this, true);
+        this.body.fixedRotation = true;
+
         game.add.existing(this);
     }
 
@@ -25,9 +28,8 @@ class Dog extends Phaser.Sprite {
 
     moveLeft() {
         if (this.scale.x !== -this.scaling) {
-            // console.log("left");
-            dog.body.clearShapes();
-            dog.body.loadPolygon('dog_physics_left_scaled', 'Left');
+            this.body.clearShapes();
+            this.body.loadPolygon('dog_physics_left_scaled', 'Left');
         }
         this.body.moveLeft(this.movementSpeed);
         this.scale.x = -this.scaling;
@@ -38,9 +40,8 @@ class Dog extends Phaser.Sprite {
     moveRight() {
         this.body.moveRight(this.movementSpeed);
         if (this.scale.x !== -this.scaling) {
-            // console.log("right");
-            dog.body.clearShapes();
-            dog.body.loadPolygon('dog_physics_right_scaled', 'Right');
+            this.body.clearShapes();
+            this.body.loadPolygon('dog_physics_right_scaled', 'Right');
         }
         this.scale.x = this.scaling;
         this.isWalking = true;

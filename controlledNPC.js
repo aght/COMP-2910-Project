@@ -1,6 +1,6 @@
 class ControlledNPC extends Phaser.Sprite {
     constructor(game, x, y, imageKey, group) {
-        super(game, x, y, imageKey, group);
+        super(game, x, y, imageKey);
 
         this.velocity = new Phaser.Point(0, 0);
         this.target;
