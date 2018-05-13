@@ -58,7 +58,7 @@ var dog;
 var cat;
 var map;
 
-var panel;
+var panel, resume, restart;
 
 function create() {
     game.scale.forceOrientation(true, false);
@@ -77,9 +77,10 @@ function create() {
     let offset = 5;
 
     let pauseButton = new GUIButton(game, APP_WIDTH - (buttonSize * 1) - (offset * 1), offset, 'button_ui', function () {
-        setTimeout(function () {
+        createPauseMenu();
+        setTimeout(() => {
             game.paused = true;
-        }, 500);
+        }, 200);
     }, game, 113, 113, 113, 113);
 
     let muteButton = new GUIButton(game, APP_WIDTH - (buttonSize * 2) - (offset * 2), offset, 'button_ui', function () {
@@ -91,10 +92,20 @@ function create() {
         }
     }, game, 120, 120, 120, 120);
 
-    game.input.onDown.add(function () {
+    game.input.onDown.add(function (e) {
         if (game.paused) {
-            game.paused = false;
-            // panel.destroy();
+            if (e.x > panel.x + 10 && e.x < panel.x + panel.width - 10 &&
+                e.y > panel.y + 230 && e.y < panel.y + 230 + 50) {
+                resume.sprite.loadTexture(resume.spriteOn.texture);
+                setTimeout(() => {
+                    game.paused = false;
+                    while (panel !== undefined) {
+                        panel.destroy();
+                    }
+                }, 100);
+            } else {
+                console.log('missed');
+            }
         }
     }, self);
 
@@ -113,8 +124,6 @@ function create() {
 
     cursors = game.input.keyboard.createCursorKeys();
     game.camera.follow(dog, Phaser.Camera.FOLLOW_LOCKON, 0.08, 0.08);
-
-    createPauseMenu();
 }
 
 function update() {
@@ -186,13 +195,13 @@ function createPauseMenu() {
     let menuY = game.height / 2 - menuHalfHeight;
     let buttonHeight = 50;
 
-    var resume, restart;
-    slickUI.add(panel = new SlickUI.Element.Panel(menuX, menuY, menuWidth, menuHeight)); 
+    slickUI.add(panel = new SlickUI.Element.Panel(menuX, menuY, menuWidth, menuHeight));
     panel.add(new SlickUI.Element.Text(0, 5, 'Paused', 14)).centerHorizontally();
     panel.add(resume = new SlickUI.Element.Button(10, 230, 370, buttonHeight));
     resume.inputEnabled = true;
     resume.events.onInputDown.add(function () {
-        console.log("paused");
+        // game.paused = false;
+        // panel.destroy();
     });
     resume.add(new SlickUI.Element.Text(0, 0, 'Resume')).center();
     panel.add(restart = new SlickUI.Element.Button(10, 168, 370, buttonHeight));
@@ -204,9 +213,6 @@ function createPauseMenu() {
 
     var logo;
     panel.add(new SlickUI.Element.Text(0, 65, 'Water Fight', 40)).centerHorizontally();
-
-    var menu;
-    slickUI.add(menu = new SlickUI.Element.DisplayObject(5, 5, game.make.sprite(0, 0, 'pause')));
 }
 
 window.addEventListener('resize', function (event) {
