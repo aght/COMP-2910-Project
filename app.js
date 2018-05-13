@@ -77,10 +77,12 @@ function create() {
     let offset = 5;
 
     let pauseButton = new GUIButton(game, APP_WIDTH - (buttonSize * 1) - (offset * 1), offset, 'button_ui', function () {
-        createPauseMenu();
-        setTimeout(() => {
-            game.paused = true;
-        }, 200);
+        if (game.paused === false) {
+            createPauseMenu();
+            setTimeout(() => {
+                game.paused = true;
+            }, 200);
+        }
     }, game, 113, 113, 113, 113);
 
     let muteButton = new GUIButton(game, APP_WIDTH - (buttonSize * 2) - (offset * 2), offset, 'button_ui', function () {
