@@ -47,6 +47,8 @@ function preload() {
     game.load.image('7', './assets/tilesets/7.png');
     game.load.image('8', './assets/tilesets/8.png');
 
+    game.load.image('pause', './assets/ui/pause.png');
+
     slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
     slickUI.load('./assets/ui/kenney-theme/kenney.json');
     game.plugins.add(Phaser.Plugin.AdvancedTiming);
@@ -176,21 +178,37 @@ function createMap() {
 }
 
 function createPauseMenu() {
+    let menuWidth = 400;
+    let menuHeight = 300;
+    let menuHalfWidth = menuWidth / 2;
+    let menuHalfHeight = menuHeight / 2;
+    let menuX = game.width / 2 - menuHalfWidth;
+    let menuY = game.height / 2 - menuHalfHeight;
+    let buttonOffset = 5;
+    let buttonWidth = menuWidth - 4 * buttonOffset;
+    let buttonHeight = 50;
+
     var resume, restart;
-    slickUI.add(panel = new SlickUI.Element.Panel(game.width / 2 - 150, game.height / 2 - 150, 300, 250)); 
-    panel.add(new SlickUI.Element.Text(0, 5, 'Paused')).centerHorizontally();
-    panel.add(resume = new SlickUI.Element.Button(5, 235 - 50, 280, 50));
+    slickUI.add(panel = new SlickUI.Element.Panel(menuX, menuY, menuWidth, menuHeight)); 
+    panel.add(new SlickUI.Element.Text(0, 5, 'Paused', 14)).centerHorizontally();
+    panel.add(resume = new SlickUI.Element.Button(buttonOffset, menuHeight - (1 * buttonHeight) - 3 * buttonOffset, buttonWidth, buttonHeight));
     resume.inputEnabled = true;
     resume.events.onInputDown.add(function () {
         console.log("paused");
     });
     resume.add(new SlickUI.Element.Text(0, 0, 'Resume')).center();
-    panel.add(restart = new SlickUI.Element.Button(5, 230 - 50 - 50, 280, 50));
+    panel.add(restart = new SlickUI.Element.Button(buttonOffset,  menuHeight - (2 * buttonHeight) - 4 * buttonOffset, buttonWidth, buttonHeight));
     restart.inputEnabled = true;
     restart.events.onInputDown.add(function () {
         console.log("restart");
     });
     restart.add(new SlickUI.Element.Text(0, 0, 'Restart')).center();
+
+    var logo;
+    panel.add(new SlickUI.Element.Text(0, 65, 'Water Fight', 40)).centerHorizontally();
+
+    var menu;
+    slickUI.add(menu = new SlickUI.Element.DisplayObject(5, 5, game.make.sprite(0, 0, 'pause')));
 }
 
 window.addEventListener('resize', function (event) {
