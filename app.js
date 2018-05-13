@@ -184,20 +184,18 @@ function createPauseMenu() {
     let menuHalfHeight = menuHeight / 2;
     let menuX = game.width / 2 - menuHalfWidth;
     let menuY = game.height / 2 - menuHalfHeight;
-    let buttonOffset = 5;
-    let buttonWidth = menuWidth - 4 * buttonOffset;
     let buttonHeight = 50;
 
     var resume, restart;
     slickUI.add(panel = new SlickUI.Element.Panel(menuX, menuY, menuWidth, menuHeight)); 
     panel.add(new SlickUI.Element.Text(0, 5, 'Paused', 14)).centerHorizontally();
-    panel.add(resume = new SlickUI.Element.Button(buttonOffset, menuHeight - (1 * buttonHeight) - 3 * buttonOffset, buttonWidth, buttonHeight));
+    panel.add(resume = new SlickUI.Element.Button(10, 230, 370, buttonHeight));
     resume.inputEnabled = true;
     resume.events.onInputDown.add(function () {
         console.log("paused");
     });
     resume.add(new SlickUI.Element.Text(0, 0, 'Resume')).center();
-    panel.add(restart = new SlickUI.Element.Button(buttonOffset,  menuHeight - (2 * buttonHeight) - 4 * buttonOffset, buttonWidth, buttonHeight));
+    panel.add(restart = new SlickUI.Element.Button(10, 168, 370, buttonHeight));
     restart.inputEnabled = true;
     restart.events.onInputDown.add(function () {
         console.log("restart");
