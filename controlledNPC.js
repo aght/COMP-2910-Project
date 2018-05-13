@@ -2,6 +2,10 @@ class ControlledNPC extends Phaser.Sprite {
     constructor(game, x, y, imageKey, group) {
         super(game, x, y, imageKey);
 
+        this.anchor.setTo(0.5, 0.5);
+        game.physics.p2.enable(this);
+        this.body.fixedRotation = true;
+
         this.velocity = new Phaser.Point(0, 0);
         this.target;
         this.isFirstTimeWandering = true;
@@ -19,17 +23,26 @@ class ControlledNPC extends Phaser.Sprite {
     // ######################################
     customUpdate() {}
 
-    seek(sprite, force, speed) {
-        let point = new Phaser.Point(sprite.x, sprite.y);
-        this.seekPoint(point, force, speed);
+    seek(sprite, force, speed, minDistance, maxDistance) {
+        let spritePos = new Phaser.Point(sprite.x, sprite.y);
+
+        if (minDistance && maxDistance) {
+            let thisPos = new Phaser.Point(this.x, this.y);
+            if (spritePos.distance(thisPos) > minDistance && spritePos.distance(thisPos) < maxDistance) {
+                this.seek(spritePos, force, speed);
+            } else if (spritePos.distance(thisPos) > maxDistance) {
+                this.teleportTo(sprite);
+            } else {
+                this.body.setZeroVelocity();
+                this.velocity.x = 0;
+                this.velocity.y = 0;
+            }
+        } else {
+            this.seekPoint(spritePos, force, speed);
+        }
     }
 
-    flee(sprite, force, speed) {
-        this.seek(sprite, force, speed);
-        this.body.velocity.x *= -1;
-        this.body.velocity.y *= -1;
-    }
-
+    // Private
     seekPoint(point, force, speed) {
         let direction = new Phaser.Point(point.x, point.y);
         direction.subtract(this.x, this.y);
@@ -43,6 +56,12 @@ class ControlledNPC extends Phaser.Sprite {
         this.velocity.setMagnitude(speed);
         this.body.velocity.x = this.velocity.x;
         this.body.velocity.y = this.velocity.y;
+    }
+
+    flee(sprite, force, speed) {
+        this.seek(sprite, force, speed);
+        this.body.velocity.x *= -1;
+        this.body.velocity.y *= -1;
     }
 
     wander(force, speed, predator, fleeDistance) {

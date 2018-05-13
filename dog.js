@@ -16,7 +16,7 @@ class Dog extends Phaser.Sprite {
         this.scale.y = this.scaling;
         this.anchor.setTo(0.5, 0.5);
 
-        game.physics.p2.enable(this, true);
+        game.physics.p2.enable(this);
         this.body.fixedRotation = true;
 
         game.add.existing(this);

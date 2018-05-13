@@ -10,14 +10,19 @@ class Cat extends ControlledNPC {
 
         this.scale.x = this.scaleFactor;
         this.scale.y = this.scaleFactor;
-        this.anchor.setTo(0.5, 0.5);
 
-        game.physics.p2.enable(this, true);
-        this.body.fixedRotation = true;
         this.inputEnabled = true;
+
+        this.emote = game.add.sprite(this.body.x, this.body.y, '');
+        this.emote.anchor.setTo(0.5);
+        this.emotePlaying = false;
+        this.events.onInputDown.add(this.onInputDown, this);
     }
 
     customUpdate() {
+        this.emote.x = this.body.x;
+        this.emote.y = this.body.y - 32;
+
         if (this.velocity.x < 0) {
             if (!this.isWalking) {
                 this.loadSideTexture();
@@ -72,5 +77,34 @@ class Cat extends ControlledNPC {
     loadSideTexture() {
         this.loadTexture('cat_side', 0);
         this.animations.add('cat_side_walk');
+    }
+
+    onInputDown() {
+        if (!this.emotePlaying) {
+            this.emote.visible = this.emotePlaying = true;
+            this.emote.loadTexture('emoticons', 0);
+            let emotes = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [12, 13, 14],
+                [15, 16, 17],
+                [24, 25, 26],
+                [27, 28, 29],
+                [36, 37, 38],
+                [63, 64, 65]
+            ];
+            let i = game.rnd.integerInRange(0, emotes.length)
+            this.emote.animations.add('emote', emotes[i], true);
+            this.emote.animations.play('emote', 2, true);
+
+            setTimeout(() => {
+                this.emote.animations.add('end', [72, 73, 74, 75, 76, 77], true);
+                this.emote.animations.currentAnim.onComplete.add(() => {
+                    this.emote.animations.stop(null, true);
+                    this.emote.visible = this.emotePlaying = false;
+                });
+                this.emote.animations.play('end', 20);
+            }, 3000);
+        }
     }
 }

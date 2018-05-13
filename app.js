@@ -14,6 +14,8 @@ var game = new Phaser.Game({
     render: render
 });
 
+var slickUI;
+
 function preload() {
     game.load.audio('bg', './assets/music/harbor.mp3');
 
@@ -44,40 +46,19 @@ function preload() {
     game.load.image('3', './assets/tilesets/3.png');
     game.load.image('7', './assets/tilesets/7.png');
     game.load.image('8', './assets/tilesets/8.png');
+
+    slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
+    slickUI.load('./assets/ui/kenney-theme/kenney.json');
+    game.plugins.add(Phaser.Plugin.AdvancedTiming);
 }
 
 var dog;
 var cat;
-var catEmote;
-var catEmotePlaying = false;
-var spriteGroup;
 var map;
-var bg;
-var mt = new MobileTester();
 
-let isMuted = true;
-
-function createMap() {
-    map = new Multimap(game);
-    map.addTilemap('Grass(NC)', 16, 16, '1', true);
-    map.addTilemap('Dirt Areas(NC)', 16, 16, '1', true);
-    map.addTilemap('Dirt Grass Cover (NC)', 16, 16, '1', true);
-    map.addTilemap('Lake(C)', 16, 16, '1', true);
-    map.addTilemap('Cliffs(C)', 16, 16, '7', true);
-    map.addTilemap('Detail Under(NC)', 16, 16, '3', true);
-    map.addTilemap('Detail(NC)', 16, 16, '3', true);
-    map.addTilemap('Detail Over(NC)', 16, 16, '3', true);
-    map.addTilemap('Cystal Hideen(NC)', 16, 16, '8', true);
-
-    map.addCollisionMap('bounds');
-    map.addCollisionMapLayer('Lake Bounds', 'Cliff Bounds');
-}
+var panel;
 
 function create() {
-    // debug only
-    game.sound.mute = isMuted;
-
-    game.plugins.add(Phaser.Plugin.AdvancedTiming);
     game.scale.forceOrientation(true, false);
     game.scale.pageAlignVertically = true;
     game.scale.pageAlignHorizontally = true;
@@ -85,7 +66,7 @@ function create() {
 
     game.physics.startSystem(Phaser.Physics.P2JS);
 
-    // bg = game.add.audio('bg');
+    // let bg = game.add.audio('bg');
     // bg.play();
 
     createMap();
@@ -93,36 +74,27 @@ function create() {
     let buttonSize = 35;
     let offset = 5;
 
-    let pauseButton = new GUIButton(game, APP_WIDTH - buttonSize - offset, offset, 'button_ui', function () {
-        game.paused = true;
+    let pauseButton = new GUIButton(game, APP_WIDTH - (buttonSize * 1) - (offset * 1), offset, 'button_ui', function () {
+        setTimeout(function () {
+            game.paused = true;
+        }, 500);
     }, game, 113, 113, 113, 113);
 
-    let muteButton = new GUIButton(game, APP_WIDTH - (buttonSize * 2) - (offset * 2), offset, 'button_ui', function() {
-        isMuted = !isMuted;
-        if (!isMuted) {
+    let muteButton = new GUIButton(game, APP_WIDTH - (buttonSize * 2) - (offset * 2), offset, 'button_ui', function () {
+        game.sound.mute = !game.sound.mute;
+        if (!game.sound.mute) {
             muteButton.setFrames(120, 120, 120, 120);
-            game.sound.mute = isMuted;
         } else {
             muteButton.setFrames(121, 121, 121, 121);
-            game.sound.mute = isMuted;
         }
     }, game, 120, 120, 120, 120);
 
     game.input.onDown.add(function () {
         if (game.paused) {
             game.paused = false;
+            // panel.destroy();
         }
     }, self);
-
-    var style = {
-        font: "60px Arial",
-        fill: "#ffffff",
-        align: "center",
-    };
-    var text = game.add.text(game.world.centerX, game.world.centerY, "Test Text", style);
-    text.anchor.set(0.5);
-
-    spriteGroup = game.add.group();
 
     dog = new Dog(game, game.world.centerX, game.world.centerY);
 
@@ -134,74 +106,24 @@ function create() {
 
     cat = new Cat(game, game.world.centerX - 200, game.world.centerY);
 
-    cat.events.onInputDown.add(function () {
-        if (!catEmotePlaying) {
-            catEmote.visible = catEmotePlaying = true;
-            catEmote.loadTexture('emoticons', 0);
-            let emotes = [
-                [0, 1, 2],
-                [3, 4, 5],
-                [12, 13, 14],
-                [15, 16, 17],
-                [24, 25, 26],
-                [27, 28, 29],
-                [36, 37, 38],
-                [63, 64, 65]
-            ];
-            let emoteIndex = game.rnd.integerInRange(0, emotes.length - 1);
-            catEmote.animations.add('emote', emotes[emoteIndex], true);
-            catEmote.animations.play('emote', 2, true);
-            setTimeout(function () {
-                catEmote.animations.add('end', [72, 73, 74, 75, 76, 77], true);
-                catEmote.animations.currentAnim.onComplete.add(function () {
-                    catEmote.animations.stop(null, true);
-                    catEmote.visible = catEmotePlaying = false;
-                }, this);
-                catEmote.animations.play('end', 20);
-            }, 3000);
-        }
-    }, this);
-
-    catEmote = game.add.sprite(cat.body.x, cat.body.y, '');
-    catEmote.anchor.setTo(0.5);
-    catEmote.y = cat.body.y - 32;
-
-    spriteGroup.add(dog);
-    spriteGroup.add(cat);
-
     game.world.setBounds(0, 0, 16 * 200, 16 * 200);
     game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
     cursors = game.input.keyboard.createCursorKeys();
     game.camera.follow(dog, Phaser.Camera.FOLLOW_LOCKON, 0.08, 0.08);
+
+    createPauseMenu();
 }
 
 function update() {
     dog.body.setZeroVelocity();
-    catEmote.y = cat.body.y - 32;
-    catEmote.x = cat.body.x;
 
     cursorsUpdate();
 
-    let a = new Phaser.Point(dog.x, dog.y);
-    let b = new Phaser.Point(cat.x, cat.y);
-    if (a.distance(b) > 250 && a.distance(b) < 400) {
-        cat.seek(dog, 50, 250);
-    } else if (a.distance(b) > 400) {
-        cat.teleportTo(dog);
-    } else {
-        cat.body.setZeroVelocity();
-        cat.velocity.x = 0;
-        cat.velocity.y = 0;
-    }
-
-    spriteGroup.sort('y', Phaser.Group.SORT_ASCENDING);
+    cat.seek(dog, 50, 250, 150, 300);
 }
 
-function render() {
-    game.debug.spriteInfo(dog, 32, 32);
-    game.debug.gameInfo(32, 150);
-}
+function render() {}
 
 function cursorsUpdate() {
     if (cursors.up.isDown) {
@@ -235,6 +157,40 @@ function cursorsUpdate() {
 
 function handleIncorrect() {
     alert("wrong orientation");
+}
+
+function createMap() {
+    map = new Multimap(game);
+    map.addTilemap('Grass(NC)', 16, 16, '1', true);
+    map.addTilemap('Dirt Areas(NC)', 16, 16, '1', true);
+    map.addTilemap('Dirt Grass Cover (NC)', 16, 16, '1', true);
+    map.addTilemap('Lake(C)', 16, 16, '1', true);
+    map.addTilemap('Cliffs(C)', 16, 16, '7', true);
+    map.addTilemap('Detail Under(NC)', 16, 16, '3', true);
+    map.addTilemap('Detail(NC)', 16, 16, '3', true);
+    map.addTilemap('Detail Over(NC)', 16, 16, '3', true);
+    map.addTilemap('Cystal Hideen(NC)', 16, 16, '8', true);
+
+    map.addCollisionMap('bounds');
+    map.addCollisionMapLayer('Lake Bounds', 'Cliff Bounds');
+}
+
+function createPauseMenu() {
+    var resume, restart;
+    slickUI.add(panel = new SlickUI.Element.Panel(game.width / 2 - 150, game.height / 2 - 150, 300, 250)); 
+    panel.add(new SlickUI.Element.Text(0, 5, 'Paused')).centerHorizontally();
+    panel.add(resume = new SlickUI.Element.Button(5, 235 - 50, 280, 50));
+    resume.inputEnabled = true;
+    resume.events.onInputDown.add(function () {
+        console.log("paused");
+    });
+    resume.add(new SlickUI.Element.Text(0, 0, 'Resume')).center();
+    panel.add(restart = new SlickUI.Element.Button(5, 230 - 50 - 50, 280, 50));
+    restart.inputEnabled = true;
+    restart.events.onInputDown.add(function () {
+        console.log("restart");
+    });
+    restart.add(new SlickUI.Element.Text(0, 0, 'Restart')).center();
 }
 
 window.addEventListener('resize', function (event) {
