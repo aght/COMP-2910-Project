@@ -8,10 +8,6 @@ var game = new Phaser.Game({
     antialias: false,
     state: this,
     scaleMode: Phaser.ScaleManager.SHOW_ALL,
-    preload: preload,
-    create: create,
-    update: update,
-    render: render
 });
 
 var slickUI;
@@ -69,6 +65,7 @@ function create() {
     game.physics.startSystem(Phaser.Physics.P2JS);
 
     // let bg = game.add.audio('bg');
+    // bg.loop = true;
     // bg.play();
 
     createMap();
@@ -136,7 +133,9 @@ function update() {
     cat.seek(dog, 50, 250, 150, 300);
 }
 
-function render() {}
+// function render() {
+//     game.debug.cameraInfo(game.camera, 32, 32);
+// }
 
 function cursorsUpdate() {
     if (cursors.up.isDown) {
@@ -199,21 +198,14 @@ function createPauseMenu() {
 
     slickUI.add(panel = new SlickUI.Element.Panel(menuX, menuY, menuWidth, menuHeight));
     panel.add(new SlickUI.Element.Text(0, 5, 'Paused', 14)).centerHorizontally();
+
     panel.add(resume = new SlickUI.Element.Button(10, 230, 370, buttonHeight));
-    resume.inputEnabled = true;
-    resume.events.onInputDown.add(function () {
-        // game.paused = false;
-        // panel.destroy();
-    });
     resume.add(new SlickUI.Element.Text(0, 0, 'Resume')).center();
+
     panel.add(restart = new SlickUI.Element.Button(10, 168, 370, buttonHeight));
-    restart.inputEnabled = true;
-    restart.events.onInputDown.add(function () {
-        console.log("restart");
-    });
     restart.add(new SlickUI.Element.Text(0, 0, 'Restart')).center();
 
-    var logo;
+    let logo;
     panel.add(new SlickUI.Element.Text(0, 65, 'Water Fight', 40)).centerHorizontally();
 }
 
