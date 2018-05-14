@@ -1,9 +1,12 @@
 var play = {
+    preload: function () {
+        this.slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
+        this.slickUI.load('./assets/ui/kenney-theme/kenney.json');
+    },
+
     create: function () {
         this.map = new Multimap(game);
-        this.slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
-        this.slickUI.load('../assets/ui/kenney-theme/kenney.json');
-
+    
         this.createMap();
 
         this.dog = new Dog(game, game.world.centerX, game.world.centerY);
