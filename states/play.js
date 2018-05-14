@@ -2,7 +2,7 @@ var play = {
     create: function () {
         this.map = new Multimap(game);
         this.slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
-        this.slickUI.load('./assets/ui/kenney-theme/kenney.json');
+        this.slickUI.load('../assets/ui/kenney-theme/kenney.json');
 
         this.createMap();
 
