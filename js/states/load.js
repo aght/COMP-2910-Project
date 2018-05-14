@@ -29,6 +29,10 @@ var load = {
         game.load.image('3', './assets/tilesets/3.png');
         game.load.image('7', './assets/tilesets/7.png');
         game.load.image('8', './assets/tilesets/8.png');
+        game.load.image('vjoy_base', './assets/joystick/base.png');
+        game.load.image('vjoy_body', './assets/joystick/body.png');
+        game.load.image('vjoy_cap', './assets/joystick/cap.png');
+        game.load.image('vjoy_empty', './assets/joystick/empty.png');
 
         game.load.image('pause', './assets/ui/pause.png');
         game.plugins.add(Phaser.Plugin.AdvancedTiming);

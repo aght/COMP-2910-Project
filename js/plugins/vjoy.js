@@ -15,9 +15,9 @@
     this.input = this.game.input;
     this.imageGroup = [];
 
-    this.imageGroup.push(this.game.add.sprite(0, 0, 'vjoy_cap'));
     this.imageGroup.push(this.game.add.sprite(0, 0, 'vjoy_body'));
-    this.imageGroup.push(this.game.add.sprite(0, 0, 'vjoy_body'));
+    this.imageGroup.push(this.game.add.sprite(0, 0, 'vjoy_empty'));
+    this.imageGroup.push(this.game.add.sprite(0, 0, 'vjoy_empty'));
     this.imageGroup.push(this.game.add.sprite(0, 0, 'vjoy_base'));
 
     this.imageGroup.forEach(function (e) {
@@ -31,7 +31,7 @@
   Phaser.Plugin.VJoy.prototype.constructor = Phaser.Plugin.VJoy;
 
   Phaser.Plugin.VJoy.prototype.settings = {
-    maxDistanceInPixels: 200,
+    maxDistanceInPixels: 50,
     singleDirection: false
   };
 
@@ -55,6 +55,7 @@
     y2 = y2 || this.game.height;
     this.zone = new Phaser.Rectangle(x1, y1, x2, y2);
     this.input.onDown.add(createCompass, this);
+    this.input.onUp.add(removeCompass, this);
   };
 
   Phaser.Plugin.VJoy.prototype.inputDisable = function () {
@@ -94,6 +95,15 @@
       e.visible = false;
     });
 
+    // for (let i = 0; i < this.imageGroup.length; i++) {
+    //   if (i === 0) {
+    //     continue;
+    //   } else {
+    //     let e = this.imageGroup[i];
+    //     e.visible = false;
+    //   }
+    // }
+
     this.cursors.up = false;
     this.cursors.down = false;
     this.cursors.left = false;
@@ -106,8 +116,7 @@
     this.pointer = null;
   };
 
-  var empty = function () {
-  };
+  var empty = function () {};
 
   var setDirection = function () {
     if (!this.isInTheZone(this.pointer)) {

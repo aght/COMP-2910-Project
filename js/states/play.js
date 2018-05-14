@@ -5,6 +5,9 @@ var play = {
     },
 
     create: function () {
+        game.vjoy = game.plugins.add(Phaser.Plugin.VJoy);
+        game.vjoy.inputEnable(0, 300, 600, 300);
+
         this.map = new Multimap(game);
     
         this.createMap();
@@ -31,6 +34,7 @@ var play = {
     update: function () {
         this.dog.body.setZeroVelocity();
         this.updateKeys();
+        this.updateJoystick();
         this.cat.seek(this.dog, 50, 250, 150, 300);
     },
 
@@ -137,6 +141,22 @@ var play = {
     
         if (this.dog.isWalking === false && !this.dog.isIdle) {
             this.dog.playIdleAnimation();
+        }
+    },
+
+    updateJoystick: function () {
+        this.joystickCursors = game.vjoy.cursors;
+        if (this.joystickCursors.left) {
+            this.dog.moveLeft();
+            this.dog.playWalkAnimation();
+        } else if (this.joystickCursors.right) {
+            this.dog.moveRight();
+        }
+
+        if (this.joystickCursors.up) {
+            this.dog.moveUp();
+        } else if(this.joystickCursors.down) {
+            this.dog.moveDown();
         }
     }
 }
