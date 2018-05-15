@@ -23,12 +23,21 @@ var play = {
 
         this.createButtons();
         game.input.onDown.add(this.pauseMenuEvents, self);
+
+        this.countdown = new CountdownTimer(100, 100, '0:05', 32);
+        this.countdown.flashOnComplete = true;
+        this.slickUI.add(this.countdown.text);
+        this.countdown.start();
         
         game.world.setBounds(0, 0, 16 * 200, 16 * 200);
         game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
         this.keys = game.input.keyboard.createCursorKeys();
         game.camera.follow(this.dog, Phaser.Camera.FOLLOW_LOCKON, 0.08, 0.08);
+
+        this.isRunning = false;
+        this.seconds = 0;
+        this.minutes = 0;
     },
 
     update: function () {
