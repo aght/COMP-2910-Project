@@ -39,13 +39,14 @@ class CountdownTimer {
             if (this.minutes === 0 && this.seconds === 0) {
                 clearInterval(this.interval);
 
+                if (this._callback) {
+                    this._callback();
+                }
+                
                 if (this.flashOnComplete) {
                     this._flash();
                 }
 
-                if (this._callback) {
-                    this._callback();
-                }
             }
         }, 1000);
     }

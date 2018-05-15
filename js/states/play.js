@@ -26,6 +26,9 @@ var play = {
 
         this.countdown = new CountdownTimer(100, 100, '0:05', 32);
         this.countdown.flashOnComplete = true;
+        this.countdown.onComplete(() => {
+            game.state.start('lose');
+        });
         this.slickUI.add(this.countdown.text);
         this.countdown.start();
         
