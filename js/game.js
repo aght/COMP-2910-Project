@@ -16,5 +16,6 @@ game.state.add('load', load);
 game.state.add('menu', menu);
 game.state.add('play', play);
 game.state.add('lose', lose);
+game.state.add('restarting', restarting);
 
 game.state.start('boot');

@@ -24,7 +24,7 @@ var play = {
         this.createButtons();
         game.input.onDown.add(this.pauseMenuEvents, self);
 
-        this.countdown = new CountdownTimer(100, 100, '0:05', 32);
+        this.countdown = new CountdownTimer(100, 100, '3:00', 32);
         this.countdown.flashOnComplete = true;
         this.countdown.onComplete(() => {
             game.state.start('lose');
@@ -119,11 +119,14 @@ var play = {
                         pausePanel.destroy();
                     }
                 }, 100);
-            } else {
-                console.log('missed');
+            } else if (e.x > pausePanel.x + 10 && e.x < pausePanel.x + pausePanel.width - 10 &&
+                        e.y > pausePanel.y + 168 && e.y < pausePanel.y + 168 + 50) {
+                game.paused = false;
+                setTimeout(() => {
+                    game.state.start('restarting');
+                }, 100)          
             }
         }
-        console.log(pausePanel);
     },
 
     updateKeys: function () {

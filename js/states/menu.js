@@ -2,6 +2,7 @@ var menu = {
     preload: function () {
         this.slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
         this.slickUI.load('./assets/ui/kenney-theme/kenney.json');
+        game.stage.backgroundColor = '#000000';
     },
 
     create: function() {
