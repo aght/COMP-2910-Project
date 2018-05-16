@@ -121,6 +121,7 @@ var play = {
                 }, 100);
             } else if (e.x > pausePanel.x + 10 && e.x < pausePanel.x + pausePanel.width - 10 &&
                         e.y > pausePanel.y + 168 && e.y < pausePanel.y + 168 + 50) {
+                restart.sprite.loadTexture(restart.spriteOn.texture);            
                 game.paused = false;
                 setTimeout(() => {
                     game.state.start('restarting');

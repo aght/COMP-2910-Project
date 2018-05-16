@@ -10,6 +10,7 @@ var game = new Phaser.Game({
 });
 
 var pausePanel, resume, restart;
+var mobileTester = new MobileTester();
 
 game.state.add('boot', boot);
 game.state.add('load', load);
