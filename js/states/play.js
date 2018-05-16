@@ -129,6 +129,10 @@ var play = {
         }
     },
 
+    createQuestionBoard: function () {
+
+    },
+
     updateKeys: function () {
         if (this.keys.up.isDown) {
             this.dog.moveUp();
