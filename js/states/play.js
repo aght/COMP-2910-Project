@@ -2,6 +2,8 @@ var play = {
     preload: function () {
         this.slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
         this.slickUI.load('./assets/ui/kenney-theme/kenney.json');
+
+        this.questions = this.loadQuestions();
     },
 
     create: function () {
@@ -131,45 +133,73 @@ var play = {
         }
     },
 
-
-
-    createQuestionBoard: function () {
+    loadQuestions: function () {
         let data = game.cache.getJSON('questions');
-        let questions = $.map(data, function (question) {
-            return question;
+        let questions = $.map(data, function (e) {
+            return e;
         });
 
-        for (let q of questions) {
-            console.log(q);
-        }
+        return questions;
+    },
 
-        let i = game.rnd.integerInRange(0, 1);
+    pickRandomQuestion: function (questions) {
+        return questions[game.rnd.integerInRange(0, questions.length - 1)];
+    },
+
+    createQuestionBoard: function () {
+        let q = this.pickRandomQuestion(this.questions);
+        let a = q.answer;
+        console.log(a);
 
         let offset = 50;
         let questionBoard;
         this.slickUI.add(questionBoard = new SlickUI.Element.Panel(offset, offset, game.width - offset * 2, game.height - offset * 2));
         questionBoard.add(new SlickUI.Element.Text(0, 10, 'Question', 30)).centerHorizontally();
-        questionBoard.add(new SlickUI.Element.Text(offset, 100, questions[i].question, 24));
+        questionBoard.add(new SlickUI.Element.Text(offset, 100, q.question, 24));
 
         questionBoard.add(this.choiceA = new SlickUI.Element.Button(offset, 250, questionBoard.width - 2 * offset, 50));
         questionBoard.add(this.choiceB = new SlickUI.Element.Button(offset, 310, questionBoard.width - 2 * offset, 50));
         questionBoard.add(this.choiceC = new SlickUI.Element.Button(offset, 370, questionBoard.width - 2 * offset, 50));
-        this.choiceA.add(this.textA = new SlickUI.Element.Text(0, 0, questions[i].choices.a)).center();
-        this.choiceB.add(this.textB = new SlickUI.Element.Text(0, 0, questions[i].choices.b)).center();
-        this.choiceC.add(this.textC = new SlickUI.Element.Text(0, 0, questions[i].choices.c)).center();
+        
+        this.choiceA.add(this.textA = new SlickUI.Element.Text(0, 0, q.choices.a)).center();
+        this.choiceB.add(this.textB = new SlickUI.Element.Text(0, 0, q.choices.b)).center();
+        this.choiceC.add(this.textC = new SlickUI.Element.Text(0, 0, q.choices.c)).center();
+
+        this.choiceA.events.onInputDown.add(() => {
+            this.createResultBoard(this.validateAnswer('a', a));
+            questionBoard.destroy();
+        });
+        this.choiceB.events.onInputDown.add(() => {
+            this.createResultBoard(this.validateAnswer('b', a));
+            questionBoard.destroy();
+        });
+        this.choiceC.events.onInputDown.add(() => {
+            this.createResultBoard(this.validateAnswer('c', a));
+            questionBoard.destroy();
+        });
 
         questionBoard.add(this.closeButton = new SlickUI.Element.Button(10, 10, 30, 30));
         this.closeButton.add(new SlickUI.Element.Text(0, 0, 'X')).center();
         this.closeButton.events.onInputDown.add(() => {
             questionBoard.destroy();
-            // this.createResultBoard();
         });
     },
 
-    createResultBoard: function () {
+    createResultBoard: function (result) {
         let offset = 100;
         let resultBoard;
-        // this.slickUI.add(resultBoard = new SlickUI.Element.Panel();
+        this.slickUI.add(resultBoard = new SlickUI.Element.Panel(game.width / 2 - 150, game.height / 2 - 150, 300, 300));
+        resultBoard.add(new SlickUI.Element.Text(0, 50, result === true ? 'Correct!' : 'Wrong!', 32)).centerHorizontally();
+        let close;
+        resultBoard.add(close = new SlickUI.Element.Button(10, 230, 270, 50));
+        close.add(new SlickUI.Element.Text(0, 0, 'Close')).center();
+        close.events.onInputDown.add(() => {
+            resultBoard.destroy();
+        });
+    },
+
+    validateAnswer: function (answer, qAnswer) {
+        return answer === qAnswer;
     },
 
     updateKeys: function () {
