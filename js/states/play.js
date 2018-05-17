@@ -2,7 +2,6 @@ var play = {
     preload: function () {
         this.slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
         this.slickUI.load('./assets/ui/kenney-theme/kenney.json');
-
         this.questions = this.loadQuestions();
     },
 
@@ -11,8 +10,8 @@ var play = {
 
         this.createMap();
 
-        this.dog = new Dog(game, game.world.centerX, game.world.centerY);
-        this.cat = new Cat(game, game.world.centerX - 200, game.world.centerY);
+        this.dog = new Dog(game, 2600, 200);
+        this.woodcutter = new QuestionNPC(game, this.dog.body.x + 200, this.dog.body.y, 'woodcutter', this.questions);
 
         let pr = new PhysicsResize(game);
         pr.resizePolygon('dog_physics_right', 'dog_physics_right_scaled', 'Right', this.dog.scaling);
@@ -20,9 +19,8 @@ var play = {
         this.dog.body.clearShapes();
         this.dog.body.loadPolygon('dog_physics_right_scaled', 'Right');
         this.dog.inputEnabled = true;
-        this.dog.events.onInputDown.add(() => {
+        this.woodcutter.events.onInputDown.add(() => {
             this.createQuestionBoard();
-            // console.log('hi')
         })
 
         this.createButtons();
@@ -36,39 +34,65 @@ var play = {
         this.slickUI.add(this.countdown.text);
         this.countdown.start();
 
-        game.world.setBounds(0, 0, 16 * 200, 16 * 200);
+        game.world.setBounds(0, 0, 16 * 305, 16 * 244);
         game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
         this.keys = game.input.keyboard.createCursorKeys();
         game.camera.follow(this.dog, Phaser.Camera.FOLLOW_LOCKON, 0.08, 0.08);
 
-        this.isRunning = false;
-        this.seconds = 0;
-        this.minutes = 0;
+        this.spawn = game.add.sprite(2702, 350, 'spawn');
+        game.physics.p2.enable(this.spawn, true);
+        this.spawn.body.kinematic = true;
+        this.spawn.inputEnabled = true;
+        this.spawn.events.onInputDown.add(() => {
+            this.cat = new Cat(game, 0, 0);
+        });
 
+        // this.pad = this.game.plugins.add(Phaser.VirtualJoystick);
+        // this.stick = this.pad.addStick(150, 450, 90, 'arcade');
     },
 
     update: function () {
+        this.spawn.body.setZeroVelocity();
         this.dog.body.setZeroVelocity();
         this.updateKeys();
-        // this.cat.seek(this.dog, 50, 250, 150, 300);
-        this.cat.wanderRadius = 200;
-        this.cat.wander(50, 60);
+        // this.updateJoystick();
+        if (this.cat) {
+            this.cat.seek(this.dog, 50, 250, 150, 300);
+        }
+        this.woodcutter.wanderRadius = 200;
+        this.woodcutter.wander(50, 60);
     },
 
     createMap: function () {
-        this.map.addTilemap('Grass(NC)', 16, 16, '1', true);
-        this.map.addTilemap('Dirt Areas(NC)', 16, 16, '1', true);
-        this.map.addTilemap('Dirt Grass Cover (NC)', 16, 16, '1', true);
-        this.map.addTilemap('Lake(C)', 16, 16, '1', true);
-        this.map.addTilemap('Cliffs(C)', 16, 16, '7', true);
-        this.map.addTilemap('Detail Under(NC)', 16, 16, '3', true);
-        this.map.addTilemap('Detail(NC)', 16, 16, '3', true);
-        this.map.addTilemap('Detail Over(NC)', 16, 16, '3', true);
-        this.map.addTilemap('Cystal Hideen(NC)', 16, 16, '8', true);
+        this.map.addTilemap('1', 16, 16, 'New1', true);
+        this.map.addTilemap('2', 16, 16, 'New1', true);
+        this.map.addTilemap('3', 16, 16, 'New1', true);
+        this.map.addTilemap('4', 16, 16, 'Lion', true);
+        this.map.addTilemap('5', 16, 16, 'Palace', true);
+        this.map.addTilemap('6', 16, 16, 'Palace', true);
+        this.map.addTilemap('7', 16, 16, 'House', true);
+        this.map.addTilemap('8', 16, 16, 'House', true);
+        this.map.addTilemap('9', 16, 16, 'New1', true);
+        this.map.addTilemap('10', 16, 16, 'New1', true);
+        this.map.addTilemap('11', 16, 16, 'New1', true);
+        this.map.addTilemap('12', 16, 16, 'GrassHill', true);
+        this.map.addTilemap('13', 16, 16, 'GrassHill', true);
+        this.map.addTilemap('14', 16, 16, 'TallGrass', true);
+        this.map.addTilemap('15', 16, 16, 'TallGrass', true);
+        this.map.addTilemap('16', 16, 16, 'TallGrass', true);
+        this.map.addTilemap('17', 16, 16, 'StoneHill', true);
+        this.map.addTilemap('18', 16, 16, 'New1', true);
+        this.map.addTilemap('19', 16, 16, 'BushTrees', true);
+        this.map.addTilemap('20', 16, 16, 'Lion', true);
+        this.map.addTilemap('21', 16, 16, 'House', true);
+        this.map.addTilemap('22', 16, 16, 'People', true);
+        this.map.addTilemap('23', 16, 16, 'BushTrees', true);
+        this.map.addTilemap('24', 16, 16, 'Boat', true);
+        this.map.addTilemap('25', 16, 16, 'Diamond', true);
 
-        this.map.addCollisionMap('bounds');
-        this.map.addCollisionMapLayer('Lake Bounds', 'Cliff Bounds');
+        this.map.addCollisionMap('collision');
+        this.map.addCollisionMapLayer('Collission');
     },
 
     createPauseMenu: function () {
@@ -154,35 +178,35 @@ var play = {
         let a = q.answer;
 
         let offset = 50;
-        let questionBoard;
+        let questionBoard, textA, textB, textC, choiceA, choiceB, choiceC, closeButton;
         this.slickUI.add(questionBoard = new SlickUI.Element.Panel(offset, offset, game.width - offset * 2, game.height - offset * 2));
         questionBoard.add(new SlickUI.Element.Text(0, 10, 'Question', 30)).centerHorizontally();
         questionBoard.add(new SlickUI.Element.Text(offset, 100, q.question, 24));
 
-        questionBoard.add(this.choiceA = new SlickUI.Element.Button(offset, 250, questionBoard.width - 2 * offset, 50));
-        questionBoard.add(this.choiceB = new SlickUI.Element.Button(offset, 310, questionBoard.width - 2 * offset, 50));
-        questionBoard.add(this.choiceC = new SlickUI.Element.Button(offset, 370, questionBoard.width - 2 * offset, 50));
+        questionBoard.add(choiceA = new SlickUI.Element.Button(offset, 250, questionBoard.width - 2 * offset, 50));
+        questionBoard.add(choiceB = new SlickUI.Element.Button(offset, 310, questionBoard.width - 2 * offset, 50));
+        questionBoard.add(choiceC = new SlickUI.Element.Button(offset, 370, questionBoard.width - 2 * offset, 50));
 
-        this.choiceA.add(this.textA = new SlickUI.Element.Text(0, 0, q.choices.a)).center();
-        this.choiceB.add(this.textB = new SlickUI.Element.Text(0, 0, q.choices.b)).center();
-        this.choiceC.add(this.textC = new SlickUI.Element.Text(0, 0, q.choices.c)).center();
+        choiceA.add(textA = new SlickUI.Element.Text(0, 0, q.choices.a)).center();
+        choiceB.add(textB = new SlickUI.Element.Text(0, 0, q.choices.b)).center();
+        choiceC.add(textC = new SlickUI.Element.Text(0, 0, q.choices.c)).center();
 
-        this.choiceA.events.onInputDown.add(() => {
+        choiceA.events.onInputDown.add(() => {
             this.createResultBoard(this.validateAnswer('a', a));
             questionBoard.destroy();
         });
-        this.choiceB.events.onInputDown.add(() => {
+        choiceB.events.onInputDown.add(() => {
             this.createResultBoard(this.validateAnswer('b', a));
             questionBoard.destroy();
         });
-        this.choiceC.events.onInputDown.add(() => {
+        choiceC.events.onInputDown.add(() => {
             this.createResultBoard(this.validateAnswer('c', a));
             questionBoard.destroy();
         });
 
-        questionBoard.add(this.closeButton = new SlickUI.Element.Button(10, 10, 30, 30));
-        this.closeButton.add(new SlickUI.Element.Text(0, 0, 'X')).center();
-        this.closeButton.events.onInputDown.add(() => {
+        questionBoard.add(closeButton = new SlickUI.Element.Button(10, 10, 30, 30));
+        closeButton.add(new SlickUI.Element.Text(0, 0, 'X')).center();
+        closeButton.events.onInputDown.add(() => {
             questionBoard.destroy();
         });
     },
@@ -233,6 +257,32 @@ var play = {
 
         if (this.dog.isWalking === false && !this.dog.isIdle) {
             this.dog.playIdleAnimation();
+        }
+    },
+
+    velocityFromRotation: function (rotation, speed, vec2) {
+        if (speed === undefined) {
+            speed = 60;
+        }
+        if (vec2 === undefined) {
+            vec2 = new Vector2(0, 0);
+        }
+
+        return vec2.setToPolar(rotation, speed);
+    },
+
+    updateJoystick: function () {
+        var maxSpeed = 400;
+
+        let vel = this.velocityFromRotation(this.stick.rotation, this.stick.force * maxSpeed, new Vector2(this.dog.body.velocity.x, this.dog.body.velocity.y));
+        this.dog.body.velocity.x = vel.x;
+        this.dog.body.velocity.y = vel.y;
+
+        if (this.stick.quadrant === 2 || this.stick.quadrant === 3) {
+            this.dog.scale.x = -this.dog.scaling;
+
+        } else if (this.stick.quadrant === 0 || this.stick.quadrant === 1) {
+            this.dog.scale.x = this.dog.scaling;
         }
     }
 }

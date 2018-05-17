@@ -24,6 +24,7 @@ class Dog extends Phaser.Sprite {
 
     update() {
         this.isWalking = false;
+        // console.log(this.y);
     }
 
     moveLeft() {

@@ -65,7 +65,7 @@ class ControlledNPC extends Phaser.Sprite {
         this.body.velocity.y *= -1;
     }
 
-    wander(force, speed, predator, fleeDistance) {
+    wander(force, speed) {
         if (this.isFirstTimeWandering) {
             this.generateNewTarget();
             this.isFirstTimeWandering = false;
@@ -75,11 +75,6 @@ class ControlledNPC extends Phaser.Sprite {
             let loc = new Phaser.Point(this.x, this.y);
             if (loc.distance(this.target) < 10) {
                 this.generateNewTarget();
-                if (predator) {
-                    while (this.target.distance(new Phaser.Point(predator.x, predator.y) < fleeDistance)) {
-                        this.generateNewTarget();
-                    }
-                }
             }
         }
     }

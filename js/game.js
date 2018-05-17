@@ -9,6 +9,8 @@ var game = new Phaser.Game({
     scaleMode: Phaser.ScaleManager.SHOW_ALL,
 });
 
+var questions;
+var usedIndices = [];
 var pausePanel, resume, restart;
 var mobileTester = new MobileTester();
 

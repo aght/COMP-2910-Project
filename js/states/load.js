@@ -2,7 +2,10 @@ var load = {
     preload: function () {
         game.load.json('questions', './data/questions.json');
 
-        game.load.audio('bg', './assets/music/harbor.mp3');
+        game.load.script('joystick', './js/plugins/phaser-virtual-joystick.js');
+        game.load.atlas('arcade', './assets/joystick/generic-joystick.png', './assets/joystick/generic-joystick.json');
+
+        game.load.audio('bgm', './assets/music/bgm.mp3');
 
         game.load.spritesheet('dog_walk', './assets/spritesheets/Dog Walk.png', 547, 481, 10);
         game.load.spritesheet('dog_idle', './assets/spritesheets/Dog Idle.png', 547, 481, 10);
@@ -13,37 +16,72 @@ var load = {
         game.load.spritesheet('blacksmith', './assets/spritesheets/blacksmith-001.png', 48, 64, 12);
         game.load.spritesheet('goldsmith', './assets/spritesheets/goldsmith-001.png', 48, 64, 12);
         game.load.spritesheet('woodcutter', './assets/spritesheets/woodcutter-001.png', 48, 64, 12);
+        game.load.spritesheet('spawn', './assets/spritesheets/Spawn Tile.png', 32, 64, 1);
 
         game.load.physics('dog_physics_right', './assets/physics/dog_physics.json');
         game.load.physics('dog_physics_left', './assets/physics/dog_physics.json');
 
-        game.load.tilemap('lake_bounds', './assets/tilemaps/lake_bounds.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('spawn', './assets/tilemaps/spawn.json', null, Phaser.Tilemap.JSON);
         game.load.tilemap('bounds', './assets/tilemaps/bounds.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('collision', './assets/tilemaps/collision.json', null, Phaser.Tilemap.TILED_JSON);
 
-        game.load.tilemap('Cliffs(C)', './assets/tilemaps/map_Cliffs(C) - 7.csv', null, Phaser.Tilemap.CSV);
-        game.load.tilemap('Cystal Hideen(NC)', './assets/tilemaps/map_Crystal Hidden(NC) - 8.csv', null, Phaser.Tilemap.CSV);
-        game.load.tilemap('Detail Over(NC)', './assets/tilemaps/map_Detail Over(NC) - 3.csv', null, Phaser.Tilemap.CSV);
-        game.load.tilemap('Detail Under(NC)', './assets/tilemaps/map_Detail Under(NC) - 3.csv', null, Phaser.Tilemap.CSV);
-        game.load.tilemap('Detail(NC)', './assets/tilemaps/map_Detail(NC) - 3.csv', null, Phaser.Tilemap.CSV);
-        game.load.tilemap('Dirt Areas(NC)', './assets/tilemaps/map_Dirt Areas(NC) - 1.csv', null, Phaser.Tilemap.CSV);
-        game.load.tilemap('Dirt Grass Cover (NC)', './assets/tilemaps/map_Dirt Grass Cover (NC) - 1.csv', null, Phaser.Tilemap.CSV);
-        game.load.tilemap('Grass(NC)', './assets/tilemaps/map_Grass(NC) - 1.csv', null, Phaser.Tilemap.CSV);
-        game.load.tilemap('Lake(C)', './assets/tilemaps/map_Lake(C) - 1.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('1', './assets/tilemaps/map_grass.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('2', './assets/tilemaps/map_BrickRoad.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('3', './assets/tilemaps/map_LionDirt.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('4', './assets/tilemaps/map_Lion.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('5', './assets/tilemaps/map_Palace.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('6', './assets/tilemaps/map_PalaceDetails.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('7', './assets/tilemaps/map_HouseGrass.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('8', './assets/tilemaps/map_HouseFence.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('9', './assets/tilemaps/map_Path.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('10', './assets/tilemaps/map_CampFireGround.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('11', './assets/tilemaps/map_Water_Stone.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('12', './assets/tilemaps/map_Small hill.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('13', './assets/tilemaps/map_Multi hill.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('14', './assets/tilemaps/map_TallGrassDecorations.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('15', './assets/tilemaps/map_TallGrassDetails.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('16', './assets/tilemaps/map_TallGrass.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('17', './assets/tilemaps/map_Stone hill.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('18', './assets/tilemaps/map_Grass Detail.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('19', './assets/tilemaps/map_CampRocks.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('20', './assets/tilemaps/map_Tents.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('21', './assets/tilemaps/map_Houses.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('22', './assets/tilemaps/map_Person.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('23', './assets/tilemaps/map_Decorations.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('24', './assets/tilemaps/map_Boat.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('25', './assets/tilemaps/map_Diamond.csv', null, Phaser.Tilemap.CSV);
 
-        game.load.image('1', './assets/tilesets/1.png');
-        game.load.image('3', './assets/tilesets/3.png');
-        game.load.image('7', './assets/tilesets/7.png');
-        game.load.image('8', './assets/tilesets/8.png');
-        game.load.image('vjoy_base', './assets/joystick/base.png');
-        game.load.image('vjoy_body', './assets/joystick/body.png');
-        game.load.image('vjoy_cap', './assets/joystick/cap.png');
-        game.load.image('vjoy_empty', './assets/joystick/empty.png');
+        game.load.image('New1', './assets/tilesets/new1.png');
+        game.load.image('BushTrees', './assets/tilesets/3.png');
+        game.load.image('StoneHill', './assets/tilesets/5.png');
+        game.load.image('GrassHill', './assets/tilesets/7.png');
+        game.load.image('Atlas', './assets/tilesets/base_out_atlas.png');
+        game.load.image('Lion', './assets/tilesets/build_atlas.png');
+        game.load.image('Boat', './assets/tilesets/farming_fishing.png');
+        game.load.image('Fence', './assets/tilesets/fence.png');
+        game.load.image('FenceAlt', './assets/tilesets/fence_alt.png');
+        game.load.image('Diamond', './assets/tilesets/gems_db16.png');
+        game.load.image('People', './assets/tilesets/grab_sheet.png');
+        game.load.image('Random', './assets/tilesets/obj_misk_atlas.png');
+        game.load.image('Palace', './assets/tilesets/palace.png');
+        game.load.image('TallGrass', './assets/tilesets/terrain_atlas.png');
+        game.load.image('House', './assets/tilesets/transparent-bg-tiles.png');
 
         game.load.image('close', './assets/ui/kenney-theme/images/grey_boxCross.png');
         game.plugins.add(Phaser.Plugin.AdvancedTiming);
     },
 
-    create: function() {
+    loadQuestions: function () {
+        let data = game.cache.getJSON('questions');
+        let questions = $.map(data, function (e) {
+            return e;
+        });
+
+        return questions;
+    },
+
+    create: function () {
+        questions = this.loadQuestions();
         game.state.start('menu');
     }
 };

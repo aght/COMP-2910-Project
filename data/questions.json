@@ -1,19 +1,482 @@
 {
     "1": {
-        "question": "What is my favourite color?",
+        "question": "As compare to hose for car washing, bucketing uses?",
         "choices": {
-            "a": "Red",
-            "b": "Blue",
-            "c": "Orange"
+            "a": "less water",
+            "b": "more water",
+            "c": "equal water"
+        },
+        "answer": "a"
+    },
+
+    "2": {
+        "question": "Whether we obtain tap water or water from well, it originally comes from",
+        "choices": {
+            "a": "ocean",
+            "b": "river",
+            "c": "rain"
         },
         "answer": "c"
     },
-    "2": {
-        "question": "What type of langauge is Java?",
+
+    "3": {
+        "question": "To prevent excess use of tap water, we can collect",
         "choices": {
-            "a": "Object-Oriented",
-            "b": "Procedural",
-            "c": "Functional"
+            "a": "rain water",
+            "b": "stream water",
+            "c": "river water"
+        },
+        "answer": "a"
+    },
+
+    "4": {
+        "question": "Which of the following uses the most water?.",
+        "choices": {
+            "a": "washing the car",
+            "b": "doing a load of laundry",
+            "c": "having a bath/shower"
+        },
+        "answer": "c"
+    },
+
+    "5": {
+        "question": "How much of the earth's water is fresh (non-salt) water?",
+        "choices": {
+            "a": "50%",
+            "b": "10%",
+            "c": "3%"
+        },
+        "answer": "c"
+    },
+
+    "6": {
+        "question": "What should you do if you see or hear a leaky faucet in your house?.",
+        "choices": {
+            "a": "Ignore it—drips are no big deal",
+            "b": "Do nothing—there is no way to fix a drippy faucet ",
+            "c": "Tell your parents "
+        },
+        "answer": "c"
+    },
+
+    "7": {
+        "question": "Stuck helping mom or dad wash the dishes? Which may use less water? ",
+        "choices": {
+            "a": "Washing dishes under a running tap",
+            "b": "Washing dishes in a fully loaded dishwasher "
+          
+        },
+        "answer": "b"
+    },
+
+    "8": {
+        "question": " It isn't important to save water because there is so much of it on Earth.",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "b"
+    },
+
+    "9": {
+        "question": "Which of these ways to wash the car saves the most water?",
+        "choices": {
+            "a": "Wash it in the driveway with the garden hose",
+            "b": "Drive it into the lake",
+            "c": "Take it through a car wash that recycles water"
+        },
+        "answer": "c"
+    },
+
+    "10": {
+        "question": "The average Canadian uses about___ per cent of water for Bath.",
+        "choices": {
+            "a": "2",
+            "b": "15",
+            "c": "1"
+        },
+        "answer": "b"
+    },
+
+
+
+    "11": {
+        "question": "A tap that drips six drops a minute will lose ___ litres of water annually.",
+        "choices": {
+            "a": "10",
+            "b": "150",
+            "c": "1200"
+        },
+        "answer": "c"
+    },
+
+    "12": {
+        "question": "Annually, Canada's rivers discharge ___% of the world's renewable water supply",
+        "choices": {
+            "a": "7",
+            "b": "20",
+            "c": "3"
+        },
+        "answer": "a"
+    },
+
+    "13": {
+        "question": "___ liters of water are required to flush a toilet.",
+        "choices": {
+            "a": "32",
+            "b": "20",
+            "c": "3"
+        },
+        "answer": "a"
+    },
+
+    "14": {
+        "question": " Which of these everyday objects is a water-saving tool?",
+        "choices": {
+            "a": "A bucket",
+            "b": "A clock",
+            "c": "All of the above"
+           
+        },
+        "answer": "a"
+    },
+
+    "15": {
+        "question": "___ liters of water are used to brush your teeth.",
+        "choices": {
+            "a": "3.75 ",
+            "b": "7.5",
+            "c": "3"
+        },
+        "answer": "b"
+    },
+
+    "16": {
+        "question": "It takes ___liters of water to make four new tires.",
+        "choices": {
+            "a": "3.75 ",
+            "b": "7,850 ",
+            "c": "3"
+        },
+        "answer": "b"
+    },
+
+    "17": {
+        "question": "Which of these activities wastes the MOST water per day in the average home?",
+        "choices": {
+            "a": "Running the tap while washing dishes ",
+            "b": "Using a garbage disposal ",
+            "c": "A leaky toilet"
+        },
+        "answer": "c"
+    },
+
+    "18": {
+        "question": "Should you turn off the tap when brushing your teeth. ",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+    "19": {
+        "question": "Should you take shorter showers",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+    "20": {
+        "question": "Should you fully load your dishwasher.",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+    "21": {
+        "question": "Should you wash full loads of clothes",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+    "22": {
+        "question": "Should you turn off the tap when washing dishes",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+    "23": {
+        "question": "Should you take more bath.",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "b"
+    },
+
+    "24": {
+        "question": "Should you put a brick in the toilet",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+    "25": {
+        "question": "Should you wash cars for safety only",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+    "26": {
+        "question": "Should you play with water",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "b"
+    },
+
+    "27": {
+        "question": "You should Keep a jug of cool water in the fridge, instead of running the tap 'till it cools",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+    "28": {
+        "question": "You should avoid watering the lawn",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+    "29": {
+        "question": "You should Keep a jug of cool water in the fridge, instead of running the tap 'till it cools",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+    "30": {
+        "question": "When replacing appliances, choose low-flow, high efficiency options.",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+    "31": {
+        "question": "You should rinse fruit and vegetables in a pan instead of running water continuously",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+    "32": {
+        "question": "You should replace showerheads with low-flow models",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+    "33": {
+        "question": "You should Defrost frozen food in the refrigerator.",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+    "34": {
+        "question": "Don’t Use the Toilet as an Ashtray or Wastebasket",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+
+    "35": {
+        "question": "Install Composting Toilets",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+
+    "36": {
+        "question": "Rinse Your Razor in the Sink",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+
+    "37": {
+        "question": "Eat Less Water-Intensive Foods",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+
+    "38": {
+        "question": "Turn off the tap when not in use",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+
+    "39": {
+        "question": "Use drip irrigation systems.",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "a"
+    },
+
+    "40": {
+        "question": "Water availability will not be a problem for future generations.",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
+        },
+        "answer": "b"
+    },
+
+    "41": {
+        "question": "All of the following are ways to conserve water except: ",
+        "choices": {
+            "a": "Washing clothes and not selecting the appropriate water level",
+            "b": "Only running a full dishwasher",
+            "c": "Putting a brick in the toilet tank"
+        },
+        "answer": "A"
+    },
+
+    "42": {
+        "question": "Canada holds __ of the world's fresh water",
+        "choices": {
+            "a": "68.7%",
+            "b": "20%",
+            "c": "98%"
+        },
+        "answer": "b"
+    },
+
+    "43": {
+        "question": "Of all the earth’s water, how much is ocean or seas?",
+        "choices": {
+            "a": "97%",
+            "b": "20%",
+            "c": "30%"
+        },
+        "answer": "a"
+    },
+
+    "44": {
+        "question": "What is the most common substance found on earth?",
+        "choices": {
+            "a": "water",
+            "b": "gold",
+            "c": "silver"
+        },
+        "answer": "a"
+    },
+
+    "45": {
+        "question": "How much of the earth’s water is suitable for drinking water?",
+        "choices": {
+            "a": "1%",
+            "b": "12%",
+            "c": "17%"
+        },
+        "answer": "a"
+    },
+    "46": {
+        "question": "How much of the world’s water is frozen and therefore unusable?",
+        "choices": {
+            "a": "1%",
+            "b": "2%",
+            "c": "17%"
+        },
+        "answer": "b"
+    },
+
+    "47": {
+        "question": "Why are Dams built?",
+        "choices": {
+            "a": "To attract people to a place, as a tourist attraction",
+            "b": "To store large amounts of water in reservoirs or man-made lakes ",
+            "c": "To block water from getting into a town"
+        },
+        "answer": "b"
+    },
+
+    "48": {
+        "question": "What are the three r’s to water conservation?",
+        "choices": {
+            "a": "Reduce, reuse, Recycle",
+            "b": "Reduce, recycle, reorganize",
+            "c": "Reduce, Resupply, Redistribute"
+        },
+        "answer": "a"
+    },
+
+    "49": {
+        "question": "To save water when using the toilet, it's best to:",
+        "choices": {
+            "a": "install a low-flush toilet and use the old flush rule, if it is yellow let it mellow",
+            "b": "have a constant stream of fresh water flowing through your house for human waste at all times",
+            "c": "just put an outhouse in the backyard"
+        },
+        "answer": "a"
+    },
+
+    "50": {
+        "question": "Usually showers require less water than baths?",
+        "choices": {
+            "a": "Yes",
+            "b": "No"
         },
         "answer": "a"
     }
