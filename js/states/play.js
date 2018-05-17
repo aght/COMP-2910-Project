@@ -10,7 +10,7 @@ var play = {
 
         this.createMap();
 
-        this.dog = new Dog(game, 2600, 200);
+        this.dog = new Dog(game, 200, 200);
         this.woodcutter = new QuestionNPC(game, this.dog.body.x + 200, this.dog.body.y, 'woodcutter', this.questions);
 
         let pr = new PhysicsResize(game);
