@@ -5,11 +5,8 @@ var play = {
     },
 
     create: function () {
-        game.vjoy = game.plugins.add(Phaser.Plugin.VJoy);
-        game.vjoy.inputEnable(0, 300, 600, 300);
-
         this.map = new Multimap(game);
-    
+
         this.createMap();
 
         this.dog = new Dog(game, game.world.centerX, game.world.centerY);
@@ -20,6 +17,11 @@ var play = {
         pr.resizePolygon('dog_physics_left', 'dog_physics_left_scaled', 'Left', this.dog.scaling);
         this.dog.body.clearShapes();
         this.dog.body.loadPolygon('dog_physics_right_scaled', 'Right');
+        this.dog.inputEnabled = true;
+        this.dog.events.onInputDown.add(() => {
+            this.createQuestionBoard();
+            // console.log('hi')
+        }) 
 
         this.createButtons();
         game.input.onDown.add(this.pauseMenuEvents, self);
@@ -31,7 +33,7 @@ var play = {
         });
         this.slickUI.add(this.countdown.text);
         this.countdown.start();
-        
+
         game.world.setBounds(0, 0, 16 * 200, 16 * 200);
         game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
@@ -46,7 +48,6 @@ var play = {
     update: function () {
         this.dog.body.setZeroVelocity();
         this.updateKeys();
-        this.updateJoystick();
         this.cat.seek(this.dog, 50, 250, 150, 300);
     },
 
@@ -73,16 +74,16 @@ var play = {
         let menuX = game.width / 2 - menuHalfWidth;
         let menuY = game.height / 2 - menuHalfHeight;
         let buttonHeight = 50;
-    
+
         this.slickUI.add(pausePanel = new SlickUI.Element.Panel(menuX, menuY, menuWidth, menuHeight));
         pausePanel.add(new SlickUI.Element.Text(0, 5, 'Paused', 14)).centerHorizontally();
-    
+
         pausePanel.add(resume = new SlickUI.Element.Button(10, 230, 370, buttonHeight));
         resume.add(new SlickUI.Element.Text(0, 0, 'Resume')).center();
-    
+
         pausePanel.add(restart = new SlickUI.Element.Button(10, 168, 370, buttonHeight));
         restart.add(new SlickUI.Element.Text(0, 0, 'Restart')).center();
-   
+
         pausePanel.add(new SlickUI.Element.Text(0, 65, 'Water Fight', 40)).centerHorizontally();
     },
 
@@ -120,18 +121,42 @@ var play = {
                     }
                 }, 100);
             } else if (e.x > pausePanel.x + 10 && e.x < pausePanel.x + pausePanel.width - 10 &&
-                        e.y > pausePanel.y + 168 && e.y < pausePanel.y + 168 + 50) {
-                restart.sprite.loadTexture(restart.spriteOn.texture);            
+                e.y > pausePanel.y + 168 && e.y < pausePanel.y + 168 + 50) {
+                restart.sprite.loadTexture(restart.spriteOn.texture);
                 game.paused = false;
                 setTimeout(() => {
                     game.state.start('restarting');
-                }, 100)          
+                }, 100)
             }
         }
     },
 
     createQuestionBoard: function () {
+        let offset = 50;
+        let questionBoard;
+        this.slickUI.add(questionBoard = new SlickUI.Element.Panel(offset, offset, game.width - offset * 2, game.height - offset * 2));
+        questionBoard.add(new SlickUI.Element.Text(0, 10, 'Question', 30)).centerHorizontally();    
+        questionBoard.add(new SlickUI.Element.Text(offset, 100, 'Am I beautiful?', 24));
 
+        questionBoard.add(this.choiceA = new SlickUI.Element.Button(offset, 250, questionBoard.width - 2 * offset, 50));
+        questionBoard.add(this.choiceB = new SlickUI.Element.Button(offset, 310, questionBoard.width - 2 * offset, 50));
+        questionBoard.add(this.choiceC = new SlickUI.Element.Button(offset, 370, questionBoard.width - 2 * offset, 50));
+        this.choiceA.add(this.textA = new SlickUI.Element.Text(0, 0, 'Yes')).center();
+        this.choiceB.add(this.textB = new SlickUI.Element.Text(0, 0, 'Very')).center();
+        this.choiceC.add(this.textC = new SlickUI.Element.Text(0, 0, 'No....')).center();
+
+        questionBoard.add(this.closeButton = new SlickUI.Element.Button(10, 10, 30, 30));
+        this.closeButton.add(new SlickUI.Element.Text(0, 0, 'X')).center();
+        this.closeButton.events.onInputDown.add(() => {
+            questionBoard.destroy();
+            // this.createResultBoard();
+        });
+    },
+
+    createResultBoard: function () {
+        let offset = 100;
+        let resultBoard;
+        // this.slickUI.add(resultBoard = new SlickUI.Element.Panel();
     },
 
     updateKeys: function () {
@@ -140,43 +165,27 @@ var play = {
         } else if (this.keys.down.isDown) {
             this.dog.moveDown();
         }
-    
+
         if (this.keys.left.isDown) {
             this.dog.moveLeft();
         } else if (this.keys.right.isDown) {
             this.dog.moveRight();
         }
-    
+
         if (this.keys.up.downDuration(1)) {
             this.dog.playWalkAnimation();
         } else if (this.keys.down.downDuration(1)) {
             this.dog.playWalkAnimation();
         }
-    
+
         if (this.keys.left.downDuration(1)) {
             this.dog.playWalkAnimation();
         } else if (this.keys.right.downDuration(1)) {
             this.dog.playWalkAnimation();
         }
-    
+
         if (this.dog.isWalking === false && !this.dog.isIdle) {
             this.dog.playIdleAnimation();
-        }
-    },
-
-    updateJoystick: function () {
-        this.joystickCursors = game.vjoy.cursors;
-        if (this.joystickCursors.left) {
-            this.dog.moveLeft();
-            this.dog.playWalkAnimation();
-        } else if (this.joystickCursors.right) {
-            this.dog.moveRight();
-        }
-
-        if (this.joystickCursors.up) {
-            this.dog.moveUp();
-        } else if(this.joystickCursors.down) {
-            this.dog.moveDown();
         }
     }
 }

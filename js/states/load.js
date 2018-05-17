@@ -34,7 +34,7 @@ var load = {
         game.load.image('vjoy_cap', './assets/joystick/cap.png');
         game.load.image('vjoy_empty', './assets/joystick/empty.png');
 
-        game.load.image('pause', './assets/ui/pause.png');
+        game.load.image('close', '../../assets/ui/kenney-theme/images/grey_boxCross.png');
         game.plugins.add(Phaser.Plugin.AdvancedTiming);
     },
 
