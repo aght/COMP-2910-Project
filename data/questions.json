@@ -1,0 +1,20 @@
+{
+    "1": {
+        "question": "What is my favourite color?",
+        "choices": {
+            "a": "Red",
+            "b": "Blue",
+            "c": "Orange"
+        },
+        "answer": "c"
+    },
+    "2": {
+        "question": "What type of langauge is Java?",
+        "choices": {
+            "a": "Object-Oriented",
+            "b": "Procedural",
+            "c": "Functional"
+        },
+        "answer": "a"
+    }
+}

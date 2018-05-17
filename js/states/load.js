@@ -1,5 +1,7 @@
 var load = {
     preload: function () {
+        game.load.json('questions', './../../data/questions.json');
+
         game.load.audio('bg', './assets/music/harbor.mp3');
 
         game.load.spritesheet('dog_walk', './assets/spritesheets/Dog Walk.png', 547, 481, 10);

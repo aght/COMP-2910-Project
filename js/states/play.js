@@ -21,7 +21,7 @@ var play = {
         this.dog.events.onInputDown.add(() => {
             this.createQuestionBoard();
             // console.log('hi')
-        }) 
+        })
 
         this.createButtons();
         game.input.onDown.add(this.pauseMenuEvents, self);
@@ -131,19 +131,32 @@ var play = {
         }
     },
 
+
+
     createQuestionBoard: function () {
+        let data = game.cache.getJSON('questions');
+        let questions = $.map(data, function (question) {
+            return question;
+        });
+
+        for (let q of questions) {
+            console.log(q);
+        }
+
+        let i = game.rnd.integerInRange(0, 1);
+
         let offset = 50;
         let questionBoard;
         this.slickUI.add(questionBoard = new SlickUI.Element.Panel(offset, offset, game.width - offset * 2, game.height - offset * 2));
-        questionBoard.add(new SlickUI.Element.Text(0, 10, 'Question', 30)).centerHorizontally();    
-        questionBoard.add(new SlickUI.Element.Text(offset, 100, 'Am I beautiful?', 24));
+        questionBoard.add(new SlickUI.Element.Text(0, 10, 'Question', 30)).centerHorizontally();
+        questionBoard.add(new SlickUI.Element.Text(offset, 100, questions[i].question, 24));
 
         questionBoard.add(this.choiceA = new SlickUI.Element.Button(offset, 250, questionBoard.width - 2 * offset, 50));
         questionBoard.add(this.choiceB = new SlickUI.Element.Button(offset, 310, questionBoard.width - 2 * offset, 50));
         questionBoard.add(this.choiceC = new SlickUI.Element.Button(offset, 370, questionBoard.width - 2 * offset, 50));
-        this.choiceA.add(this.textA = new SlickUI.Element.Text(0, 0, 'Yes')).center();
-        this.choiceB.add(this.textB = new SlickUI.Element.Text(0, 0, 'Very')).center();
-        this.choiceC.add(this.textC = new SlickUI.Element.Text(0, 0, 'No....')).center();
+        this.choiceA.add(this.textA = new SlickUI.Element.Text(0, 0, questions[i].choices.a)).center();
+        this.choiceB.add(this.textB = new SlickUI.Element.Text(0, 0, questions[i].choices.b)).center();
+        this.choiceC.add(this.textC = new SlickUI.Element.Text(0, 0, questions[i].choices.c)).center();
 
         questionBoard.add(this.closeButton = new SlickUI.Element.Button(10, 10, 30, 30));
         this.closeButton.add(new SlickUI.Element.Text(0, 0, 'X')).center();
