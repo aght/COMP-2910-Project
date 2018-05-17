@@ -45,12 +45,15 @@ var play = {
         this.isRunning = false;
         this.seconds = 0;
         this.minutes = 0;
+
     },
 
     update: function () {
         this.dog.body.setZeroVelocity();
         this.updateKeys();
-        this.cat.seek(this.dog, 50, 250, 150, 300);
+        // this.cat.seek(this.dog, 50, 250, 150, 300);
+        this.cat.wanderRadius = 200;
+        this.cat.wander(50, 60);
     },
 
     createMap: function () {
@@ -149,7 +152,6 @@ var play = {
     createQuestionBoard: function () {
         let q = this.pickRandomQuestion(this.questions);
         let a = q.answer;
-        console.log(a);
 
         let offset = 50;
         let questionBoard;
@@ -160,7 +162,7 @@ var play = {
         questionBoard.add(this.choiceA = new SlickUI.Element.Button(offset, 250, questionBoard.width - 2 * offset, 50));
         questionBoard.add(this.choiceB = new SlickUI.Element.Button(offset, 310, questionBoard.width - 2 * offset, 50));
         questionBoard.add(this.choiceC = new SlickUI.Element.Button(offset, 370, questionBoard.width - 2 * offset, 50));
-        
+
         this.choiceA.add(this.textA = new SlickUI.Element.Text(0, 0, q.choices.a)).center();
         this.choiceB.add(this.textB = new SlickUI.Element.Text(0, 0, q.choices.b)).center();
         this.choiceC.add(this.textC = new SlickUI.Element.Text(0, 0, q.choices.c)).center();
@@ -194,7 +196,9 @@ var play = {
         resultBoard.add(close = new SlickUI.Element.Button(10, 230, 270, 50));
         close.add(new SlickUI.Element.Text(0, 0, 'Close')).center();
         close.events.onInputDown.add(() => {
-            resultBoard.destroy();
+            setTimeout(() => {
+                resultBoard.destroy();
+            }, 50);
         });
     },
 

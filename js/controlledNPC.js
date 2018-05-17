@@ -1,11 +1,12 @@
 class ControlledNPC extends Phaser.Sprite {
-    constructor(game, x, y, imageKey, group) {
+    constructor(game, x, y, imageKey) {
         super(game, x, y, imageKey);
 
         this.anchor.setTo(0.5, 0.5);
         game.physics.p2.enable(this);
         this.body.fixedRotation = true;
 
+        this.wanderArea = new Phaser.Point(x, y);
         this.velocity = new Phaser.Point(0, 0);
         this.target;
         this.isFirstTimeWandering = true;
@@ -74,7 +75,7 @@ class ControlledNPC extends Phaser.Sprite {
             let loc = new Phaser.Point(this.x, this.y);
             if (loc.distance(this.target) < 10) {
                 this.generateNewTarget();
-                if (predator !== 'undefined') {
+                if (predator) {
                     while (this.target.distance(new Phaser.Point(predator.x, predator.y) < fleeDistance)) {
                         this.generateNewTarget();
                     }
@@ -86,8 +87,8 @@ class ControlledNPC extends Phaser.Sprite {
     generateNewTarget() {
         let a = Math.random() * 2 * Math.PI;
         let r = this.wanderRadius * Math.sqrt(Math.random());
-        let x = r * Math.cos(a) + this.x;
-        let y = r * Math.sin(a) + this.y;
+        let x = r * Math.cos(a) + this.wanderArea.x;
+        let y = r * Math.sin(a) + this.wanderArea.y;
         this.target = new Phaser.Point(x, y);
     }
 

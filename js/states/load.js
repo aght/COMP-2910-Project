@@ -1,6 +1,6 @@
 var load = {
     preload: function () {
-        game.load.json('questions', './../../data/questions.json');
+        game.load.json('questions', './data/questions.json');
 
         game.load.audio('bg', './assets/music/harbor.mp3');
 
@@ -10,6 +10,9 @@ var load = {
         game.load.spritesheet('cat_side', './assets/spritesheets/cat_side.png', 32, 32, 3);
         game.load.spritesheet('button_ui', './assets/spritesheets/button UI.png', 35, 35, 144);
         game.load.spritesheet('emoticons', './assets/spritesheets/emoticons.png', 40, 40, 78);
+        game.load.spritesheet('blacksmith', './assets/spritesheets/blacksmith-001.png', 48, 64, 12);
+        game.load.spritesheet('goldsmith', './assets/spritesheets/goldsmith-001.png', 48, 64, 12);
+        game.load.spritesheet('woodcutter', './assets/spritesheets/woodcutter-001.png', 48, 64, 12);
 
         game.load.physics('dog_physics_right', './assets/physics/dog_physics.json');
         game.load.physics('dog_physics_left', './assets/physics/dog_physics.json');
@@ -36,7 +39,7 @@ var load = {
         game.load.image('vjoy_cap', './assets/joystick/cap.png');
         game.load.image('vjoy_empty', './assets/joystick/empty.png');
 
-        game.load.image('close', '../../assets/ui/kenney-theme/images/grey_boxCross.png');
+        game.load.image('close', './assets/ui/kenney-theme/images/grey_boxCross.png');
         game.plugins.add(Phaser.Plugin.AdvancedTiming);
     },
 
