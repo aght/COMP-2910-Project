@@ -7,9 +7,7 @@ var play = {
 
     create: function () {
         this.intenseMusic = false;
-        bgm = new Phaser.Sound(game, 'bgm', 1, true);
-        qbgm = new Phaser.Sound(game, 'qbgm', 1, true);
-        tbgm = new Phaser.Sound(game, 'tbgm', 1, true);
+
         bgm.play();
 
         this.score = 0;
@@ -61,12 +59,9 @@ var play = {
             this.cats.push(new Cat(game, 0, 0));
         });
 
-        this.pad = game.plugins.add(Phaser.VirtualJoystick);
-        this.stick = this.pad.addStick(10, 10, 110, 'arcade');
-        this.stick.scale = 0.7;
-        this.stick.alignBottomLeft(40);
-
-    
+        stick = pad.addStick(10, 10, 110, 'arcade');
+        stick.scale = 0.7;
+        stick.alignBottomLeft(40);
     },
 
     update: function () {
@@ -150,12 +145,14 @@ var play = {
         let buttonSize = 35;
         let offset = 5;
         let pauseButton = new GUIButton(game, APP_WIDTH - (buttonSize * 1) - (offset * 1), offset, 'button_ui', () => {
-            if (game.paused === false) {
+            if (!isPaused) {
+                isPaused = true;
                 this.createPauseMenu();
                 setTimeout(() => {
                     countdown.pause();
                     game.paused = true;
                 }, 200);
+
             }
         }, game, 113, 113, 113, 113);
 
@@ -174,18 +171,26 @@ var play = {
             if (e.x > pausePanel.x + 10 && e.x < pausePanel.x + pausePanel.width - 10 &&
                 e.y > pausePanel.y + 230 && e.y < pausePanel.y + 230 + 50) {
                 resume.sprite.loadTexture(resume.spriteOn.texture);
-                setTimeout(() => {
-                    game.paused = false;
-                    countdown.resume();
-                    while (pausePanel !== undefined) {
-                        pausePanel.destroy();
-                    }
-                }, 100);
+                isPaused = false;
+                game.paused = false;
+                pausePanel.destroy();
+                // setTimeout(() => {
+                //     game.paused = false;
+                //     countdown.resume();
+                //     while (pausePanel !== undefined) {
+                //         pausePanel.destroy();
+                //     }
+                // }, 100);
             } else if (e.x > pausePanel.x + 10 && e.x < pausePanel.x + pausePanel.width - 10 &&
                 e.y > pausePanel.y + 168 && e.y < pausePanel.y + 168 + 50) {
                 restart.sprite.loadTexture(restart.spriteOn.texture);
                 game.paused = false;
                 setTimeout(() => {
+                    isPaused = false;
+                    bgm.pause();
+                    tbgm.pause();
+                    qbgm.pause();
+                    pad.removeStick(stick);
                     game.state.start('restarting');
                 }, 100)
             }
@@ -209,7 +214,7 @@ var play = {
         let q = this.pickRandomQuestion(this.questions);
         let a = q.answer;
 
-        this.stick.visible = false;
+        stick.visible = false;
 
         let offset = 50;
         let questionBoard, textA, textB, textC, choiceA, choiceB, choiceC, closeButton;
@@ -226,7 +231,7 @@ var play = {
         if (q.choices.c) {
             choiceC.add(textC = new SlickUI.Element.Text(0, 0, q.choices.c)).center();
         }
-        
+
 
         choiceA.events.onInputDown.add(() => {
             this.createResultBoard(this.validateAnswer('a', a));
@@ -242,13 +247,13 @@ var play = {
                 questionBoard.destroy();
             });
         }
-       
+
 
         questionBoard.add(closeButton = new SlickUI.Element.Button(10, 10, 30, 30));
         closeButton.add(new SlickUI.Element.Text(0, 0, 'X')).center();
         closeButton.events.onInputDown.add(() => {
             questionBoard.destroy();
-            this.stick.visible = true;
+            stick.visible = true;
             qbgm.pause();
             bgm.resume();
         });
@@ -261,7 +266,7 @@ var play = {
 
         }
 
-        this.stick.visible = false;
+        stick.visible = false;
         let offset = 100;
         let resultBoard;
         this.slickUI.add(resultBoard = new SlickUI.Element.Panel(game.width / 2 - 150, game.height / 2 - 150, 300, 300));
@@ -272,7 +277,7 @@ var play = {
         close.events.onInputDown.add(() => {
             setTimeout(() => {
                 resultBoard.destroy();
-                this.stick.visible = true;
+                stick.visible = true;
                 qbgm.pause();
                 bgm.resume();
             }, 50);
@@ -321,18 +326,18 @@ var play = {
     },
 
     updateJoystick: function () {
-        if (this.stick.isDown) {
+        if (stick.isDown) {
             console.log('down');
-            let vel = this.velocityFromRotation(this.stick.rotation, 400, new Vector2(this.dog.body.velocity.x, this.dog.body.velocity.y));
+            let vel = this.velocityFromRotation(stick.rotation, 400, new Vector2(this.dog.body.velocity.x, this.dog.body.velocity.y));
             this.dog.body.velocity.x = vel.x;
             this.dog.body.velocity.y = vel.y;
             this.dog.isWalking = true;
-            if (this.stick.quadrant === 2 || this.stick.quadrant === 3) {
+            if (stick.quadrant === 2 || stick.quadrant === 3) {
                 this.dog.scale.x = -this.dog.scaling;
                 if (!this.dog.isWalkingLeft) {
                     this.dog.playWalkAnimation();
                 }
-            } else if (this.stick.quadrant === 0 || this.stick.quadrant === 1) {
+            } else if (stick.quadrant === 0 || stick.quadrant === 1) {
                 this.dog.scale.x = this.dog.scaling;
                 if (!this.dog.isWalkingRight) {
                     this.dog.playWalkAnimation();

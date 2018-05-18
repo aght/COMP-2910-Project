@@ -83,6 +83,10 @@ var load = {
     },
 
     create: function () {
+        pad = game.plugins.add(Phaser.VirtualJoystick);
+        bgm = new Phaser.Sound(game, 'bgm', 1, true);
+        qbgm = new Phaser.Sound(game, 'qbgm', 1, true);
+        tbgm = new Phaser.Sound(game, 'tbgm', 1, true);
         questions = this.loadQuestions();
         game.state.start('menu');
     }

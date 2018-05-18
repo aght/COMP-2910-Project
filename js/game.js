@@ -12,6 +12,8 @@ var game = new Phaser.Game({
     scaleMode: Phaser.ScaleManager.SHOW_ALL,
 });
 
+var isPaused = false;
+var pad, stick;
 var bgm, qbgm;
 var countdown;
 var questions;
