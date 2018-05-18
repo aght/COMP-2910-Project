@@ -223,7 +223,10 @@ var play = {
 
         choiceA.add(textA = new SlickUI.Element.Text(0, 0, q.choices.a)).center();
         choiceB.add(textB = new SlickUI.Element.Text(0, 0, q.choices.b)).center();
-        choiceC.add(textC = new SlickUI.Element.Text(0, 0, q.choices.c)).center();
+        if (q.choices.c) {
+            choiceC.add(textC = new SlickUI.Element.Text(0, 0, q.choices.c)).center();
+        }
+        
 
         choiceA.events.onInputDown.add(() => {
             this.createResultBoard(this.validateAnswer('a', a));
@@ -233,10 +236,13 @@ var play = {
             this.createResultBoard(this.validateAnswer('b', a));
             questionBoard.destroy();
         });
-        choiceC.events.onInputDown.add(() => {
-            this.createResultBoard(this.validateAnswer('c', a));
-            questionBoard.destroy();
-        });
+        if (q.choices.c) {
+            choiceC.events.onInputDown.add(() => {
+                this.createResultBoard(this.validateAnswer('c', a));
+                questionBoard.destroy();
+            });
+        }
+       
 
         questionBoard.add(closeButton = new SlickUI.Element.Button(10, 10, 30, 30));
         closeButton.add(new SlickUI.Element.Text(0, 0, 'X')).center();
