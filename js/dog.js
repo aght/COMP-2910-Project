@@ -3,6 +3,8 @@ class Dog extends Phaser.Sprite {
         super(game, x, y, 'dog_idle');
 
         this.isWalking = false;
+        this.isWalkingLeft = false;
+        this.isWalkingRight = false;
         this.isIdle = true;
         this.walkSpeed = 20;
         this.idleSpeed = 7;
@@ -24,7 +26,6 @@ class Dog extends Phaser.Sprite {
 
     update() {
         this.isWalking = false;
-        // console.log(this.y);
     }
 
     moveLeft() {
@@ -73,6 +74,15 @@ class Dog extends Phaser.Sprite {
 
     playWalkAnimation() {
         this.loadWalkTexture();
+        this.isIdle = false;
+        if (this.scale.x < 0) {
+            this.isWalkingLeft = true;
+            this.isWalkingRight = false;
+        } else if (this.scale.x > 0) {
+            this.isWalkingRight = true;
+            this.isWalkingLeft = false;
+        }
+        // console.log(this.isWalkingLeft + " " + this.isWalkingRight);
         this.animations.play('walk', this.walkSpeed, true);
     }
 

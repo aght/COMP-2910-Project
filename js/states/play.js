@@ -14,8 +14,9 @@ var play = {
 
         this.createMap();
 
-        this.dog = new Dog(game, 200, 200);
+        this.dog = new Dog(game, 2500, 200);
         this.woodcutter = new QuestionNPC(game, this.dog.body.x + 200, this.dog.body.y, 'woodcutter', this.questions);
+        this.woodcutter.wanderRadius = 200;
 
         let pr = new PhysicsResize(game);
         pr.resizePolygon('dog_physics_right', 'dog_physics_right_scaled', 'Right', this.dog.scaling);
@@ -68,8 +69,11 @@ var play = {
                 cat.seek(this.dog, 50, 250, 150, 300);
             }
         }
-        this.woodcutter.wanderRadius = 200;
-        this.woodcutter.wander(50, 60);
+        this.woodcutter.wander(100, 60);
+
+        if (this.dog.isWalking === false && !this.dog.isIdle) {
+            this.dog.playIdleAnimation();
+        }
     },
 
     createMap: function () {
@@ -275,10 +279,6 @@ var play = {
         } else if (this.keys.right.downDuration(1)) {
             this.dog.playWalkAnimation();
         }
-
-        if (this.dog.isWalking === false && !this.dog.isIdle) {
-            this.dog.playIdleAnimation();
-        }
     },
 
     velocityFromRotation: function (rotation, speed, vec2) {
@@ -293,19 +293,27 @@ var play = {
     },
 
     updateJoystick: function () {
-        if (!this.stick.isDown) {
-            return;
+        if (this.stick.isDown) {
+            console.log('down');
+            let vel = this.velocityFromRotation(this.stick.rotation, 400, new Vector2(this.dog.body.velocity.x, this.dog.body.velocity.y));
+            this.dog.body.velocity.x = vel.x;
+            this.dog.body.velocity.y = vel.y;
+            this.dog.isWalking = true;
+            if (this.stick.quadrant === 2 || this.stick.quadrant === 3) {
+                this.dog.scale.x = -this.dog.scaling;
+                if (!this.dog.isWalkingLeft) {
+                    this.dog.playWalkAnimation();
+                }
+            } else if (this.stick.quadrant === 0 || this.stick.quadrant === 1) {
+                this.dog.scale.x = this.dog.scaling;
+                if (!this.dog.isWalkingRight) {
+                    this.dog.playWalkAnimation();
+                }
+            }
         }
+    },
 
-        let vel = this.velocityFromRotation(this.stick.rotation, 400, new Vector2(this.dog.body.velocity.x, this.dog.body.velocity.y));
-        this.dog.body.velocity.x = vel.x;
-        this.dog.body.velocity.y = vel.y;
-
-        if (this.stick.quadrant === 2 || this.stick.quadrant === 3) {
-            this.dog.scale.x = -this.dog.scaling;
-
-        } else if (this.stick.quadrant === 0 || this.stick.quadrant === 1) {
-            this.dog.scale.x = this.dog.scaling;
-        }
+    render: function () {
+        this.stick.debug();
     }
 }

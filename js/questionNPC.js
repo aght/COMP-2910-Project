@@ -6,9 +6,16 @@ class QuestionNPC extends ControlledNPC {
         this.slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
         this.slickUI.load('./assets/ui/kenney-theme/kenney.json');
 
-        console.log(questions);
-        this.usedIndices = [];
-
         this.inputEnabled = true;
+    }
+
+    customUpdate() {
+        if (this.velocity.x < 0) {
+   
+        } else if (this.velocity.x > 0) {
+  
+        } else {
+
+        }
     }
 }
