@@ -1,5 +1,8 @@
 const APP_WIDTH = 1200;
 const APP_HEIGHT = 600;
+const TILES_X = 305;
+const TILES_Y = 244;
+const TILE_SIZE = 16;
 
 var game = new Phaser.Game({
     width: APP_WIDTH,
@@ -9,6 +12,7 @@ var game = new Phaser.Game({
     scaleMode: Phaser.ScaleManager.SHOW_ALL,
 });
 
+var countdown;
 var questions;
 var usedIndices = [];
 var pausePanel, resume, restart;

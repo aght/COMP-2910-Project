@@ -8,9 +8,14 @@ class ControlledNPC extends Phaser.Sprite {
 
         this.wanderArea = new Phaser.Point(x, y);
         this.velocity = new Phaser.Point(0, 0);
-        this.target;
         this.isFirstTimeWandering = true;
         this.wanderRadius = 100;
+
+        let a = Math.random() * 2 * Math.PI;
+        let r = this.wanderRadius * Math.sqrt(Math.random());
+        let tX = r * Math.cos(a) + this.wanderArea.x;
+        let tY = r * Math.sin(a) + this.wanderArea.y;
+        this.target = new Phaser.Point(tX, tY);
 
         game.add.existing(this);
     }
@@ -65,17 +70,32 @@ class ControlledNPC extends Phaser.Sprite {
         this.body.velocity.y *= -1;
     }
 
+    // wander(force, speed) {
+    //     if (this.isFirstTimeWandering) {
+    //         this.generateNewTarget();
+    //         this.isFirstTimeWandering = false;
+    //         this.seekPoint(this.target, force, speed);
+    //     } else {
+    //         this.seekPoint(this.target, force, speed);
+    //         let loc = new Phaser.Point(this.x, this.y);
+    //         if (loc.distance(this.target) < 10) {
+    //             this.generateNewTarget();
+    //         }
+    //     }
+    // }
+
     wander(force, speed) {
-        if (this.isFirstTimeWandering) {
-            this.generateNewTarget();
-            this.isFirstTimeWandering = false;
-            this.seekPoint(this.target, force, speed);
-        } else {
+        if (this.target) {
             this.seekPoint(this.target, force, speed);
             let loc = new Phaser.Point(this.x, this.y);
             if (loc.distance(this.target) < 10) {
-                this.generateNewTarget();
+                this.target = null;
+                setTimeout(()=> {
+                    this.generateNewTarget();
+                }, game.rnd.integerInRange(1, 3) * 1000);
             }
+        } else {
+            this.body.setZeroVelocity();
         }
     }
 

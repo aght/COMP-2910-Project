@@ -51,8 +51,17 @@ class CountdownTimer {
         }, 1000);
     }
 
-    reset() {
-        let str = this._startTime.split(':');
+    pause() {
+        clearInterval(this.interval);
+        this.reset(this.text.value);
+    }
+
+    resume() {
+        this.start();
+    }
+
+    reset(time) {
+        let str = time ? time.split(':') : this._startTime.split(':');
         this.minutes = parseInt(str[0]);
         this.seconds = parseInt(str[1]);
     }

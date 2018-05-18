@@ -7,7 +7,7 @@ class Dog extends Phaser.Sprite {
         this.walkSpeed = 20;
         this.idleSpeed = 7;
         this.movementSpeed = 250;
-        this.scaling = 0.2;
+        this.scaling = 0.17;
 
         this.animations.add('idle');
         this.animations.play('idle', this.idleSpeed, true);

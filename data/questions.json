@@ -1,6 +1,6 @@
 {
     "1": {
-        "question": "As compare to hose for car washing, bucketing uses?",
+        "question": "Compared to using a hose to wash a car, buckets use",
         "choices": {
             "a": "less water",
             "b": "more water",
@@ -10,10 +10,10 @@
     },
 
     "2": {
-        "question": "Whether we obtain tap water or water from well, it originally comes from",
+        "question": "Whether we obtain tap water or water from a well, it originally comes from",
         "choices": {
             "a": "ocean",
-            "b": "river",
+            "b": "Dasani",
             "c": "rain"
         },
         "answer": "c"
@@ -52,15 +52,15 @@
     "6": {
         "question": "What should you do if you see or hear a leaky faucet in your house?.",
         "choices": {
-            "a": "Ignore it—drips are no big deal",
-            "b": "Do nothing—there is no way to fix a drippy faucet ",
-            "c": "Tell your parents "
+            "a": "Ignore it, drips are no big deal",
+            "b": "Do nothing, there is no way to fix a drippy faucet ",
+            "c": "Turn off the faucet"
         },
         "answer": "c"
     },
 
     "7": {
-        "question": "Stuck helping mom or dad wash the dishes? Which may use less water? ",
+        "question": "Which uses less water? ",
         "choices": {
             "a": "Washing dishes under a running tap",
             "b": "Washing dishes in a fully loaded dishwasher "
@@ -72,24 +72,24 @@
     "8": {
         "question": " It isn't important to save water because there is so much of it on Earth.",
         "choices": {
-            "a": "Yes",
-            "b": "No"
+            "a": "True",
+            "b": "False"
         },
         "answer": "b"
     },
 
     "9": {
-        "question": "Which of these ways to wash the car saves the most water?",
+        "question": "Which of these ways to wash cars saves the most water?",
         "choices": {
-            "a": "Wash it in the driveway with the garden hose",
+            "a": "Wash it in the driveway with a hose and a bucket",
             "b": "Drive it into the lake",
-            "c": "Take it through a car wash that recycles water"
+            "c": "Take it through a car wash"
         },
-        "answer": "c"
+        "answer": "a"
     },
 
     "10": {
-        "question": "The average Canadian uses about___ per cent of water for Bath.",
+        "question": "The average Canadian uses about___ per cent of water for showering.",
         "choices": {
             "a": "2",
             "b": "15",
@@ -172,7 +172,7 @@
     },
 
     "18": {
-        "question": "Should you turn off the tap when brushing your teeth. ",
+        "question": "Should you turn off the tap when brushing your teeth?",
         "choices": {
             "a": "Yes",
             "b": "No"
@@ -181,7 +181,7 @@
     },
 
     "19": {
-        "question": "Should you take shorter showers",
+        "question": "Should you take shorter showers?",
         "choices": {
             "a": "Yes",
             "b": "No"
@@ -190,7 +190,7 @@
     },
 
     "20": {
-        "question": "Should you fully load your dishwasher.",
+        "question": "Should you fully load your dishwasher?",
         "choices": {
             "a": "Yes",
             "b": "No"
@@ -199,7 +199,7 @@
     },
 
     "21": {
-        "question": "Should you wash full loads of clothes",
+        "question": "Should you wash full loads of clothes?",
         "choices": {
             "a": "Yes",
             "b": "No"
@@ -208,7 +208,7 @@
     },
 
     "22": {
-        "question": "Should you turn off the tap when washing dishes",
+        "question": "Should you turn off the tap when washing dishes?",
         "choices": {
             "a": "Yes",
             "b": "No"
@@ -217,7 +217,7 @@
     },
 
     "23": {
-        "question": "Should you take more bath.",
+        "question": "Should you take showers longer than 15 minutes?",
         "choices": {
             "a": "Yes",
             "b": "No"
@@ -226,7 +226,7 @@
     },
 
     "24": {
-        "question": "Should you put a brick in the toilet",
+        "question": "Should you put a brick in the toilet?",
         "choices": {
             "a": "Yes",
             "b": "No"
@@ -235,16 +235,16 @@
     },
 
     "25": {
-        "question": "Should you wash cars for safety only",
+        "question": "Should you wash cars without a bucket?",
         "choices": {
             "a": "Yes",
             "b": "No"
         },
-        "answer": "a"
+        "answer": "b"
     },
 
     "26": {
-        "question": "Should you play with water",
+        "question": "Should you play with water?",
         "choices": {
             "a": "Yes",
             "b": "No"
@@ -253,7 +253,7 @@
     },
 
     "27": {
-        "question": "You should Keep a jug of cool water in the fridge, instead of running the tap 'till it cools",
+        "question": "You should Keep a jug of cool water in the fridge, instead of running the tap 'till it cools?",
         "choices": {
             "a": "Yes",
             "b": "No"
@@ -262,7 +262,7 @@
     },
 
     "28": {
-        "question": "You should avoid watering the lawn",
+        "question": "You should avoid watering the lawn?",
         "choices": {
             "a": "Yes",
             "b": "No"
@@ -271,7 +271,7 @@
     },
 
     "29": {
-        "question": "You should Keep a jug of cool water in the fridge, instead of running the tap 'till it cools",
+        "question": "You should Keep a jug of cool water in the fridge, instead of running the tap 'till it cools?",
         "choices": {
             "a": "Yes",
             "b": "No"
@@ -280,10 +280,10 @@
     },
 
     "30": {
-        "question": "When replacing appliances, choose low-flow, high efficiency options.",
+        "question": "When replacing appliances, it is better to choose low-flow, high efficiency options.",
         "choices": {
-            "a": "Yes",
-            "b": "No"
+            "a": "True",
+            "b": "False"
         },
         "answer": "a"
     },
@@ -291,52 +291,52 @@
     "31": {
         "question": "You should rinse fruit and vegetables in a pan instead of running water continuously",
         "choices": {
-            "a": "Yes",
-            "b": "No"
+            "a": "True",
+            "b": "False"
         },
         "answer": "a"
     },
 
     "32": {
-        "question": "You should replace showerheads with low-flow models",
+        "question": "It is best to replace showerheads with low-flow models",
         "choices": {
-            "a": "Yes",
-            "b": "No"
+            "a": "True",
+            "b": "False"
         },
         "answer": "a"
     },
 
     "33": {
-        "question": "You should Defrost frozen food in the refrigerator.",
+        "question": "It is best to defrost frozen food in the refrigerator.",
         "choices": {
-            "a": "Yes",
-            "b": "No"
+            "a": "True",
+            "b": "False"
         },
         "answer": "a"
     },
 
     "34": {
-        "question": "Don’t Use the Toilet as an Ashtray or Wastebasket",
+        "question": "It is best to NOT use the Toilet as an Ashtray or Wastebasket",
         "choices": {
-            "a": "Yes",
-            "b": "No"
+            "a": "True",
+            "b": "False"
         },
         "answer": "a"
     },
 
 
     "35": {
-        "question": "Install Composting Toilets",
+        "question": "Going vegan saves water",
         "choices": {
-            "a": "Yes",
-            "b": "No"
+            "a": "True",
+            "b": "False"
         },
         "answer": "a"
     },
 
 
     "36": {
-        "question": "Rinse Your Razor in the Sink",
+        "question": "It is a good idea to turn off the tap while brushing",
         "choices": {
             "a": "Yes",
             "b": "No"
@@ -346,45 +346,45 @@
 
 
     "37": {
-        "question": "Eat Less Water-Intensive Foods",
+        "question": "People who eat meat waste use LESS water",
         "choices": {
-            "a": "Yes",
-            "b": "No"
+            "a": "True",
+            "b": "False"
         },
-        "answer": "a"
+        "answer": "b"
     },
 
 
     "38": {
-        "question": "Turn off the tap when not in use",
+        "question": "It is best to turn off the tap when it's not in use",
         "choices": {
-            "a": "Yes",
-            "b": "No"
+            "a": "True",
+            "b": "False"
         },
         "answer": "a"
     },
 
 
     "39": {
-        "question": "Use drip irrigation systems.",
+        "question": "Using drip irrigation systems is better than sprinkler systems",
         "choices": {
-            "a": "Yes",
-            "b": "No"
+            "a": "True",
+            "b": "False"
         },
         "answer": "a"
     },
 
     "40": {
-        "question": "Water availability will not be a problem for future generations.",
+        "question": "Water availability will not be a problem for future generations",
         "choices": {
-            "a": "Yes",
-            "b": "No"
+            "a": "True",
+            "b": "False"
         },
         "answer": "b"
     },
 
     "41": {
-        "question": "All of the following are ways to conserve water except: ",
+        "question": "All of the following are ways to conserve water EXCEPT: ",
         "choices": {
             "a": "Washing clothes and not selecting the appropriate water level",
             "b": "Only running a full dishwasher",

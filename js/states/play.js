@@ -6,6 +6,10 @@ var play = {
     },
 
     create: function () {
+        this.score = 0;
+        this.cats = [];
+        // this.catsCollisionGroup = game.physics.p2.createCollisionGroup();
+
         this.map = new Multimap(game);
 
         this.createMap();
@@ -26,15 +30,15 @@ var play = {
         this.createButtons();
         game.input.onDown.add(this.pauseMenuEvents, self);
 
-        this.countdown = new CountdownTimer(100, 100, '3:00', 32);
-        this.countdown.flashOnComplete = true;
-        this.countdown.onComplete(() => {
+        countdown = new CountdownTimer(100, 100, '3:00', 32);
+        countdown.flashOnComplete = true;
+        countdown.onComplete(() => {
             game.state.start('lose');
         });
-        this.slickUI.add(this.countdown.text);
-        this.countdown.start();
+        this.slickUI.add(countdown.text);
+        countdown.start();
 
-        game.world.setBounds(0, 0, 16 * 305, 16 * 244);
+        game.world.setBounds(0, 0, TILE_SIZE * TILES_X, TILE_SIZE * TILES_Y);
         game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
         this.keys = game.input.keyboard.createCursorKeys();
@@ -45,20 +49,24 @@ var play = {
         this.spawn.body.kinematic = true;
         this.spawn.inputEnabled = true;
         this.spawn.events.onInputDown.add(() => {
-            this.cat = new Cat(game, 0, 0);
+            this.cats.push(new Cat(game, 0, 0));
         });
 
-        // this.pad = this.game.plugins.add(Phaser.VirtualJoystick);
-        // this.stick = this.pad.addStick(150, 450, 90, 'arcade');
+        this.pad = game.plugins.add(Phaser.VirtualJoystick);
+        this.stick = this.pad.addStick(10, 10, 110, 'arcade');
+        this.stick.scale = 0.7;
+        this.stick.alignBottomLeft(40);
     },
 
     update: function () {
         this.spawn.body.setZeroVelocity();
         this.dog.body.setZeroVelocity();
         this.updateKeys();
-        // this.updateJoystick();
-        if (this.cat) {
-            this.cat.seek(this.dog, 50, 250, 150, 300);
+        this.updateJoystick();
+        if (this.cats.length !== 0) {
+            for (let cat of this.cats) {
+                cat.seek(this.dog, 50, 250, 150, 300);
+            }
         }
         this.woodcutter.wanderRadius = 200;
         this.woodcutter.wander(50, 60);
@@ -123,6 +131,7 @@ var play = {
             if (game.paused === false) {
                 this.createPauseMenu();
                 setTimeout(() => {
+                    countdown.pause();
                     game.paused = true;
                 }, 200);
             }
@@ -145,6 +154,7 @@ var play = {
                 resume.sprite.loadTexture(resume.spriteOn.texture);
                 setTimeout(() => {
                     game.paused = false;
+                    countdown.resume();
                     while (pausePanel !== undefined) {
                         pausePanel.destroy();
                     }
@@ -177,6 +187,8 @@ var play = {
         let q = this.pickRandomQuestion(this.questions);
         let a = q.answer;
 
+        this.stick.visible = false;
+
         let offset = 50;
         let questionBoard, textA, textB, textC, choiceA, choiceB, choiceC, closeButton;
         this.slickUI.add(questionBoard = new SlickUI.Element.Panel(offset, offset, game.width - offset * 2, game.height - offset * 2));
@@ -208,10 +220,18 @@ var play = {
         closeButton.add(new SlickUI.Element.Text(0, 0, 'X')).center();
         closeButton.events.onInputDown.add(() => {
             questionBoard.destroy();
+            this.stick.visible = true;
         });
     },
 
     createResultBoard: function (result) {
+        if (result === true) {
+            this.score += 100;
+        } else {
+
+        }
+
+        this.stick.visible = false;
         let offset = 100;
         let resultBoard;
         this.slickUI.add(resultBoard = new SlickUI.Element.Panel(game.width / 2 - 150, game.height / 2 - 150, 300, 300));
@@ -222,6 +242,7 @@ var play = {
         close.events.onInputDown.add(() => {
             setTimeout(() => {
                 resultBoard.destroy();
+                this.stick.visible = true;
             }, 50);
         });
     },
@@ -272,9 +293,11 @@ var play = {
     },
 
     updateJoystick: function () {
-        var maxSpeed = 400;
+        if (!this.stick.isDown) {
+            return;
+        }
 
-        let vel = this.velocityFromRotation(this.stick.rotation, this.stick.force * maxSpeed, new Vector2(this.dog.body.velocity.x, this.dog.body.velocity.y));
+        let vel = this.velocityFromRotation(this.stick.rotation, 400, new Vector2(this.dog.body.velocity.x, this.dog.body.velocity.y));
         this.dog.body.velocity.x = vel.x;
         this.dog.body.velocity.y = vel.y;
 

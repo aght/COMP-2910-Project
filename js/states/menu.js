@@ -6,8 +6,8 @@ var menu = {
     },
 
     create: function() {
-        let playButton;
-        this.slickUI.add(playButton = new SlickUI.Element.Button(game.width / 2 - 150, game.height / 2, 300, 50));
+        let playButton, homeButton;
+        this.slickUI.add(playButton = new SlickUI.Element.Button(game.width / 2 - 150, 400, 300, 50));
         playButton.add(new SlickUI.Element.Text(0, 0, 'Play')).center();
         playButton.inputEnabled = true;
         playButton.events.onInputDown.add(() => {
@@ -16,8 +16,12 @@ var menu = {
             }, 100);
         });
 
-        let wKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
-        wKey.onDown.addOnce(this.start, this);
+        this.slickUI.add(homeButton = new SlickUI.Element.Button(game.width / 2 - 150, 460, 300, 50));
+        homeButton.add(new SlickUI.Element.Text(0, 0, 'Home Page')).center();
+        homeButton.inputEnabled = true;
+        homeButton.events.onInputDown.add(() => {
+            $(location).attr('href', 'http://waterfightsql.azurewebsites.net');
+        });
     },
 
     start: function () {
