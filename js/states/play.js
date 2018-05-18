@@ -6,6 +6,12 @@ var play = {
     },
 
     create: function () {
+        this.intenseMusic = false;
+        bgm = new Phaser.Sound(game, 'bgm', 1, true);
+        qbgm = new Phaser.Sound(game, 'qbgm', 1, true);
+        tbgm = new Phaser.Sound(game, 'tbgm', 1, true);
+        bgm.play();
+
         this.score = 0;
         this.cats = [];
         // this.catsCollisionGroup = game.physics.p2.createCollisionGroup();
@@ -26,6 +32,8 @@ var play = {
         this.dog.inputEnabled = true;
         this.woodcutter.events.onInputDown.add(() => {
             this.createQuestionBoard();
+            bgm.pause();
+            qbgm.play();
         })
 
         this.createButtons();
@@ -57,6 +65,8 @@ var play = {
         this.stick = this.pad.addStick(10, 10, 110, 'arcade');
         this.stick.scale = 0.7;
         this.stick.alignBottomLeft(40);
+
+    
     },
 
     update: function () {
@@ -74,6 +84,14 @@ var play = {
         if (this.dog.isWalking === false && !this.dog.isIdle) {
             this.dog.playIdleAnimation();
         }
+
+        // if (countdown.getSeconds() < 168) {
+        //     if (!this.intenseMusic) {
+        //         bgm.pause();
+        //         bgm = tbgm;
+        //         bgm.play();
+        //     }
+        // }
     },
 
     createMap: function () {
@@ -225,6 +243,8 @@ var play = {
         closeButton.events.onInputDown.add(() => {
             questionBoard.destroy();
             this.stick.visible = true;
+            qbgm.pause();
+            bgm.resume();
         });
     },
 
@@ -247,6 +267,8 @@ var play = {
             setTimeout(() => {
                 resultBoard.destroy();
                 this.stick.visible = true;
+                qbgm.pause();
+                bgm.resume();
             }, 50);
         });
     },

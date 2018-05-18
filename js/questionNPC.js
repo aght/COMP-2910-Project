@@ -18,4 +18,6 @@ class QuestionNPC extends ControlledNPC {
 
         }
     }
+
+    
 }

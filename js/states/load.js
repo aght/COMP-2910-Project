@@ -6,6 +6,8 @@ var load = {
         game.load.atlas('arcade', './assets/joystick/generic-joystick.png', './assets/joystick/generic-joystick.json');
 
         game.load.audio('bgm', './assets/music/bgm.mp3');
+        game.load.audio('qbgm', './assets/music/qbgm.mp3');
+        game.load.audio('tbgm', './assets/music/tbgm.mp3');
 
         game.load.spritesheet('dog_walk', './assets/spritesheets/Dog Walk.png', 547, 481, 10);
         game.load.spritesheet('dog_idle', './assets/spritesheets/Dog Idle.png', 547, 481, 10);

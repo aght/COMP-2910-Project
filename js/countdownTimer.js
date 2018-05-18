@@ -60,6 +60,10 @@ class CountdownTimer {
         this.start();
     }
 
+    getSeconds() {
+        return this.minutes * 60 + this.seconds;
+    }
+
     reset(time) {
         let str = time ? time.split(':') : this._startTime.split(':');
         this.minutes = parseInt(str[0]);

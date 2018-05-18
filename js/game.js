@@ -12,6 +12,7 @@ var game = new Phaser.Game({
     scaleMode: Phaser.ScaleManager.SHOW_ALL,
 });
 
+var bgm, qbgm;
 var countdown;
 var questions;
 var usedIndices = [];
