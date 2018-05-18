@@ -88,6 +88,9 @@ class Dog extends Phaser.Sprite {
 
     playIdleAnimation() {
         this.isIdle = true;
+        this.isWalking = false;
+        this.isWalkingLeft = false;
+        this.isWalkingRight = false;
         this.loadIdleTexture();
         this.animations.play('idle', this.idleSpeed, true);
     }

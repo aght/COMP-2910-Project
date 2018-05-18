@@ -314,6 +314,6 @@ var play = {
     },
 
     render: function () {
-        this.stick.debug();
+        // this.stick.debug();
     }
 }
