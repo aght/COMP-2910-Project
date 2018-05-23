@@ -12,6 +12,7 @@ var game = new Phaser.Game({
     scaleMode: Phaser.ScaleManager.SHOW_ALL,
 });
 
+var loseRestart;
 var namePanel;
 var nameInput;
 var namePrompt;

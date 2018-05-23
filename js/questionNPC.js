@@ -10,13 +10,7 @@ class QuestionNPC extends ControlledNPC {
     }
 
     customUpdate() {
-        if (this.velocity.x < 0) {
-   
-        } else if (this.velocity.x > 0) {
-  
-        } else {
 
-        }
     }
 
     

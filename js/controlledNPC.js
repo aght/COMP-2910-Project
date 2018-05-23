@@ -70,20 +70,6 @@ class ControlledNPC extends Phaser.Sprite {
         this.body.velocity.y *= -1;
     }
 
-    // wander(force, speed) {
-    //     if (this.isFirstTimeWandering) {
-    //         this.generateNewTarget();
-    //         this.isFirstTimeWandering = false;
-    //         this.seekPoint(this.target, force, speed);
-    //     } else {
-    //         this.seekPoint(this.target, force, speed);
-    //         let loc = new Phaser.Point(this.x, this.y);
-    //         if (loc.distance(this.target) < 10) {
-    //             this.generateNewTarget();
-    //         }
-    //     }
-    // }
-
     wander(force, speed) {
         if (this.target) {
             this.seekPoint(this.target, force, speed);

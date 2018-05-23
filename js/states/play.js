@@ -4,6 +4,7 @@ var play = {
         this.slickUI.load('./assets/ui/kenney-theme/kenney.json');
         this.questions = this.loadQuestions();
         score = 0;
+        scoreText.value = score;
     },
 
     create: function () {
@@ -36,7 +37,7 @@ var play = {
         this.createButtons();
         game.input.onDown.add(this.pauseMenuEvents, self);
 
-        countdown = new CountdownTimer(100, 100, '0:02', 32);
+        countdown = new CountdownTimer(100, 100, '0:50', 32);
         countdown.flashOnComplete = true;
         countdown.onComplete(() => {
             game.state.start('lose');
@@ -167,13 +168,7 @@ var play = {
                 isPaused = false;
                 game.paused = false;
                 pausePanel.destroy();
-                // setTimeout(() => {
-                //     game.paused = false;
-                //     countdown.resume();
-                //     while (pausePanel !== undefined) {
-                //         pausePanel.destroy();
-                //     }
-                // }, 100);
+                countdown.resume();
             } else if (e.x > pausePanel.x + 10 && e.x < pausePanel.x + pausePanel.width - 10 &&
                 e.y > pausePanel.y + 168 && e.y < pausePanel.y + 168 + 50) {
                 restart.sprite.loadTexture(restart.spriteOn.texture);
@@ -200,11 +195,24 @@ var play = {
     },
 
     pickRandomQuestion: function (questions) {
-        return questions[game.rnd.integerInRange(0, questions.length - 1)];
+        if (usedIndices.length === questions.length) {
+            usedIndices = [];
+        }
+        // console.log(usedIndices.length + " " + questions.length);
+        let i = game.rnd.integerInRange(0, questions.length - 1);
+        while (usedIndices.includes(i)) {
+            i = game.rnd.integerInRange(0, questions.length - 1);
+        }
+        return {
+            q: questions[i],
+            i: i
+        }
     },
 
     createQuestionBoard: function () {
-        let q = this.pickRandomQuestion(this.questions);
+        let pick = this.pickRandomQuestion(this.questions);
+        let q = pick.q;
+        let g = pick.i;
         let a = q.answer;
 
         stick.visible = false;
@@ -227,16 +235,16 @@ var play = {
 
 
         choiceA.events.onInputDown.add(() => {
-            this.createResultBoard(this.validateAnswer('a', a));
+            this.createResultBoard(this.validateAnswer('a', a), g);
             questionBoard.destroy();
         });
         choiceB.events.onInputDown.add(() => {
-            this.createResultBoard(this.validateAnswer('b', a));
+            this.createResultBoard(this.validateAnswer('b', a), g);
             questionBoard.destroy();
         });
         if (q.choices.c) {
             choiceC.events.onInputDown.add(() => {
-                this.createResultBoard(this.validateAnswer('c', a));
+                this.createResultBoard(this.validateAnswer('c', a), g);
                 questionBoard.destroy();
             });
         }
@@ -252,9 +260,13 @@ var play = {
         });
     },
 
-    createResultBoard: function (result) {
+    createResultBoard: function (result, index) {
         if (result === true) {
             score += 250;
+            scoreText.value = score.toString();
+            usedIndices.push(index);
+        } else if (result === false) {
+            score -= 50;
             scoreText.value = score.toString();
         }
 
@@ -263,6 +275,7 @@ var play = {
         let resultBoard;
         this.slickUI.add(resultBoard = new SlickUI.Element.Panel(game.width / 2 - 150, game.height / 2 - 150, 300, 300));
         resultBoard.add(new SlickUI.Element.Text(0, 50, result === true ? 'Correct!' : 'Wrong!', 32)).centerHorizontally();
+        resultBoard.add(new SlickUI.Element.Text(0, 100, result === true ? '+250' : '-50', 24)).centerHorizontally();
         let close;
         resultBoard.add(close = new SlickUI.Element.Button(10, 230, 270, 50));
         close.add(new SlickUI.Element.Text(0, 0, 'Close')).center();
