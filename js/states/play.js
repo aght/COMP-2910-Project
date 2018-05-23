@@ -36,7 +36,7 @@ var play = {
         this.createButtons();
         game.input.onDown.add(this.pauseMenuEvents, self);
 
-        countdown = new CountdownTimer(100, 100, '3:00', 32);
+        countdown = new CountdownTimer(100, 100, '0:02', 32);
         countdown.flashOnComplete = true;
         countdown.onComplete(() => {
             game.state.start('lose');
