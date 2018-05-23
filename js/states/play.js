@@ -3,6 +3,7 @@ var play = {
         this.slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
         this.slickUI.load('./assets/ui/kenney-theme/kenney.json');
         this.questions = this.loadQuestions();
+        score = 0;
     },
 
     create: function () {
@@ -10,9 +11,7 @@ var play = {
 
         bgm.play();
 
-        this.score = 0;
         this.cats = [];
-        // this.catsCollisionGroup = game.physics.p2.createCollisionGroup();
 
         this.map = new Multimap(game);
 
@@ -43,6 +42,8 @@ var play = {
             game.state.start('lose');
         });
         this.slickUI.add(countdown.text);
+
+        this.slickUI.add(scoreText = new SlickUI.Element.Text(32, 32, score.toString(), 24));
         countdown.start();
 
         game.world.setBounds(0, 0, TILE_SIZE * TILES_X, TILE_SIZE * TILES_Y);
@@ -79,42 +80,34 @@ var play = {
         if (this.dog.isWalking === false && !this.dog.isIdle) {
             this.dog.playIdleAnimation();
         }
-
-        // if (countdown.getSeconds() < 168) {
-        //     if (!this.intenseMusic) {
-        //         bgm.pause();
-        //         bgm = tbgm;
-        //         bgm.play();
-        //     }
-        // }
     },
 
     createMap: function () {
         this.map.addTilemap('1', 16, 16, 'New1', true);
         this.map.addTilemap('2', 16, 16, 'New1', true);
-        // this.map.addTilemap('3', 16, 16, 'New1', true);
+        this.map.addTilemap('3', 16, 16, 'New1', true);
         this.map.addTilemap('4', 16, 16, 'Lion', true);
-        // this.map.addTilemap('5', 16, 16, 'Palace', true);
-        // this.map.addTilemap('6', 16, 16, 'Palace', true);
-        // this.map.addTilemap('7', 16, 16, 'House', true);
-        // this.map.addTilemap('8', 16, 16, 'House', true);
+        this.map.addTilemap('5', 16, 16, 'Palace', true);
+        this.map.addTilemap('6', 16, 16, 'Palace', true);
+        this.map.addTilemap('7', 16, 16, 'House', true);
+        this.map.addTilemap('8', 16, 16, 'House', true);
         this.map.addTilemap('9', 16, 16, 'New1', true);
-        // this.map.addTilemap('10', 16, 16, 'New1', true);
+        this.map.addTilemap('10', 16, 16, 'New1', true);
         this.map.addTilemap('11', 16, 16, 'New1', true);
-        // this.map.addTilemap('12', 16, 16, 'GrassHill', true);
-        // this.map.addTilemap('13', 16, 16, 'GrassHill', true);
+        this.map.addTilemap('12', 16, 16, 'GrassHill', true);
+        this.map.addTilemap('13', 16, 16, 'GrassHill', true);
         this.map.addTilemap('14', 16, 16, 'TallGrass', true);
         this.map.addTilemap('15', 16, 16, 'TallGrass', true);
         this.map.addTilemap('16', 16, 16, 'TallGrass', true);
         this.map.addTilemap('17', 16, 16, 'StoneHill', true);
         this.map.addTilemap('18', 16, 16, 'New1', true);
-        // this.map.addTilemap('19', 16, 16, 'BushTrees', true);
-        // this.map.addTilemap('20', 16, 16, 'Lion', true);
-        // this.map.addTilemap('21', 16, 16, 'House', true);
-        // this.map.addTilemap('22', 16, 16, 'People', true);
-        // this.map.addTilemap('23', 16, 16, 'BushTrees', true);
-        // this.map.addTilemap('24', 16, 16, 'Boat', true);
-        // this.map.addTilemap('25', 16, 16, 'Diamond', true);
+        this.map.addTilemap('19', 16, 16, 'BushTrees', true);
+        this.map.addTilemap('20', 16, 16, 'Lion', true);
+        this.map.addTilemap('21', 16, 16, 'House', true);
+        this.map.addTilemap('22', 16, 16, 'People', true);
+        this.map.addTilemap('23', 16, 16, 'BushTrees', true);
+        this.map.addTilemap('24', 16, 16, 'Boat', true);
+        this.map.addTilemap('25', 16, 16, 'Diamond', true);
 
         this.map.addCollisionMap('collision');
         this.map.addCollisionMapLayer('Collission');
@@ -261,9 +254,8 @@ var play = {
 
     createResultBoard: function (result) {
         if (result === true) {
-            this.score += 100;
-        } else {
-
+            score += 250;
+            scoreText.value = score.toString();
         }
 
         stick.visible = false;
@@ -327,7 +319,6 @@ var play = {
 
     updateJoystick: function () {
         if (stick.isDown) {
-            console.log('down');
             let vel = this.velocityFromRotation(stick.rotation, 400, new Vector2(this.dog.body.velocity.x, this.dog.body.velocity.y));
             this.dog.body.velocity.x = vel.x;
             this.dog.body.velocity.y = vel.y;
@@ -345,8 +336,4 @@ var play = {
             }
         }
     },
-
-    render: function () {
-        // this.stick.debug();
-    }
 }

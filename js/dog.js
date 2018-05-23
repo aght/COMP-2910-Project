@@ -82,7 +82,6 @@ class Dog extends Phaser.Sprite {
             this.isWalkingRight = true;
             this.isWalkingLeft = false;
         }
-        // console.log(this.isWalkingLeft + " " + this.isWalkingRight);
         this.animations.play('walk', this.walkSpeed, true);
     }
 

@@ -12,6 +12,14 @@ var game = new Phaser.Game({
     scaleMode: Phaser.ScaleManager.SHOW_ALL,
 });
 
+var namePanel;
+var nameInput;
+var namePrompt;
+var userName;
+var nameOKButton;
+
+var scoreText;
+var score = 0;
 var isPaused = false;
 var pad, stick;
 var bgm, qbgm;

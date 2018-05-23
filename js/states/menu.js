@@ -2,26 +2,27 @@ var menu = {
     preload: function () {
         this.slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
         this.slickUI.load('./assets/ui/kenney-theme/kenney.json');
-        game.stage.backgroundColor = '#000000';
+        game.stage.backgroundColor = '#FF0000';
     },
 
-    create: function() {
-        let playButton, homeButton;
-        this.slickUI.add(playButton = new SlickUI.Element.Button(game.width / 2 - 150, 400, 300, 50));
-        playButton.add(new SlickUI.Element.Text(0, 0, 'Play')).center();
-        playButton.inputEnabled = true;
-        playButton.events.onInputDown.add(() => {
-            setTimeout(() => {
+    create: function () {
+        namePanel = this.slickUI.add(new SlickUI.Element.Panel(0, 0, game.width, game.height));
+        namePanel.add(new SlickUI.Element.Text(0, 100, 'Please enter your name', 32)).centerHorizontally();
+        namePanel.add(nameInput = new SlickUI.Element.TextField(game.width / 2 - (game.width / 2 / 2), 200, game.width / 2, 50, 10));
+        nameInput.events.onOK.add(() => {
+            userName = nameInput.value;
+            if (userName !== '') {
                 this.start();
-            }, 100);
+            }
         });
-
-        this.slickUI.add(homeButton = new SlickUI.Element.Button(game.width / 2 - 150, 460, 300, 50));
-        homeButton.add(new SlickUI.Element.Text(0, 0, 'Home Page')).center();
-        homeButton.inputEnabled = true;
-        homeButton.events.onInputDown.add(() => {
-            $(location).attr('href', 'http://waterfightsql.azurewebsites.net');
-        });
+        namePanel.add(nameOKButton = new SlickUI.Element.Button(game.width / 2 - 100, game.height / 2, 200, 50));
+        nameOKButton.add(new SlickUI.Element.Text(0, 0, 'Submit')).center();
+        nameOKButton.events.onInputDown.add(() => {
+            userName = nameInput.value;
+            if (userName !== '') {
+                this.start();
+            }
+        })
     },
 
     start: function () {
