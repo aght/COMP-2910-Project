@@ -3,7 +3,7 @@ var play = {
         this.slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
         this.slickUI.load('./assets/ui/kenney-theme/kenney.json');
         this.questions = this.loadQuestions();
-        score = 0;
+        score = 1;
         scoreText.value = "Score: " + score.toString();
         game.stage.backgroundColor = '#000000';
     },

@@ -20,7 +20,7 @@ var userName;
 var nameOKButton;
 
 var scoreText;
-var score = 0;
+var score = 1;
 var isPaused = false;
 var pad, stick;
 var bgm, qbgm;
