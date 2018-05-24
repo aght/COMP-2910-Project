@@ -79,7 +79,7 @@ var load = {
         game.load.image('House', './assets/tilesets/transparent-bg-tiles.png');
 
         game.load.image('close', './assets/ui/kenney-theme/images/grey_boxCross.png');
-        game.plugins.add(Phaser.Plugin.AdvancedTiming);
+        // game.plugins.add(Phaser.Plugin.AdvancedTiming);
     },
 
     loadQuestions: function () {
