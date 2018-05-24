@@ -19,6 +19,9 @@ var namePrompt;
 var userName;
 var nameOKButton;
 
+var answered = 0;
+var answeredText;
+
 var scoreText;
 var score = 1;
 var isPaused = false;

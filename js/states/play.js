@@ -4,6 +4,7 @@ var play = {
         this.slickUI.load('./assets/ui/kenney-theme/kenney.json');
         this.questions = this.loadQuestions();
         score = 1;
+        answered = 0;
         scoreText.value = "Score: " + score.toString();
         game.stage.backgroundColor = '#000000';
     },
@@ -60,7 +61,7 @@ var play = {
         this.createButtons();
         game.input.onDown.add(this.pauseMenuEvents, self);
 
-        countdown = new CountdownTimer(10, 10, '0:10', 16);
+        countdown = new CountdownTimer(10, 10, '2:00', 16);
         countdown.flashOnComplete = true;
         countdown.onComplete(() => {
             if (usedIndices.length === 25) {
@@ -77,6 +78,8 @@ var play = {
 
         this.slickUI.add(scoreText = new SlickUI.Element.Text(10, 30, ("Score: " + score.toString()), 16));
         countdown.start();
+
+        this.slickUI.add(answeredText = new SlickUI.Element.Text(10, 50, "Answered: " + answered.toString()), 16);
 
         game.world.setBounds(0, 0, TILE_SIZE * TILES_X, TILE_SIZE * TILES_Y);
         game.physics.p2.setBoundsToWorld(true, true, true, true, false);
@@ -119,34 +122,44 @@ var play = {
     },
 
     createMap: function () {
-        this.map.addTilemap('1', 16, 16, 'New1', true);
-        this.map.addTilemap('2', 16, 16, 'New1', true);
-        this.map.addTilemap('3', 16, 16, 'New1', true);
-        this.map.addTilemap('4', 16, 16, 'Lion', true);
-        this.map.addTilemap('5', 16, 16, 'Palace', true);
-        this.map.addTilemap('6', 16, 16, 'Palace', true);
-        this.map.addTilemap('7', 16, 16, 'House', true);
-        this.map.addTilemap('8', 16, 16, 'House', true);
-        this.map.addTilemap('9', 16, 16, 'New1', true);
-        this.map.addTilemap('10', 16, 16, 'New1', true);
-        this.map.addTilemap('11', 16, 16, 'New1', true);
-        this.map.addTilemap('12', 16, 16, 'GrassHill', true);
-        this.map.addTilemap('13', 16, 16, 'GrassHill', true);
-        this.map.addTilemap('14', 16, 16, 'TallGrass', true);
-        this.map.addTilemap('15', 16, 16, 'TallGrass', true);
-        this.map.addTilemap('16', 16, 16, 'TallGrass', true);
-        this.map.addTilemap('17', 16, 16, 'StoneHill', true);
-        this.map.addTilemap('18', 16, 16, 'New1', true);
-        this.map.addTilemap('19', 16, 16, 'BushTrees', true);
-        this.map.addTilemap('20', 16, 16, 'Lion', true);
-        this.map.addTilemap('21', 16, 16, 'House', true);
-        // this.map.addTilemap('22', 16, 16, 'People', true);
-        this.map.addTilemap('23', 16, 16, 'BushTrees', true);
-        this.map.addTilemap('24', 16, 16, 'Boat', true);
-        this.map.addTilemap('25', 16, 16, 'Diamond', true);
-
-        this.map.addCollisionMap('collision');
-        this.map.addCollisionMapLayer('Collission');
+        if (mobileTester.isMobile()) {
+            this.map.addTilemap('26', 16, 16, 'New1', true);
+            this.map.addTilemap('27', 16, 16, 'New1', true);
+            this.map.addTilemap('28', 16, 16, 'Lion', true);
+            this.map.addTilemap('29', 16, 16, 'New1', true);
+            this.map.addTilemap('30', 16, 16, 'New1', true);
+            this.map.addTilemap('31', 16, 16, 'StoneHill', true);
+            this.map.addTilemap('32', 16, 16, 'TallGrass', true);
+            this.map.addTilemap('33', 16, 16, 'New1', true);
+        } else {
+            this.map.addTilemap('1', 16, 16, 'New1', true);
+            this.map.addTilemap('2', 16, 16, 'New1', true);
+            this.map.addTilemap('3', 16, 16, 'New1', true);
+            this.map.addTilemap('4', 16, 16, 'Lion', true);
+            this.map.addTilemap('5', 16, 16, 'Palace', true);
+            this.map.addTilemap('6', 16, 16, 'Palace', true);
+            this.map.addTilemap('7', 16, 16, 'House', true);
+            this.map.addTilemap('8', 16, 16, 'House', true);
+            this.map.addTilemap('9', 16, 16, 'New1', true);
+            this.map.addTilemap('10', 16, 16, 'New1', true);
+            this.map.addTilemap('11', 16, 16, 'New1', true);
+            this.map.addTilemap('12', 16, 16, 'GrassHill', true);
+            this.map.addTilemap('13', 16, 16, 'GrassHill', true);
+            this.map.addTilemap('14', 16, 16, 'TallGrass', true);
+            this.map.addTilemap('15', 16, 16, 'TallGrass', true);
+            this.map.addTilemap('16', 16, 16, 'TallGrass', true);
+            this.map.addTilemap('17', 16, 16, 'StoneHill', true);
+            this.map.addTilemap('18', 16, 16, 'New1', true);
+            this.map.addTilemap('19', 16, 16, 'BushTrees', true);
+            this.map.addTilemap('20', 16, 16, 'Lion', true);
+            this.map.addTilemap('21', 16, 16, 'House', true);
+            this.map.addTilemap('23', 16, 16, 'BushTrees', true);
+            this.map.addTilemap('24', 16, 16, 'Boat', true);
+            this.map.addTilemap('25', 16, 16, 'Diamond', true);
+    
+            this.map.addCollisionMap('collision');
+            this.map.addCollisionMapLayer('Collission');
+        }
     },
 
     createPauseMenu: function () {
@@ -300,6 +313,8 @@ var play = {
             score += 250;
             scoreText.value = "Score: " + score.toString();
             usedIndices.push(index);
+            answered++;
+            answeredText.value = "Answered: " + answered.toString();
         } else if (result === false) {
             score -= 50;
             scoreText.value = "Score: " + score.toString();

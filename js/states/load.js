@@ -26,6 +26,15 @@ var load = {
         game.load.tilemap('spawn', './assets/tilemaps/spawn.json', null, Phaser.Tilemap.JSON);
         game.load.tilemap('bounds', './assets/tilemaps/bounds.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('collision', './assets/tilemaps/collision.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('26', './assets/tilemaps/map2_Grass Detail.csv', null, Phaser.Tilemap.CSV);
+        
+        game.load.tilemap('27', './assets/tilemaps/map2_Grass.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('28', './assets/tilemaps/map2_Lion.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('29', './assets/tilemaps/map2_LionDirt.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('30', './assets/tilemaps/map2_Path.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('31', './assets/tilemaps/map2_Stone hill.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('32', './assets/tilemaps/map2_TallGrass.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('33', './assets/tilemaps/map2_Water_Stone.csv', null, Phaser.Tilemap.CSV);
 
         game.load.tilemap('1', './assets/tilemaps/map_Grass.csv', null, Phaser.Tilemap.CSV);
         game.load.tilemap('2', './assets/tilemaps/map_BrickRoad.csv', null, Phaser.Tilemap.CSV);
