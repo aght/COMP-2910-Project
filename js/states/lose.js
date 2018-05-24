@@ -7,7 +7,6 @@ var lose = {
     },
 
     create: function () {
-        this.timer = new CountdownTimer(0, 0, '0:05');
         this.slickUI.add(new SlickUI.Element.Text(0, game.height / 2 - 200, 'You Lose', 100)).centerHorizontally();
         let text;
         this.slickUI.add(text = new SlickUI.Element.Text(0, game.height / 2, 'Moving to highscore page in 5 seconds', 40)).centerHorizontally();
@@ -22,7 +21,7 @@ var lose = {
         loseHome.events.onInputDown.add(() => {
             $(location).attr('href', 'https://waterfightsql.azurewebsites.net');
         });
-        let count = 4;
+        let count = 5;
         let c = setInterval(() => {
             text.value = 'Moving to highscore page in ' + count + ' seconds';
             count--;
