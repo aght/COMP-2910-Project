@@ -131,6 +131,8 @@ var play = {
             this.map.addTilemap('31', 16, 16, 'StoneHill', true);
             this.map.addTilemap('32', 16, 16, 'TallGrass', true);
             this.map.addTilemap('33', 16, 16, 'New1', true);
+            this.map.addTilemap('20', 16, 16, 'Lion', true);
+            this.map.addTilemap('4', 16, 16, 'Lion', true);
         } else {
             this.map.addTilemap('1', 16, 16, 'New1', true);
             this.map.addTilemap('2', 16, 16, 'New1', true);
