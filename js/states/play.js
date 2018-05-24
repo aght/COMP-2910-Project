@@ -60,7 +60,7 @@ var play = {
         this.createButtons();
         game.input.onDown.add(this.pauseMenuEvents, self);
 
-        countdown = new CountdownTimer(10, 10, '0:02', 16);
+        countdown = new CountdownTimer(10, 10, '0:10', 16);
         countdown.flashOnComplete = true;
         countdown.onComplete(() => {
             if (usedIndices.length === 25) {
