@@ -106,7 +106,7 @@ var play = {
         this.map.addTilemap('19', 16, 16, 'BushTrees', true);
         this.map.addTilemap('20', 16, 16, 'Lion', true);
         this.map.addTilemap('21', 16, 16, 'House', true);
-        this.map.addTilemap('22', 16, 16, 'People', true);
+        // this.map.addTilemap('22', 16, 16, 'People', true);
         this.map.addTilemap('23', 16, 16, 'BushTrees', true);
         this.map.addTilemap('24', 16, 16, 'Boat', true);
         this.map.addTilemap('25', 16, 16, 'Diamond', true);
