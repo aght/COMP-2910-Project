@@ -21,6 +21,7 @@ var lose = {
         loseHome.events.onInputDown.add(() => {
             $(location).attr('href', 'https://waterfightsql.azurewebsites.net');
         });
+        
         let count = 4;
         let c = setInterval(() => {
             text.value = 'Moving to highscore page in ' + count + ' seconds';

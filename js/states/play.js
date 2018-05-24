@@ -10,19 +10,13 @@ var play = {
     },
 
     create: function () {
-        this.intenseMusic = false;
-
         this.questionPeople = [];
+        this.cats = [];
+        this.map = new Multimap(game);
+        this.createMap();
+        this.dog = new Dog(game, 2500, 200);
 
         bgm.play();
-
-        this.cats = [];
-
-        this.map = new Multimap(game);
-
-        this.createMap();
-
-        this.dog = new Dog(game, 2500, 200);
 
         let minX = 40;
         let maxX = game.world.width - 40;
@@ -36,15 +30,13 @@ var play = {
             let j = game.rnd.integerInRange(0, sprites.length - 1);
             let npc = new QuestionNPC(game, x, y, sprites[j]);
             npc.events.onInputDown.add(() => {
-                this.createQuestionBoard();
+                this.createQuestionBoard(npc);
                 bgm.pause();
                 qbgm.play();
             });
+            npc.wanderRadius = 200;
             this.questionPeople.push(npc);
         }
-
-        this.woodcutter = new QuestionNPC(game, this.dog.body.x + 200, this.dog.body.y, 'woodcutter', this.questions);
-        this.woodcutter.wanderRadius = 200;
 
         let pr = new PhysicsResize(game);
         pr.resizePolygon('dog_physics_right', 'dog_physics_right_scaled', 'Right', this.dog.scaling);
@@ -52,11 +44,6 @@ var play = {
         this.dog.body.clearShapes();
         this.dog.body.loadPolygon('dog_physics_right_scaled', 'Right');
         this.dog.inputEnabled = true;
-        this.woodcutter.events.onInputDown.add(() => {
-            this.createQuestionBoard();
-            bgm.pause();
-            qbgm.play();
-        })
 
         this.createButtons();
         game.input.onDown.add(this.pauseMenuEvents, self);
@@ -64,13 +51,13 @@ var play = {
         countdown = new CountdownTimer(10, 10, '2:00', 16);
         countdown.flashOnComplete = true;
         countdown.onComplete(() => {
-            if (usedIndices.length === 25) {
+            if (usedIndices.length === 10) {
                 game.state.start('win');
             } else {
-                // game.state.start('lose');
-                game.state.start('win');
+                game.state.start('lose');
+                // game.state.start('win');
             }
-            
+
             bgm.pause();
             qbgm.pause();
         });
@@ -114,7 +101,6 @@ var play = {
         for (let npc of this.questionPeople) {
             npc.wander(100, 60);
         }
-        this.woodcutter.wander(100, 60);
 
         if (this.dog.isWalking === false && !this.dog.isIdle) {
             this.dog.playIdleAnimation();
@@ -158,7 +144,7 @@ var play = {
             this.map.addTilemap('23', 16, 16, 'BushTrees', true);
             this.map.addTilemap('24', 16, 16, 'Boat', true);
             this.map.addTilemap('25', 16, 16, 'Diamond', true);
-    
+
             this.map.addCollisionMap('collision');
             this.map.addCollisionMapLayer('Collission');
         }
@@ -259,7 +245,7 @@ var play = {
         }
     },
 
-    createQuestionBoard: function () {
+    createQuestionBoard: function (npc) {
         let pick = this.pickRandomQuestion(this.questions);
         let q = pick.q;
         let g = pick.i;
@@ -285,16 +271,16 @@ var play = {
 
 
         choiceA.events.onInputDown.add(() => {
-            this.createResultBoard(this.validateAnswer('a', a), g);
+            this.createResultBoard(this.validateAnswer('a', a), g, npc);
             questionBoard.destroy();
         });
         choiceB.events.onInputDown.add(() => {
-            this.createResultBoard(this.validateAnswer('b', a), g);
+            this.createResultBoard(this.validateAnswer('b', a), g, npc);
             questionBoard.destroy();
         });
         if (q.choices.c) {
             choiceC.events.onInputDown.add(() => {
-                this.createResultBoard(this.validateAnswer('c', a), g);
+                this.createResultBoard(this.validateAnswer('c', a), g, npc);
                 questionBoard.destroy();
             });
         }
@@ -310,13 +296,25 @@ var play = {
         });
     },
 
-    createResultBoard: function (result, index) {
+    createResultBoard: function (result, index, npc) {
         if (result === true) {
             score += 250;
             scoreText.value = "Score: " + score.toString();
             usedIndices.push(index);
             answered++;
             answeredText.value = "Answered: " + answered.toString();
+            for (let i = 0; i < this.questionPeople.length; i++) {
+                if (this.questionPeople[i] === npc) {
+                    this.questionPeople.splice(i, 1);
+                    break;
+                }
+            }
+            npc.destroy();
+            if (usedIndices.length === 25) {
+                setTimeout(() => {
+                    game.state.start('win');
+                }, 500);
+            }
         } else if (result === false) {
             score -= 50;
             scoreText.value = "Score: " + score.toString();
