@@ -1,6 +1,6 @@
 class CountdownTimer {
     constructor(x, y, startTime, fontSize) {
-        this.text = new SlickUI.Element.Text(x, y, startTime, fontSize || 16);
+        this.text = new SlickUI.Element.Text(x, y, "Time Left: " + startTime, fontSize || 16);
 
         this._callback = null;
         this._startTime = startTime;
@@ -26,7 +26,7 @@ class CountdownTimer {
 
         this.interval = setInterval(() => {
             --this.seconds;
-            
+
             if (this.seconds === -1) {
                 --this.minutes;
                 this.seconds = 59;
@@ -34,7 +34,7 @@ class CountdownTimer {
 
             let minutes = this.minutes;
             let seconds = (this.seconds < 10) ? ('0' + this.seconds) : this.seconds;
-            this.text.value = minutes + ":" + seconds;
+            this.text.value = "Time Left: " + minutes + ":" + seconds;
 
             if (this.minutes === 0 && this.seconds === 0) {
                 clearInterval(this.interval);
@@ -42,7 +42,7 @@ class CountdownTimer {
                 if (this._callback) {
                     this._callback();
                 }
-                
+
                 if (this.flashOnComplete) {
                     this._flash();
                 }
@@ -53,7 +53,7 @@ class CountdownTimer {
 
     pause() {
         clearInterval(this.interval);
-        this.reset(this.text.value);
+        this.reset(this.minutes + ":" + this.seconds);
     }
 
     resume() {
@@ -75,7 +75,7 @@ class CountdownTimer {
         let flashInterval = setInterval(() => {
             isVisible = !isVisible;
             if (isVisible) {
-                this.text.value = '0:00';
+                this.text.value = 'Time Left: 0:00';
             } else {
                 this.text.value = '';
             }
@@ -83,7 +83,7 @@ class CountdownTimer {
 
         setTimeout(() => {
             clearInterval(flashInterval);
-            this.text.value = '0:00';
+            this.text.value = 'Time Left: 0:00';
         }, this.flashDuration);
     }
 }

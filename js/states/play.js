@@ -4,7 +4,8 @@ var play = {
         this.slickUI.load('./assets/ui/kenney-theme/kenney.json');
         this.questions = this.loadQuestions();
         score = 0;
-        scoreText.value = score;
+        scoreText.value = "Score: " + score.toString();
+        game.stage.backgroundColor = '#000000';
     },
 
     create: function () {
@@ -37,14 +38,14 @@ var play = {
         this.createButtons();
         game.input.onDown.add(this.pauseMenuEvents, self);
 
-        countdown = new CountdownTimer(100, 100, '0:50', 32);
+        countdown = new CountdownTimer(10, 10, '0:10', 16);
         countdown.flashOnComplete = true;
         countdown.onComplete(() => {
             game.state.start('lose');
         });
         this.slickUI.add(countdown.text);
 
-        this.slickUI.add(scoreText = new SlickUI.Element.Text(32, 32, score.toString(), 24));
+        this.slickUI.add(scoreText = new SlickUI.Element.Text(10, 30, ("Score: " + score.toString()), 16));
         countdown.start();
 
         game.world.setBounds(0, 0, TILE_SIZE * TILES_X, TILE_SIZE * TILES_Y);
@@ -54,7 +55,7 @@ var play = {
         game.camera.follow(this.dog, Phaser.Camera.FOLLOW_LOCKON, 0.08, 0.08);
 
         this.spawn = game.add.sprite(2702, 350, 'spawn');
-        game.physics.p2.enable(this.spawn, true);
+        game.physics.p2.enable(this.spawn);
         this.spawn.body.kinematic = true;
         this.spawn.inputEnabled = true;
         this.spawn.events.onInputDown.add(() => {
@@ -263,11 +264,11 @@ var play = {
     createResultBoard: function (result, index) {
         if (result === true) {
             score += 250;
-            scoreText.value = score.toString();
+            scoreText.value = "Score: " + score.toString();
             usedIndices.push(index);
         } else if (result === false) {
             score -= 50;
-            scoreText.value = score.toString();
+            scoreText.value = "Score: " + score.toString();
         }
 
         stick.visible = false;

@@ -7,35 +7,49 @@ var lose = {
     },
 
     create: function () {
-        this.timer = new CountdownTimer(0, 0, '0:04');
-        this.slickUI.add(new SlickUI.Element.Text(0, 0, 'You Lose', 100)).center();
-        this.slickUI.add(new SlickUI.Element.Text(0, game.height / 2 + 100, 'Score will submit in 4 seconds', 40)).centerHorizontally();
-        this.slickUI.add(loseRestart = new SlickUI.Element.Button(game.width / 2 - 150, game.height / 2 + 200, 300, 50));
+        this.timer = new CountdownTimer(0, 0, '0:05');
+        this.slickUI.add(new SlickUI.Element.Text(0, game.height / 2 - 200, 'You Lose', 100)).centerHorizontally();
+        let text;
+        this.slickUI.add(text = new SlickUI.Element.Text(0, game.height / 2, 'Moving to highscore page in 5 seconds', 40)).centerHorizontally();
+        this.slickUI.add(loseRestart = new SlickUI.Element.Button(game.width / 2 - 150, game.height / 2 + 100, 300, 50));
         loseRestart.add(new SlickUI.Element.Text(0, 0, 'Try Again')).center();
         loseRestart.events.onInputDown.add(() => {
-            clearTimeout(t);
-            game.state.start('play');
+            clearInterval(c);
+            game.state.start('restarting');
         });
-        let t = setTimeout(function () {
-            var form = document.createElement('form');
-            form.setAttribute("method", "post");
-            form.setAttribute("action", "https://waterfightsql.azurewebsites.net/highscore/data.php");
+        this.slickUI.add(loseHome = new SlickUI.Element.Button(game.width / 2 - 150, game.height / 2 + 170, 300, 50));
+        loseHome.add(new SlickUI.Element.Text(0, 0, 'Home Page')).center();
+        loseHome.events.onInputDown.add(() => {
+            $(location).attr('href', 'https://waterfightsql.azurewebsites.net');
+        });
+        let count = 4;
+        let c = setInterval(() => {
+            text.value = 'Moving to highscore page in ' + count + ' seconds';
+            count--;
+            if (count === -1)
+                this.submit();
+        }, 1000);
+    },
 
-            var hiddenName = document.createElement('input');
-            hiddenName.setAttribute("type", "hidden");
-            hiddenName.setAttribute("name", "name");
-            hiddenName.setAttribute("value", userName);
-            form.appendChild(hiddenName);
+    submit: function () {
+        var form = document.createElement('form');
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "https://waterfightsql.azurewebsites.net/highscore/data.php");
 
-            var hiddenScore = document.createElement('input');
-            hiddenScore.setAttribute("type", "hidden");
-            hiddenScore.setAttribute("name", "score");
-            hiddenScore.setAttribute("value", score.toString());
-            form.appendChild(hiddenScore);
+        var hiddenName = document.createElement('input');
+        hiddenName.setAttribute("type", "hidden");
+        hiddenName.setAttribute("name", "name");
+        hiddenName.setAttribute("value", userName);
+        form.appendChild(hiddenName);
 
-            document.body.appendChild(form);
+        var hiddenScore = document.createElement('input');
+        hiddenScore.setAttribute("type", "hidden");
+        hiddenScore.setAttribute("name", "score");
+        hiddenScore.setAttribute("value", score.toString());
+        form.appendChild(hiddenScore);
 
-            form.submit();
-        }, 4000);
+        document.body.appendChild(form);
+
+        form.submit();
     }
 }
