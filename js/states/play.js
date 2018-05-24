@@ -11,6 +11,8 @@ var play = {
     create: function () {
         this.intenseMusic = false;
 
+        this.questionPeople = [];
+
         bgm.play();
 
         this.cats = [];
@@ -20,6 +22,26 @@ var play = {
         this.createMap();
 
         this.dog = new Dog(game, 2500, 200);
+
+        let minX = 40;
+        let maxX = game.world.width - 40;
+        let minY = 40;
+        let maxY = game.world.height - 40;
+
+        for (let i = 0; i < questions.length; i++) {
+            let sprites = ["blacksmith", "goldsmith", "woodcutter"];
+            let x = game.rnd.integerInRange(minX, maxX);
+            let y = game.rnd.integerInRange(minY, maxY);
+            let j = game.rnd.integerInRange(0, sprites.length - 1);
+            let npc = new QuestionNPC(game, x, y, sprites[j]);
+            npc.events.onInputDown.add(() => {
+                this.createQuestionBoard();
+                bgm.pause();
+                qbgm.play();
+            });
+            this.questionPeople.push(npc);
+        }
+
         this.woodcutter = new QuestionNPC(game, this.dog.body.x + 200, this.dog.body.y, 'woodcutter', this.questions);
         this.woodcutter.wanderRadius = 200;
 
@@ -38,10 +60,18 @@ var play = {
         this.createButtons();
         game.input.onDown.add(this.pauseMenuEvents, self);
 
-        countdown = new CountdownTimer(10, 10, '0:10', 16);
+        countdown = new CountdownTimer(10, 10, '0:02', 16);
         countdown.flashOnComplete = true;
         countdown.onComplete(() => {
-            game.state.start('lose');
+            if (usedIndices.length === 25) {
+                game.state.start('win');
+            } else {
+                // game.state.start('lose');
+                game.state.start('win');
+            }
+            
+            bgm.pause();
+            qbgm.pause();
         });
         this.slickUI.add(countdown.text);
 
@@ -76,6 +106,10 @@ var play = {
             for (let cat of this.cats) {
                 cat.seek(this.dog, 50, 250, 150, 300);
             }
+        }
+
+        for (let npc of this.questionPeople) {
+            npc.wander(100, 60);
         }
         this.woodcutter.wander(100, 60);
 

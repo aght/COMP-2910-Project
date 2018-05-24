@@ -1,13 +1,13 @@
-var lose = {
+var win = {
     preload: function () {
         this.slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
         this.slickUI.load('./assets/ui/kenney-theme/kenney.json');
         stick.visible = false;
-        game.stage.backgroundColor = '#FF0000';
+        game.stage.backgroundColor = '#00FF00';
     },
 
     create: function () {
-        this.slickUI.add(new SlickUI.Element.Text(0, game.height / 2 - 200, 'You Lose', 100)).centerHorizontally();
+        this.slickUI.add(new SlickUI.Element.Text(0, game.height / 2 - 200, 'You Win', 100)).centerHorizontally();
         let text;
         this.slickUI.add(text = new SlickUI.Element.Text(0, game.height / 2, 'Moving to highscore page in 5 seconds', 40)).centerHorizontally();
         this.slickUI.add(loseRestart = new SlickUI.Element.Button(game.width / 2 - 150, game.height / 2 + 100, 300, 50));
@@ -21,6 +21,7 @@ var lose = {
         loseHome.events.onInputDown.add(() => {
             $(location).attr('href', 'https://waterfightsql.azurewebsites.net');
         });
+        
         let count = 4;
         let c = setInterval(() => {
             text.value = 'Moving to highscore page in ' + count + ' seconds';

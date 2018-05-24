@@ -36,5 +36,6 @@ game.state.add('menu', menu);
 game.state.add('play', play);
 game.state.add('lose', lose);
 game.state.add('restarting', restarting);
+game.state.add('win', win);
 
 game.state.start('boot');
