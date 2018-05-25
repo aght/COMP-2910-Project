@@ -85,13 +85,18 @@ var play = {
         stick = pad.addStick(10, 10, 110, 'arcade');
         stick.scale = 0.7;
         stick.alignBottomLeft(40);
+        if (!mobileTester.isMobile()) {
+            stick.visible = false;
+        }
     },
 
     update: function () {
         this.spawn.body.setZeroVelocity();
         this.dog.body.setZeroVelocity();
         this.updateKeys();
-        this.updateJoystick();
+        if (mobileTester.isMobile()) {
+            this.updateJoystick();
+        }
         if (this.cats.length !== 0) {
             for (let cat of this.cats) {
                 cat.seek(this.dog, 50, 250, 150, 300);
