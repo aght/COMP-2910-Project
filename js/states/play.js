@@ -298,24 +298,38 @@ var play = {
 
     createResultBoard: function (result, index, npc) {
         if (result === true) {
-            score += 250;
+            streak++;
+            answered++;
+
+            if (streak === 10) {
+                score += (250 * 5);
+                multiplier = true;
+                streak = 0;
+            } else {
+                score += 250;
+            }
+
             scoreText.value = "Score: " + score.toString();
             usedIndices.push(index);
-            answered++;
             answeredText.value = "Answered: " + answered.toString();
+
             for (let i = 0; i < this.questionPeople.length; i++) {
                 if (this.questionPeople[i] === npc) {
                     this.questionPeople.splice(i, 1);
                     break;
                 }
             }
+
             npc.destroy();
-            if (usedIndices.length === 25) {
+
+            if (answered === 25) {
                 setTimeout(() => {
                     game.state.start('win');
                 }, 500);
             }
+
         } else if (result === false) {
+            streak = 0;
             score -= 50;
             scoreText.value = "Score: " + score.toString();
         }
@@ -325,6 +339,11 @@ var play = {
         let resultBoard;
         this.slickUI.add(resultBoard = new SlickUI.Element.Panel(game.width / 2 - 150, game.height / 2 - 150, 300, 300));
         resultBoard.add(new SlickUI.Element.Text(0, 50, result === true ? 'Correct!' : 'Wrong!', 32)).centerHorizontally();
+        if (multiplier === true && result === true) {
+            multiplier = false;
+            resultBoard.add(new SlickUI.Element.Text(0, 100, '+250', 24)).centerHorizontally();
+            resultBoard.add(new SlickUI.Element.Text(0, 140, '10 Streak 5x!', 16)).centerHorizontally();
+        }
         resultBoard.add(new SlickUI.Element.Text(0, 100, result === true ? '+250' : '-50', 24)).centerHorizontally();
         let close;
         resultBoard.add(close = new SlickUI.Element.Button(10, 230, 270, 50));

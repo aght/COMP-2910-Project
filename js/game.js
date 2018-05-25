@@ -19,6 +19,8 @@ var namePrompt;
 var userName;
 var nameOKButton;
 
+var streak = 0;
+var multiplier = false;
 var answered = 0;
 var answeredText;
 
