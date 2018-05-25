@@ -4,7 +4,7 @@
         "choices": {
             "a": "less water",
             "b": "more water",
-            "c": "equal water"
+            "c": "an equal amount of water"
         },
         "answer": "a"
     },
@@ -12,9 +12,9 @@
     "2": {
         "question": "Whether we obtain tap water or water from a well, it originally comes from",
         "choices": {
-            "a": "ocean",
+            "a": "the ocean",
             "b": "Dasani",
-            "c": "rain"
+            "c": "the rain"
         },
         "answer": "c"
     },
@@ -30,11 +30,11 @@
     },
 
     "4": {
-        "question": "Which of the following uses the most water?.",
+        "question": "Which of the following uses the most water?",
         "choices": {
-            "a": "washing the car",
-            "b": "doing a load of laundry",
-            "c": "having a bath/shower"
+            "a": "Washing your car",
+            "b": "Doing a load of laundry",
+            "c": "Having a bath or shower"
         },
         "answer": "c"
     },
@@ -50,17 +50,17 @@
     },
 
     "6": {
-        "question": "What should you do if you see or hear a leaky faucet in your house?.",
+        "question": "What should you do if you see or hear a leaky faucet in your house?",
         "choices": {
             "a": "Ignore it, drips are no big deal",
-            "b": "Do nothing, there is no way to fix a drippy faucet ",
+            "b": "Do nothing, there is no way to fix a drippy faucet",
             "c": "Turn off the faucet"
         },
         "answer": "c"
     },
 
     "7": {
-        "question": "Which uses less water? ",
+        "question": "Which uses less water?",
         "choices": {
             "a": "Washing dishes under a running tap",
             "b": "Washing dishes in a fully loaded dishwasher "
@@ -70,7 +70,7 @@
     },
 
     "8": {
-        "question": " It isn't important to save water because there is so much of it on Earth.",
+        "question": "It isn't important to save water because there is so much of it on Earth",
         "choices": {
             "a": "True",
             "b": "False"
@@ -89,7 +89,7 @@
     },
 
     "10": {
-        "question": "The average Canadian uses about___ per cent of water for showering.",
+        "question": "The average Canadian uses about ___ per cent of water for showering",
         "choices": {
             "a": "2",
             "b": "15",
@@ -101,7 +101,7 @@
 
 
     "11": {
-        "question": "A tap that drips six drops a minute will lose ___ litres of water annually.",
+        "question": "A tap that drips six drops a minute will lose ___ litres of water annually",
         "choices": {
             "a": "10",
             "b": "150",
@@ -121,7 +121,7 @@
     },
 
     "13": {
-        "question": "___ liters of water are required to flush a toilet.",
+        "question": "___ liters of water are required to flush a toilet",
         "choices": {
             "a": "32",
             "b": "20",
@@ -131,10 +131,10 @@
     },
 
     "14": {
-        "question": " Which of these everyday objects is a water-saving tool?",
+        "question": "Which of these everyday objects is a water-saving tool?",
         "choices": {
             "a": "A bucket",
-            "b": "A clock",
+            "b": "A cat",
             "c": "All of the above"
            
         },
@@ -142,7 +142,7 @@
     },
 
     "15": {
-        "question": "___ liters of water are used to brush your teeth.",
+        "question": "___ liters of water are used to brush your teeth",
         "choices": {
             "a": "3.75 ",
             "b": "7.5",
@@ -152,7 +152,7 @@
     },
 
     "16": {
-        "question": "It takes ___liters of water to make four new tires.",
+        "question": "It takes ___ liters of water to make four new tires",
         "choices": {
             "a": "3.75 ",
             "b": "7,850 ",
@@ -164,8 +164,8 @@
     "17": {
         "question": "Which of these activities wastes the MOST water per day in the average home?",
         "choices": {
-            "a": "Running the tap while washing dishes ",
-            "b": "Using a garbage disposal ",
+            "a": "Running the tap while washing dishes",
+            "b": "Using a garbage disposal",
             "c": "A leaky toilet"
         },
         "answer": "c"
@@ -235,7 +235,7 @@
     },
 
     "25": {
-        "question": "Should you wash cars without a bucket?",
+        "question": "Should you wash your car without a bucket?",
         "choices": {
             "a": "Yes",
             "b": "No"
@@ -253,7 +253,7 @@
     },
 
     "27": {
-        "question": "You should Keep a jug of cool water in the fridge, instead of running the tap 'till it cools?",
+        "question": "You should keep a jug of cool water in the fridge, instead of running the tap till it cools?",
         "choices": {
             "a": "Yes",
             "b": "No"
@@ -271,7 +271,7 @@
     },
 
     "29": {
-        "question": "You should Keep a jug of cool water in the fridge, instead of running the tap 'till it cools?",
+        "question": "You should keep a jug of cool water in the fridge, instead of running the tap 'till it cools?",
         "choices": {
             "a": "Yes",
             "b": "No"
@@ -280,7 +280,7 @@
     },
 
     "30": {
-        "question": "When replacing appliances, it is better to choose low-flow, high efficiency options.",
+        "question": "When replacing appliances, it is better to choose low-flow, high efficiency options",
         "choices": {
             "a": "True",
             "b": "False"
@@ -307,7 +307,7 @@
     },
 
     "33": {
-        "question": "It is best to defrost frozen food in the refrigerator.",
+        "question": "It is best to defrost frozen food in the refrigerator",
         "choices": {
             "a": "True",
             "b": "False"
@@ -316,7 +316,7 @@
     },
 
     "34": {
-        "question": "It is best to NOT use the Toilet as an Ashtray or Wastebasket",
+        "question": "It is best to NOT use the toilet as an ashtray or wastebasket",
         "choices": {
             "a": "True",
             "b": "False"
@@ -394,7 +394,7 @@
     },
 
     "42": {
-        "question": "Canada holds __ of the world's fresh water",
+        "question": "Canada holds ___ of the world's fresh water",
         "choices": {
             "a": "68.7%",
             "b": "20%",
@@ -443,7 +443,7 @@
     },
 
     "47": {
-        "question": "Why are Dams built?",
+        "question": "Why are dams built?",
         "choices": {
             "a": "To attract people to a place, as a tourist attraction",
             "b": "To store large amounts of water in reservoirs or man-made lakes ",
@@ -453,7 +453,7 @@
     },
 
     "48": {
-        "question": "What are the three r’s to water conservation?",
+        "question": "What are the three R’s to water conservation?",
         "choices": {
             "a": "Reduce, reuse, Recycle",
             "b": "Reduce, recycle, reorganize",
@@ -463,7 +463,7 @@
     },
 
     "49": {
-        "question": "To save water when using the toilet, it's best to:",
+        "question": "To save water when using the toilet, it's best to ",
         "choices": {
             "a": "install a low-flush toilet and use the old flush rule, if it is yellow let it mellow",
             "b": "have a constant stream of fresh water flowing through your house for human waste at all times",
@@ -473,7 +473,7 @@
     },
 
     "50": {
-        "question": "Usually showers require less water than baths?",
+        "question": "Do showers usually require less water than baths?",
         "choices": {
             "a": "Yes",
             "b": "No"
