@@ -12,15 +12,20 @@ var lose = {
         this.slickUI.add(text = new SlickUI.Element.Text(0, game.height / 2, 'Moving to highscore page in 5 seconds', 40)).centerHorizontally();
         this.slickUI.add(loseRestart = new SlickUI.Element.Button(game.width / 2 - 150, game.height / 2 + 100, 300, 50));
         loseRestart.add(new SlickUI.Element.Text(0, 0, 'Try Again')).center();
-        loseRestart.events.onInputDown.add(() => {
-            clearInterval(c);
-            game.state.start('restarting');
-        });
+        setTimeout(() => {
+            loseRestart.events.onInputDown.add(() => {
+                clearInterval(c);
+                game.state.start('restarting');
+            });
+        }, 500)
+      
         this.slickUI.add(loseHome = new SlickUI.Element.Button(game.width / 2 - 150, game.height / 2 + 170, 300, 50));
         loseHome.add(new SlickUI.Element.Text(0, 0, 'Home Page')).center();
-        loseHome.events.onInputDown.add(() => {
-            $(location).attr('href', 'https://waterfightsql.azurewebsites.net');
-        });
+        setTimeout(() => {
+            loseHome.events.onInputDown.add(() => {
+                $(location).attr('href', 'https://waterfightsql.azurewebsites.net');
+            });
+        })
         
         let count = 4;
         let c = setInterval(() => {
